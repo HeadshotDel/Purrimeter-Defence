@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catline Defense</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="hud">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div>
+            <h1>Catline Defense</h1>
+            <p>Night roof defense</p>
+          </div>
+        </div>
+
+        <div class="hud-stats" aria-live="polite">
+          <div class="hud-pill">
+            <span class="hud-label">Fish</span>
+            <strong id="fishCount">150</strong>
+          </div>
+          <div class="hud-pill">
+            <span class="hud-label">Lives</span>
+            <strong id="livesCount">12</strong>
+          </div>
+          <div class="hud-pill">
+            <span class="hud-label">Wave</span>
+            <strong id="waveCount">Cozy Rooftop · Wave 1 / 5</strong>
+          </div>
+          <div class="hud-pill hud-status">
+            <span class="hud-label">Status</span>
+            <strong id="waveStatus">Preparing</strong>
+          </div>
+        </div>
+
+        <button class="pixel-button" id="pauseButton" type="button">Pause</button>
+      </header>
+
+      <section class="enemy-preview-bar" id="enemyPreview" aria-label="Current wave preview"></section>
+      <p class="economy-tip">Collect fish by hovering.</p>
+
+      <section class="arena" aria-label="Catline Defense battlefield">
+        <div class="base-zone" id="baseZone">
+          <span>BASE</span>
+        </div>
+        <div class="board-shell">
+          <div class="moon"></div>
+          <div class="enemy-entry">
+            <span>ENEMY ENTRY</span>
+          </div>
+          <div class="board" id="board"></div>
+          <div class="unit-layer" id="unitLayer" aria-hidden="true"></div>
+          <div class="fish-drop-layer" id="fishDropLayer" aria-hidden="true"></div>
+          <div class="effect-layer" id="effectLayer" aria-hidden="true"></div>
+          <div class="pause-overlay hidden" id="pauseOverlay" aria-hidden="true">
+            <span>Paused</span>
+          </div>
+          <div class="wave-overlay hidden" id="waveOverlay">
+            <div class="wave-panel">
+              <p class="modal-kicker" id="waveKicker">Wave 1/6</p>
+              <h2 id="waveTitle">Small pests incoming</h2>
+              <p class="wave-tip" id="waveTip">Hover fish to collect resources.</p>
+              <div class="wave-enemies" id="waveEnemies"></div>
+              <button class="pixel-button" id="startWaveButton" type="button">Start wave</button>
+            </div>
+          </div>
+          <div class="boss-warning hidden" id="bossWarning">Smart Vacuum Boss approaching</div>
+          <div class="cell-action-menu hidden" id="cellActionMenu" aria-live="polite">
+            <span class="cell-action-menu-title">Yarn Cat</span>
+            <div class="cell-action-menu-actions">
+              <button class="pixel-button upgrade" id="cellUpgradeButton" type="button">Upgrade</button>
+              <button class="pixel-button remove" id="cellRemoveButton" type="button">Remove</button>
+              <button class="pixel-button cancel" id="cellCancelButton" type="button">Cancel</button>
+            </div>
+          </div>
+          <div class="remove-confirm hidden" id="removeConfirm" aria-live="polite">
+            <span>Remove this cat?</span>
+            <div class="remove-confirm-actions">
+              <button class="pixel-button" id="confirmRemoveButton" type="button">Remove</button>
+              <button class="pixel-button" id="cancelRemoveButton" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card-tray" id="catCards" aria-label="Cat cards"></section>
+      <p class="placement-hint" id="placementHint">Select a cat card first.</p>
+    </main>
+
+    <div class="start-screen" id="startScreen" role="dialog" aria-modal="true">
+      <div class="start-panel">
+        <span class="brand-mark start-mark"></span>
+        <p class="modal-kicker">Pre-alpha rooftop alert</p>
+        <h2>Catline Defense</h2>
+        <p class="tagline" id="startTagline">Pixel cats defend the rooftop</p>
+        <ul class="rule-list" id="ruleList">
+          <li>Earn fish</li>
+          <li>Place cats</li>
+          <li>Stop mice, rats and rogue machines</li>
+        </ul>
+        <div class="difficulty-selector" id="difficultySelector" aria-label="Difficulty select"></div>
+        <div class="best-run-panel" id="startBestRun" aria-label="Best run"></div>
+        <button class="pixel-button reset-best hidden" id="resetBestButton" type="button">Reset best</button>
+        <button class="pixel-button start-button" id="startButton" type="button">Start</button>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="gameModal" role="dialog" aria-modal="true">
+      <div class="modal-panel">
+        <p class="modal-kicker" id="modalKicker">Defense report</p>
+        <h2 id="modalTitle">Victory</h2>
+        <p id="modalMessage">The rooftop is safe.</p>
+        <div class="end-stats" id="endStats" aria-label="Run statistics"></div>
+        <button class="pixel-button restart" id="restartButton" type="button">Restart</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
