@@ -19,6 +19,7 @@ const CONFIG = {
   enemyEntranceOffset: 64,
   baseColumnBuffer: -0.45,
   bestRunStorageKey: "catline-defense-best-runs",
+  debugWaveFlow: false,
 };
 
 const UI_TEXT = {
@@ -379,6 +380,7 @@ const state = {
   waveTimer: 0,
   wavePhase: "preview",
   waveActive: false,
+  activeWaveSpawnAllowed: false,
   waveIntroActive: false,
   waveIntroTimer: 0,
   waveSpawnList: [],
@@ -399,6 +401,25 @@ const state = {
   isPaused: false,
   gameStatus: "start",
 };
+
+function debugWave(message, data = {}) {
+  if (!CONFIG.debugWaveFlow) return;
+  console.debug("[wave]", message, {
+    waveIndex: state.waveIndex,
+    wavePhase: state.wavePhase,
+    currentWaveSpawnComplete: state.currentWaveSpawnComplete,
+    enemies: state.enemies.length,
+    waveIntroActive: state.waveIntroActive,
+    waveTimer: state.waveTimer,
+    waveSpawnCursor: state.waveSpawnCursor,
+    waveSpawnTotal: state.waveSpawnList.length,
+    nextSpawnIn: state.nextSpawnIn,
+    activeWaveSpawnAllowed: state.activeWaveSpawnAllowed,
+    gameStatus: state.gameStatus,
+    isPaused: state.isPaused,
+    ...data,
+  });
+}
 
 function nextId(prefix) {
   idCounter += 1;
@@ -828,6 +849,7 @@ function renderDifficultyCards() {
 function renderWaveOverlay() {
   const waves = getActiveWaves();
   if (!state.waveIntroActive || state.waveIndex >= waves.length) return;
+  debugWave("renderWaveOverlay");
   const wave = waves[state.waveIndex];
   waveKicker.textContent = `${getDifficulty().name} · Wave ${state.waveIndex + 1}/${waves.length}`;
   waveTitle.textContent = UI_TEXT.waveMessages[state.waveIndex] ?? wave.name;
@@ -917,20 +939,33 @@ function updateWaves(delta) {
   if (state.gameStatus !== "playing") return;
   if (state.isPaused) return;
   if (state.wavePhase !== "active") return;
+  if (state.waveIntroActive) return;
 
   const waves = getActiveWaves();
   const wave = waves[state.waveIndex];
   if (!wave) return;
-  if (!state.waveActive || state.waveIntroActive) return;
+  if (!state.waveActive) {
+    debugWave("updateWaves blocked", { reason: "wave inactive" });
+    return;
+  }
 
   if (state.currentWaveSpawnComplete) {
-    if (state.enemies.length === 0) completeCurrentWave();
+    if (state.enemies.length === 0) {
+      debugWave("updateWaves completing cleared wave");
+      completeCurrentWave();
+    }
+    return;
+  }
+
+  if (!state.activeWaveSpawnAllowed) {
+    debugWave("updateWaves blocked", { reason: "spawn disabled" });
     return;
   }
 
   state.nextSpawnIn -= delta;
   if (state.nextSpawnIn <= 0 && state.waveSpawnCursor < state.waveSpawnList.length) {
     const spawn = state.waveSpawnList[state.waveSpawnCursor];
+    debugWave("updateWaves spawn due", { enemyType: spawn.type });
     if (spawnEnemy(spawn.type, randomRow())) {
       state.waveSpawnCursor += 1;
       state.nextSpawnIn = spawn.interval ?? wave.interval;
@@ -939,18 +974,41 @@ function updateWaves(delta) {
 
   if (state.waveSpawnCursor >= state.waveSpawnList.length) {
     state.currentWaveSpawnComplete = true;
+    state.activeWaveSpawnAllowed = false;
+    debugWave("updateWaves spawn schedule complete");
     if (state.enemies.length === 0) completeCurrentWave();
   }
 }
 
 function spawnEnemy(typeId, row) {
-  if (state.gameStatus !== "playing") return false;
-  if (state.isPaused) return false;
-  if (state.wavePhase !== "active") return false;
+  if (state.gameStatus !== "playing") {
+    debugWave("spawnEnemy blocked", { enemyType: typeId, reason: "not playing" });
+    return false;
+  }
+  if (state.isPaused) {
+    debugWave("spawnEnemy blocked", { enemyType: typeId, reason: "paused" });
+    return false;
+  }
+  if (state.wavePhase !== "active") {
+    debugWave("spawnEnemy blocked", { enemyType: typeId, reason: "not active phase" });
+    return false;
+  }
+  if (state.waveIntroActive) {
+    debugWave("spawnEnemy blocked", { enemyType: typeId, reason: "intro active" });
+    return false;
+  }
+  if (!state.activeWaveSpawnAllowed) {
+    debugWave("spawnEnemy blocked", { enemyType: typeId, reason: "spawn disabled" });
+    return false;
+  }
 
   const type = enemyTypes[typeId];
-  if (!type) return false;
+  if (!type) {
+    debugWave("spawnEnemy blocked", { enemyType: typeId, reason: "unknown enemy type" });
+    return false;
+  }
   const dims = getBoardMetrics();
+  debugWave("spawnEnemy", { enemyType: typeId, row });
   state.enemies.push({
     id: nextId("enemy"),
     type: typeId,
@@ -992,7 +1050,12 @@ function updateCatCooldowns(delta) {
 }
 
 function updateFishDrops(delta) {
-  if (!state.hasStartedFirstWave) return;
+  state.fishDrops.forEach((drop) => {
+    drop.lifetime -= delta;
+  });
+  state.fishDrops = state.fishDrops.filter((drop) => drop.lifetime > 0);
+
+  if (!canSpawnFishDrops()) return;
 
   state.naturalFishDropTimer -= delta;
   if (state.naturalFishDropTimer <= 0) {
@@ -1000,11 +1063,15 @@ function updateFishDrops(delta) {
     const [minDropDelay, maxDropDelay] = getDifficulty().naturalDropInterval;
     state.naturalFishDropTimer = randomRange(minDropDelay, maxDropDelay);
   }
+}
 
-  state.fishDrops.forEach((drop) => {
-    drop.lifetime -= delta;
-  });
-  state.fishDrops = state.fishDrops.filter((drop) => drop.lifetime > 0);
+function canSpawnFishDrops() {
+  return (
+    state.gameStatus === "playing" &&
+    !state.isPaused &&
+    state.wavePhase === "active" &&
+    state.hasStartedFirstWave
+  );
 }
 
 function spawnFishDrop(source, row, col, value) {
@@ -1105,16 +1172,20 @@ function updateCats(delta) {
 
     if (stats.attackKind === "none") return;
 
-    const effectiveCooldown = getEffectiveCooldown(cat);
-    cat.attackTimer = Math.min(effectiveCooldown, cat.attackTimer + delta);
-
     if (stats.attackKind === "producer") {
+      if (!canSpawnFishDrops()) return;
+
+      const effectiveCooldown = getEffectiveCooldown(cat);
+      cat.attackTimer = Math.min(effectiveCooldown, cat.attackTimer + delta);
       if (cat.attackTimer >= effectiveCooldown) {
         cat.attackTimer = 0;
         spawnFishDrop("fishcat", cat.row, cat.col, stats.produceAmount);
       }
       return;
     }
+
+    const effectiveCooldown = getEffectiveCooldown(cat);
+    cat.attackTimer = Math.min(effectiveCooldown, cat.attackTimer + delta);
 
     if (cat.attackTimer < effectiveCooldown) return;
 
@@ -1568,9 +1639,11 @@ function applyDroneDebuff(enemy) {
 
 function checkWinLose() {
   if (state.lives <= 0) {
+    debugWave("checkWinLose gameover");
     state.gameStatus = "gameover";
     state.wavePhase = "complete";
     state.waveActive = false;
+    state.activeWaveSpawnAllowed = false;
     state.waveIntroActive = false;
     state.projectiles = [];
     state.fishDrops = [];
@@ -1631,6 +1704,7 @@ function resetRun(status) {
   state.waveTimer = 0;
   state.wavePhase = "preview";
   state.waveActive = false;
+  state.activeWaveSpawnAllowed = false;
   state.waveIntroActive = false;
   state.waveIntroTimer = 0;
   state.waveSpawnList = [];
@@ -1653,13 +1727,27 @@ function resetRun(status) {
 
 function prepareWaveIntro(index, seconds) {
   const waves = getActiveWaves();
-  if (state.gameStatus !== "playing") return;
-  if (!waves[index]) return;
-  if (state.wavePhase === "active") return;
-  if (state.enemies.length > 0) return;
+  if (state.gameStatus !== "playing") {
+    debugWave("prepareWaveIntro blocked", { requestedWaveIndex: index, reason: "not playing" });
+    return;
+  }
+  if (!waves[index]) {
+    debugWave("prepareWaveIntro blocked", { requestedWaveIndex: index, reason: "missing wave" });
+    return;
+  }
+  if (state.wavePhase === "active") {
+    debugWave("prepareWaveIntro blocked", { requestedWaveIndex: index, reason: "active wave" });
+    return;
+  }
+  if (state.enemies.length > 0) {
+    debugWave("prepareWaveIntro blocked", { requestedWaveIndex: index, reason: "enemies still alive" });
+    return;
+  }
+  debugWave("prepareWaveIntro", { requestedWaveIndex: index });
   state.waveIndex = index;
   state.wavePhase = "preview";
   state.waveActive = false;
+  state.activeWaveSpawnAllowed = false;
   state.waveIntroActive = true;
   state.waveIntroTimer = seconds;
   state.waveSpawnList = [];
@@ -1669,14 +1757,22 @@ function prepareWaveIntro(index, seconds) {
 }
 
 function startWave() {
-  if (!canStartWave()) return;
+  if (!canStartWave()) {
+    debugWave("startWave blocked");
+    return;
+  }
   const waves = getActiveWaves();
   const wave = waves[state.waveIndex];
-  if (!wave) return;
+  if (!wave) {
+    debugWave("startWave blocked", { reason: "missing wave" });
+    return;
+  }
+  debugWave("startWave", { waveName: wave.name });
   state.waveIntroActive = false;
   state.waveIntroTimer = 0;
   state.wavePhase = "active";
   state.waveActive = true;
+  state.activeWaveSpawnAllowed = true;
   state.currentWaveSpawnComplete = false;
   state.waveSpawnList = expandWave(wave);
   state.waveSpawnCursor = 0;
@@ -1688,11 +1784,29 @@ function startWave() {
 
 function completeCurrentWave() {
   const waves = getActiveWaves();
-  if (state.gameStatus !== "playing") return;
-  if (state.wavePhase !== "active") return;
-  if (!state.currentWaveSpawnComplete) return;
-  if (state.enemies.length > 0) return;
+  if (state.gameStatus !== "playing") {
+    debugWave("completeCurrentWave blocked", { reason: "not playing" });
+    return;
+  }
+  if (state.isPaused) {
+    debugWave("completeCurrentWave blocked", { reason: "paused" });
+    return;
+  }
+  if (state.wavePhase !== "active") {
+    debugWave("completeCurrentWave blocked", { reason: "not active phase" });
+    return;
+  }
+  if (!state.currentWaveSpawnComplete) {
+    debugWave("completeCurrentWave blocked", { reason: "spawn not complete" });
+    return;
+  }
+  if (state.enemies.length > 0) {
+    debugWave("completeCurrentWave blocked", { reason: "enemies still alive" });
+    return;
+  }
+  debugWave("completeCurrentWave");
   state.waveActive = false;
+  state.activeWaveSpawnAllowed = false;
   state.wavePhase = "complete";
   state.waveSpawnList = [];
   state.waveSpawnCursor = 0;
@@ -1707,6 +1821,7 @@ function completeCurrentWave() {
     state.gameStatus = "victory";
     state.waveIntroActive = false;
     state.waveActive = false;
+    state.activeWaveSpawnAllowed = false;
     state.waveSpawnList = [];
     state.waveSpawnCursor = 0;
     state.nextSpawnIn = 0;
