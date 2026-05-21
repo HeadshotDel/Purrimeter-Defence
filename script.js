@@ -22,6 +22,7 @@ const CONFIG = {
   mutedStorageKey: "purrimeter-muted",
   debugWaveFlow: false,
   debugPanic: false,
+  debugDamage: false,
 };
 
 const UI_TEXT = {
@@ -118,11 +119,11 @@ const catTypes = {
     role: "Heavy shots",
     description: "Good vs armored machines.",
     hp: 115,
-    placeCooldown: 9,
-    upgradeCost: 130,
-    level2: { damage: 1.6, attackCooldown: 0.9 },
-    damage: 95,
-    attackCooldown: 2.6,
+    placeCooldown: 10,
+    upgradeCost: 160,
+    level2: { damage: 1.35, attackCooldown: 0.95 },
+    damage: 50,
+    attackCooldown: 3.4,
     attackKind: "projectile",
     attackType: "pierce",
     projectileType: "sniper",
@@ -375,32 +376,42 @@ function enemyHasTag(enemy, tag) {
 
 // Keep counters readable: each attack type has a few broad strengths and weaknesses.
 function getDamageMultiplier(attackType, enemy) {
+  let multiplier = 1;
   switch (attackType) {
-    case "yarn":
-      if (enemyHasTag(enemy, "boss")) return 0.5;
-      if (enemyHasTag(enemy, "mechanical")) return 0.65;
-      if (enemyHasTag(enemy, "armored")) return 0.75;
-      if (enemyHasTag(enemy, "swarm")) return 1.15;
-      return 1;
+    case "yarn": {
+      if (enemyHasTag(enemy, "boss")) multiplier = 0.5;
+      else if (enemyHasTag(enemy, "mechanical")) multiplier = 0.65;
+      else if (enemyHasTag(enemy, "armored")) multiplier = 0.75;
+      else if (enemyHasTag(enemy, "swarm")) multiplier = 1.15;
+      return clamp(multiplier, 0.35, 1.35);
+    }
     case "pierce":
-      if (enemyHasTag(enemy, "swarm")) return 0.75;
-      if (enemyHasTag(enemy, "boss")) return 1;
-      if (enemyHasTag(enemy, "armored")) return 1.25;
-      if (enemyHasTag(enemy, "mechanical")) return 1.2;
-      return 1;
-    case "melee":
-      if (enemyHasTag(enemy, "boss")) return 0.75;
-      if (enemyHasTag(enemy, "mechanical")) return 0.8;
-      if (enemyHasTag(enemy, "armored")) return 0.85;
-      if (enemyHasTag(enemy, "swarm")) return 1.25;
-      if (enemyHasTag(enemy, "organic")) return 1.15;
-      return 1;
-    case "freeze":
-      if (enemyHasTag(enemy, "boss")) return 0.35;
-      if (enemyHasTag(enemy, "mechanical")) return 0.5;
-      if (enemyHasTag(enemy, "swarm")) return 0.8;
-      if (enemyHasTag(enemy, "organic")) return 0.75;
-      return 0.75;
+      if (enemyHasTag(enemy, "boss")) multiplier = 0.75;
+      else if (enemyHasTag(enemy, "swarm")) multiplier = 0.45;
+      else if (enemyHasTag(enemy, "fast")) multiplier = 0.65;
+      else if (enemyHasTag(enemy, "flying")) multiplier = 0.9;
+      else if (enemyHasTag(enemy, "armored") && enemyHasTag(enemy, "mechanical")) multiplier = 1.2;
+      else if (enemyHasTag(enemy, "armored")) multiplier = 1.15;
+      else if (enemyHasTag(enemy, "mechanical")) multiplier = 1.1;
+      else if (enemyHasTag(enemy, "organic")) multiplier = 0.75;
+      else multiplier = 0.75;
+      return clamp(multiplier, 0.35, 1.25);
+    case "melee": {
+      if (enemyHasTag(enemy, "boss")) multiplier = 0.75;
+      else if (enemyHasTag(enemy, "mechanical")) multiplier = 0.8;
+      else if (enemyHasTag(enemy, "armored")) multiplier = 0.85;
+      else if (enemyHasTag(enemy, "swarm")) multiplier = 1.25;
+      else if (enemyHasTag(enemy, "organic")) multiplier = 1.15;
+      return clamp(multiplier, 0.35, 1.35);
+    }
+    case "freeze": {
+      if (enemyHasTag(enemy, "boss")) multiplier = 0.35;
+      else if (enemyHasTag(enemy, "mechanical")) multiplier = 0.5;
+      else if (enemyHasTag(enemy, "swarm")) multiplier = 0.8;
+      else if (enemyHasTag(enemy, "organic")) multiplier = 0.75;
+      else multiplier = 0.75;
+      return clamp(multiplier, 0.35, 1.35);
+    }
     default:
       return 1;
   }
@@ -1642,7 +1653,7 @@ function updateCats(delta) {
         cat.attackFlash = 0.12;
         return;
       }
-      damageEnemy(target, stats.damage, stats.attackType);
+      damageEnemy(target, stats.damage, stats.attackType, cat.type);
       cat.attackTimer = 0;
       cat.attackFlash = 0.18;
     }
@@ -1661,7 +1672,7 @@ function updateProjectiles(delta) {
     const enemy = findProjectileHit(projectile);
 
     if (enemy) {
-      damageEnemy(enemy, projectile.damage, projectile.attackType);
+      damageEnemy(enemy, projectile.damage, projectile.attackType, projectile.sourceCatType);
       if (projectile.kind === "freeze") {
         applySlow(enemy, projectile.slowDuration, projectile.slowFactor, projectile.sourceCatLevel);
       }
@@ -2117,13 +2128,23 @@ function damageCat(cat, amount) {
   }
 }
 
-function damageEnemy(enemy, amount, attackType = "generic") {
+function damageEnemy(enemy, amount, attackType = "generic", sourceCatType = null) {
   if (enemy.dead) return;
   playSound("hit");
   const type = getEnemyDefinition(enemy.type);
+  // Final damage is calculated once on hit; projectiles carry base cat damage only.
   const damage = calculateDamage(amount, attackType, enemy);
   const armor = type.armor ?? 0;
   const finalDamage = Math.max(3, damage.amount - armor);
+  debugDamage({
+    catType: sourceCatType,
+    attackType,
+    enemyType: enemy.type,
+    baseDamage: amount,
+    multiplier: damage.multiplier,
+    finalDamage,
+    enemyTags: getEnemyTags(enemy),
+  });
   enemy.hp -= finalDamage;
   enemy.hitFlash = 0.16;
   const dims = getBoardMetrics();
@@ -2413,6 +2434,7 @@ function fireProjectile(cat, target, dims) {
     slowDuration: stats.slowDuration ?? 0,
     slowFactor: stats.slowFactor ?? 1,
     sourceCatLevel: cat.level,
+    sourceCatType: cat.type,
     targetId: target.id,
   });
 }
@@ -2527,7 +2549,7 @@ function getCatMissChance(cat, dims = getBoardMetrics()) {
     case "yarn":
       return 0.45;
     case "sniper":
-      return 0.2;
+      return 0.25;
     case "freezer":
       return 0.3;
     default:
@@ -2569,6 +2591,16 @@ function debugPanic(cat, dims, missChance, missed) {
     cucumberDistance: nearest ? Number((nearest.distance / dims.cellWidth).toFixed(2)) : null,
     missChance,
     missed,
+  });
+}
+
+function debugDamage(data) {
+  if (!CONFIG.debugDamage) return;
+  console.debug("[damage]", {
+    ...data,
+    baseDamage: Math.round(data.baseDamage * 10) / 10,
+    multiplier: Math.round(data.multiplier * 100) / 100,
+    finalDamage: Math.round(data.finalDamage * 10) / 10,
   });
 }
 
