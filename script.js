@@ -19,6 +19,7 @@ const CONFIG = {
   enemyEntranceOffset: 64,
   baseColumnBuffer: -0.45,
   bestRunStorageKey: "catline-defense-best-runs",
+  mutedStorageKey: "purrimeter-muted",
   debugWaveFlow: false,
 };
 
@@ -318,6 +319,7 @@ const difficultyDefinitions = {
 };
 
 let board;
+let boardShell;
 let unitLayer;
 let fishDropLayer;
 let effectLayer;
@@ -330,6 +332,8 @@ let livesCount;
 let waveCount;
 let waveStatus;
 let pauseButton;
+let soundToggleButton;
+let startSoundToggleButton;
 let restartButton;
 let startButton;
 let startWaveButton;
@@ -359,6 +363,20 @@ let endStats;
 
 let lastTimestamp = 0;
 let idCounter = 0;
+
+const audioState = {
+  context: null,
+  muted: false,
+  lastPlayed: {},
+};
+
+const soundCooldowns = {
+  hit: 0.09,
+  catHurt: 0.15,
+  error: 0.15,
+  button: 0.06,
+  fishCollect: 0.035,
+};
 
 const state = {
   gridRows: CONFIG.gridRows,
@@ -399,6 +417,7 @@ const state = {
   isNewBest: false,
   baseFlashTimer: 0,
   bossWarningTimer: 0,
+  wavePulseTimer: 0,
   isPaused: false,
   gameStatus: "start",
 };
@@ -422,6 +441,189 @@ function debugWave(message, data = {}) {
   });
 }
 
+function loadMutedPreference() {
+  try {
+    audioState.muted = window.localStorage.getItem(CONFIG.mutedStorageKey) === "true";
+  } catch (_error) {
+    audioState.muted = false;
+  }
+}
+
+function saveMutedPreference() {
+  try {
+    window.localStorage.setItem(CONFIG.mutedStorageKey, String(audioState.muted));
+  } catch (_error) {
+    // Sound preference is optional; ignore storage failures.
+  }
+}
+
+function isAudioAvailable() {
+  return Boolean(window.AudioContext || window.webkitAudioContext);
+}
+
+function initAudio() {
+  if (audioState.context || !isAudioAvailable()) return audioState.context;
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    audioState.context = new AudioContextClass();
+  } catch (_error) {
+    audioState.context = null;
+  }
+  return audioState.context;
+}
+
+function maybeUnlockAudio() {
+  if (audioState.muted) return null;
+  const audioContext = initAudio();
+  if (!audioContext) return null;
+  if (audioContext.state === "suspended") {
+    audioContext.resume().catch(() => {});
+  }
+  return audioContext;
+}
+
+function setMuted(value) {
+  audioState.muted = Boolean(value);
+  saveMutedPreference();
+  renderSoundToggle();
+  if (!audioState.muted) maybeUnlockAudio();
+}
+
+function toggleMuted() {
+  setMuted(!audioState.muted);
+  if (!audioState.muted) playSound("button");
+}
+
+function renderSoundToggle() {
+  [soundToggleButton, startSoundToggleButton].forEach((button) => {
+    if (!button) return;
+    button.textContent = audioState.muted ? "Sound: Off" : "Sound: On";
+    button.setAttribute("aria-label", audioState.muted ? "Sound off" : "Sound on");
+    button.classList.toggle("is-muted", audioState.muted);
+  });
+}
+
+function canPlaySound(name, audioContext) {
+  const cooldown = soundCooldowns[name] ?? 0;
+  const lastPlayed = audioState.lastPlayed[name] ?? -Infinity;
+  if (audioContext.currentTime - lastPlayed < cooldown) return false;
+  audioState.lastPlayed[name] = audioContext.currentTime;
+  return true;
+}
+
+function playTone({ frequency, duration = 0.12, type = "square", gain = 0.05, attack = 0.006, release = 0.05, start = 0, detune = 0 }) {
+  const audioContext = maybeUnlockAudio();
+  if (!audioContext) return;
+  const startTime = audioContext.currentTime + start;
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, startTime);
+  oscillator.detune.setValueAtTime(detune, startTime);
+  gainNode.gain.setValueAtTime(0.0001, startTime);
+  gainNode.gain.linearRampToValueAtTime(gain, startTime + attack);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration + release);
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + duration + release + 0.02);
+}
+
+function playNoise({ duration = 0.08, gain = 0.025, filterFrequency = 800, start = 0 }) {
+  const audioContext = maybeUnlockAudio();
+  if (!audioContext) return;
+  const startTime = audioContext.currentTime + start;
+  const buffer = audioContext.createBuffer(1, Math.max(1, Math.floor(audioContext.sampleRate * duration)), audioContext.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < data.length; i += 1) {
+    data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+  }
+  const source = audioContext.createBufferSource();
+  const filter = audioContext.createBiquadFilter();
+  const gainNode = audioContext.createGain();
+  source.buffer = buffer;
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(filterFrequency, startTime);
+  gainNode.gain.setValueAtTime(gain, startTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+  source.connect(filter);
+  filter.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  source.start(startTime);
+}
+
+function playArpeggio(frequencies, options = {}) {
+  const step = options.step ?? 0.065;
+  frequencies.forEach((frequency, index) => {
+    playTone({
+      frequency,
+      duration: options.duration ?? 0.1,
+      type: options.type ?? "triangle",
+      gain: options.gain ?? 0.04,
+      attack: options.attack ?? 0.006,
+      release: options.release ?? 0.06,
+      start: (options.start ?? 0) + index * step,
+    });
+  });
+}
+
+function playSound(name) {
+  if (audioState.muted) return;
+  const audioContext = maybeUnlockAudio();
+  if (!audioContext || !canPlaySound(name, audioContext)) return;
+
+  switch (name) {
+    case "fishCollect":
+      playTone({ frequency: 760, duration: 0.055, type: "triangle", gain: 0.035, release: 0.04 });
+      playTone({ frequency: 1120, duration: 0.04, type: "sine", gain: 0.025, start: 0.035, release: 0.04 });
+      break;
+    case "cardSelect":
+    case "button":
+      playTone({ frequency: 380, duration: 0.035, type: "square", gain: 0.024, release: 0.03 });
+      break;
+    case "catPlaced":
+      playTone({ frequency: 520, duration: 0.08, type: "triangle", gain: 0.04, release: 0.06 });
+      playTone({ frequency: 690, duration: 0.08, type: "triangle", gain: 0.026, start: 0.055, release: 0.05 });
+      break;
+    case "error":
+      playTone({ frequency: 118, duration: 0.11, type: "sawtooth", gain: 0.04, release: 0.05 });
+      break;
+    case "hit":
+      playNoise({ duration: 0.045, gain: 0.018, filterFrequency: 1100 });
+      playTone({ frequency: 170, duration: 0.035, type: "triangle", gain: 0.018, release: 0.025 });
+      break;
+    case "enemyDefeated":
+      playNoise({ duration: 0.08, gain: 0.026, filterFrequency: 1600 });
+      playTone({ frequency: 420, duration: 0.07, type: "triangle", gain: 0.025, start: 0.02 });
+      break;
+    case "catHurt":
+      playTone({ frequency: 230, duration: 0.08, type: "sawtooth", gain: 0.032, release: 0.045 });
+      break;
+    case "removeRefund":
+      playTone({ frequency: 420, duration: 0.055, type: "triangle", gain: 0.028, release: 0.04 });
+      playTone({ frequency: 780, duration: 0.07, type: "sine", gain: 0.035, start: 0.055, release: 0.05 });
+      break;
+    case "upgrade":
+      playArpeggio([620, 820, 1100, 1480], { gain: 0.035, duration: 0.075, step: 0.055 });
+      break;
+    case "waveStart":
+      playArpeggio([220, 330, 440, 660], { gain: 0.04, duration: 0.09, step: 0.055, type: "sawtooth" });
+      break;
+    case "bossWarning":
+      playTone({ frequency: 92, duration: 0.16, type: "sawtooth", gain: 0.055, release: 0.08 });
+      playTone({ frequency: 72, duration: 0.16, type: "sawtooth", gain: 0.04, start: 0.18, release: 0.08 });
+      break;
+    case "victory":
+      playArpeggio([392, 523, 659, 784, 1046], { gain: 0.045, duration: 0.11, step: 0.075 });
+      break;
+    case "gameover":
+      playArpeggio([392, 330, 262, 196], { gain: 0.045, duration: 0.13, step: 0.085, type: "sawtooth" });
+      break;
+    default:
+      break;
+  }
+}
+
 function nextId(prefix) {
   idCounter += 1;
   return `${prefix}-${idCounter}`;
@@ -430,6 +632,7 @@ function nextId(prefix) {
 function init() {
   document.querySelector(".game-shell").classList.toggle("uses-image-asset", CONFIG.useImageAssets);
   board = document.getElementById("board");
+  boardShell = document.querySelector(".board-shell");
   unitLayer = document.getElementById("unitLayer");
   fishDropLayer = document.getElementById("fishDropLayer");
   effectLayer = document.getElementById("effectLayer");
@@ -442,6 +645,8 @@ function init() {
   waveCount = document.getElementById("waveCount");
   waveStatus = document.getElementById("waveStatus");
   pauseButton = document.getElementById("pauseButton");
+  soundToggleButton = document.getElementById("soundToggleButton");
+  startSoundToggleButton = document.getElementById("startSoundToggleButton");
   restartButton = document.getElementById("restartButton");
   startButton = document.getElementById("startButton");
   startWaveButton = document.getElementById("startWaveButton");
@@ -471,6 +676,8 @@ function init() {
   state.bestRun = loadBestRun(state.selectedDifficulty);
   document.getElementById("startTagline").textContent = UI_TEXT.startTagline;
   document.getElementById("ruleList").innerHTML = UI_TEXT.rules.map((rule) => `<li>${rule}</li>`).join("");
+  loadMutedPreference();
+  renderSoundToggle();
 
   createGrid();
   createCatCards();
@@ -482,16 +689,38 @@ function init() {
   });
 
   pauseButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    playSound("button");
     if (state.isPaused) {
       resumeGame();
     } else {
       pauseGame();
     }
   });
-  startButton.addEventListener("click", startGame);
+  soundToggleButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    toggleMuted();
+  });
+  startSoundToggleButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    toggleMuted();
+  });
+  startButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    playSound("button");
+    startGame();
+  });
   startWaveButton.addEventListener("click", startWave);
-  restartButton.addEventListener("click", restartGame);
-  resetBestButton.addEventListener("click", resetBestRun);
+  restartButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    playSound("button");
+    restartGame();
+  });
+  resetBestButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    playSound("button");
+    resetBestRun();
+  });
   confirmRemoveButton.addEventListener("click", confirmRemoveCat);
   cancelRemoveButton.addEventListener("click", cancelRemoveCat);
   cellUpgradeButton.addEventListener("click", handleCellMenuUpgrade);
@@ -612,6 +841,7 @@ function render() {
   pauseButton.textContent = state.isPaused ? "Resume" : "Pause";
   pauseButton.disabled = state.gameStatus !== "playing";
   pauseButton.classList.toggle("is-paused", state.isPaused);
+  renderSoundToggle();
   pauseOverlay.classList.toggle("hidden", !state.isPaused);
   startScreen.classList.toggle("hidden", state.gameStatus !== "start");
   renderDifficultyCards();
@@ -620,7 +850,12 @@ function render() {
   startWaveButton.disabled = !canStartWave();
   bossWarning.classList.toggle("hidden", state.bossWarningTimer <= 0);
   fishCount.parentElement.classList.toggle("is-flashing", state.fishFlashTimer > 0);
+  livesCount.parentElement.classList.toggle("is-damaged", state.baseFlashTimer > 0);
   baseZone.classList.toggle("is-hit", state.baseFlashTimer > 0);
+  boardShell.classList.toggle("is-active-wave", state.gameStatus === "playing" && state.wavePhase === "active");
+  boardShell.classList.toggle("is-preview", state.gameStatus === "playing" && state.wavePhase === "preview");
+  boardShell.classList.toggle("wave-start-pulse", state.wavePulseTimer > 0);
+  boardShell.classList.toggle("board-warning-pulse", state.bossWarningTimer > 0);
 
   renderWaveOverlay();
   renderEnemyPreview();
@@ -702,16 +937,17 @@ function renderEnemy(enemy, dims) {
 }
 
 function renderProjectile(projectile) {
-  return `<div class="projectile projectile-sprite projectile-${projectile.kind}" style="left:${projectile.x}px; top:${projectile.y}px"></div>`;
+  return `<div class="projectile projectile-sprite projectile-${projectile.kind} projectile-trail" style="left:${projectile.x}px; top:${projectile.y}px"></div>`;
 }
 
 function renderFishDrops() {
   return state.fishDrops.map((drop) => {
     const lifeRatio = Math.max(0, Math.min(1, drop.lifetime / drop.maxLifetime));
     const fadingClass = lifeRatio < 0.28 ? "is-fading" : "";
+    const expiringClass = drop.lifetime < 1.5 ? "is-expiring" : "";
     return `
       <button
-        class="fish-drop fish-drop-${drop.source} ${fadingClass}"
+        class="fish-drop fish-drop-${drop.source} ${fadingClass} ${expiringClass}"
         data-id="${drop.id}"
         type="button"
         tabindex="-1"
@@ -1026,7 +1262,9 @@ function spawnEnemy(typeId, row) {
   });
 
   if (typeId === "boss") {
+    playSound("bossWarning");
     state.bossWarningTimer = CONFIG.bossWarningSeconds;
+    state.wavePulseTimer = CONFIG.bossWarningSeconds;
   }
 
   return true;
@@ -1037,6 +1275,7 @@ function updateFeedbackTimers(delta) {
   state.hintTimer = Math.max(0, state.hintTimer - delta);
   state.baseFlashTimer = Math.max(0, state.baseFlashTimer - delta);
   state.bossWarningTimer = Math.max(0, state.bossWarningTimer - delta);
+  state.wavePulseTimer = Math.max(0, state.wavePulseTimer - delta);
 }
 
 function updateRunTime(delta) {
@@ -1108,11 +1347,13 @@ function collectFishDrop(id) {
   const drop = state.fishDrops.find((candidate) => candidate.id === id);
   if (!drop || state.gameStatus !== "playing") return;
 
+  playSound("fishCollect");
   state.fish += drop.value;
   state.runStats.fishCollected += drop.value;
   state.runStats.fishDropsCollected += 1;
   triggerFishFlash();
   addEffect("fish", `+${drop.value}`, drop.x, drop.y - 12);
+  addEffect("collect-pop", "POP", drop.x, drop.y);
   state.fishDrops = state.fishDrops.filter((candidate) => candidate.id !== id);
   render();
 }
@@ -1155,6 +1396,7 @@ function updateEnemies(delta) {
     if (enemy.x < dims.cellWidth * CONFIG.baseColumnBuffer) {
       state.lives -= 1;
       state.baseFlashTimer = CONFIG.feedbackFlashSeconds;
+      playSound("catHurt");
       addEffect("warn", "-1 life", Math.max(18, enemy.x + 20), rowCenter(enemy.row, dims));
       return false;
     }
@@ -1250,15 +1492,18 @@ function canUseBoardActions() {
 
 function showBoardActionsBlockedHint(typeId) {
   if (typeId) shakeCard(typeId);
+  playSound("error");
   showHint(state.isPaused ? UI_TEXT.hints.paused : UI_TEXT.hints.startWaveFirst);
   render();
 }
 
 function handleCellClick(row, col) {
+  maybeUnlockAudio();
   if (state.gameStatus !== "playing") return;
   if (!canUseBoardActions()) {
     clearInteractionState();
     flashCell(row, col);
+    playSound("error");
     showHint(state.isPaused ? UI_TEXT.hints.paused : UI_TEXT.hints.startWaveFirst);
     render();
     return;
@@ -1281,6 +1526,7 @@ function handleCellClick(row, col) {
 }
 
 function selectCat(typeId) {
+  maybeUnlockAudio();
   if (state.gameStatus !== "playing") return;
   if (state.pendingRemoveCatId) clearPendingRemove();
   closeCellActionMenu();
@@ -1291,12 +1537,14 @@ function selectCat(typeId) {
   const type = catTypes[typeId];
   if (!type) return;
   if (isCatOnCooldown(typeId)) {
+    playSound("error");
     shakeCard(typeId);
     showHint(UI_TEXT.hints.coolingDown);
     render();
     return;
   }
   if (state.fish < type.price) {
+    playSound("error");
     triggerFishFlash();
     shakeCard(typeId);
     showHint(UI_TEXT.hints.noFish);
@@ -1304,6 +1552,7 @@ function selectCat(typeId) {
     return;
   }
   state.selectedCatType = state.selectedCatType === typeId ? null : typeId;
+  if (state.selectedCatType) playSound("cardSelect");
   render();
 }
 
@@ -1354,6 +1603,7 @@ function placeCat(row, col) {
   startCatCooldown(type.id);
   // Placement is single-shot by design; errors above keep the selection active.
   state.selectedCatType = null;
+  playSound("catPlaced");
   showHint(UI_TEXT.hints.deployed);
   render();
 }
@@ -1408,6 +1658,7 @@ function confirmRemoveCat() {
   clearInteractionState();
   if (removed) {
     refundCatCost(cat, refund);
+    playSound("removeRefund");
     showHint(`Cat removed +${refund} fish`);
   }
   render();
@@ -1520,6 +1771,7 @@ function upgradeCat(catId) {
   cat.attackTimer = Math.min(getEffectiveCooldown(cat), cat.attackTimer);
   renderUpgradeEffect(cat);
   closeCellActionMenu();
+  playSound("upgrade");
   showHint("Cat upgraded");
   return true;
 }
@@ -1528,6 +1780,7 @@ function renderUpgradeEffect(cat) {
   const dims = getBoardMetrics();
   const pos = cellCenter(cat.row, cat.col, dims);
   addEffect("upgrade-effect", "Lv.2", pos.x, pos.y);
+  addEffect("sparkle", "UP", pos.x, pos.y - dims.cellHeight * 0.24);
 }
 
 function cancelRemoveCat() {
@@ -1551,7 +1804,7 @@ function refundCatCost(cat, refund = getRemoveRefund(cat)) {
   state.fish += refund;
   state.runStats.fishRefunded += refund;
   triggerFishFlash();
-  addEffectAtCell("fish", `+${refund}`, cat.row, cat.col);
+  addEffectAtCell("refund-pop", `+${refund}`, cat.row, cat.col);
 }
 
 function removeCatById(catId) {
@@ -1654,6 +1907,7 @@ function reconcileSelectedCat() {
 
 function damageCat(cat, amount) {
   if (cat.dead) return;
+  playSound("catHurt");
   cat.hp -= amount;
   cat.hitFlash = 0.15;
   const dims = getBoardMetrics();
@@ -1667,6 +1921,7 @@ function damageCat(cat, amount) {
 
 function damageEnemy(enemy, amount) {
   if (enemy.dead) return;
+  playSound("hit");
   const type = enemyTypes[enemy.type];
   const armor = type.armor ?? 0;
   const finalDamage = Math.max(4, amount - armor);
@@ -1676,9 +1931,11 @@ function damageEnemy(enemy, amount) {
   addEffect("damage", `-${Math.round(finalDamage)}`, enemy.x, rowCenter(enemy.row, dims) - dims.cellHeight * 0.2);
 
   if (enemy.hp <= 0) {
+    playSound("enemyDefeated");
     enemy.dead = true;
     state.runStats.enemiesDefeated += 1;
     state.fish += type.reward;
+    addEffect("death-burst", "POP", enemy.x, rowCenter(enemy.row, dims));
     addEffect("death", "KO", enemy.x, rowCenter(enemy.row, dims));
     addEffect("fish", `+${type.reward}`, enemy.x, rowCenter(enemy.row, dims) + 8);
   }
@@ -1787,6 +2044,7 @@ function resetRun(status) {
   state.hintMessage = "";
   state.baseFlashTimer = 0;
   state.bossWarningTimer = 0;
+  state.wavePulseTimer = 0;
   state.isPaused = false;
   state.gameStatus = status;
   modal.classList.add("hidden");
@@ -1827,6 +2085,7 @@ function prepareWaveIntro(index, seconds) {
 }
 
 function startWave() {
+  maybeUnlockAudio();
   if (!canStartWave()) {
     debugWave("startWave blocked");
     return;
@@ -1849,6 +2108,8 @@ function startWave() {
   state.nextSpawnIn = CONFIG.waveStartDelay;
   state.waveTimer = 0;
   state.hasStartedFirstWave = true;
+  state.wavePulseTimer = 0.65;
+  playSound("waveStart");
   render();
 }
 
@@ -1983,6 +2244,7 @@ function denyPlacement(row, col, typeId, message) {
   closeCellActionMenu();
   flashCell(row, col);
   shakeCard(typeId);
+  playSound("error");
   showHint(message);
 }
 
@@ -2153,6 +2415,7 @@ function finalizeRun(result) {
   state.isNewBest = bestResult.isNewBest;
   const text = result === "victory" ? UI_TEXT.results.victory : UI_TEXT.results.gameover;
   showModal(text.title, text.message, text.kicker, result);
+  playSound(result === "victory" ? "victory" : "gameover");
 }
 
 function calculateScore(stats) {

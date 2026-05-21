@@ -36,7 +36,10 @@
           </div>
         </div>
 
-        <button class="pixel-button" id="pauseButton" type="button">Pause</button>
+        <div class="hud-actions">
+          <button class="pixel-button sound-toggle" id="soundToggleButton" type="button" aria-label="Toggle sound">Sound: On</button>
+          <button class="pixel-button" id="pauseButton" type="button">Pause</button>
+        </div>
       </header>
 
       <section class="enemy-preview-bar" id="enemyPreview" aria-label="Current wave preview"></section>
@@ -104,6 +107,7 @@
         <div class="difficulty-selector" id="difficultySelector" aria-label="Difficulty select"></div>
         <div class="best-run-panel" id="startBestRun" aria-label="Best run"></div>
         <button class="pixel-button reset-best hidden" id="resetBestButton" type="button">Reset best</button>
+        <button class="pixel-button sound-toggle start-sound-toggle" id="startSoundToggleButton" type="button" aria-label="Toggle sound">Sound: On</button>
         <button class="pixel-button start-button" id="startButton" type="button">Start</button>
       </div>
     </div>
