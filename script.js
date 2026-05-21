@@ -39,6 +39,7 @@ const UI_TEXT = {
     coolingDown: "Cooling down",
     removed: "Cat removed",
     removeCancelled: "Remove cancelled",
+    startWaveFirst: "Start the wave first",
     upgradeSoon: "Upgrade coming soon",
     paused: "Paused",
     ready: "Ready",
@@ -738,7 +739,7 @@ function renderCatCardState(card, type) {
   card.classList.toggle("too-expensive", isTooExpensive && !isCoolingDown);
   card.classList.toggle("low-fish", isTooExpensive && isCoolingDown);
   card.classList.toggle("on-cooldown", isCoolingDown);
-  card.classList.toggle("is-disabled", state.gameStatus !== "playing" || state.isPaused || isTooExpensive || isCoolingDown);
+  card.classList.toggle("is-disabled", !canUseBoardActions() || isTooExpensive || isCoolingDown);
   card.setAttribute("aria-pressed", String(selected));
   card.setAttribute("aria-disabled", String(!canSelectCat(type.id)));
 
@@ -797,7 +798,7 @@ function renderRemoveConfirm(dims) {
   removeConfirm.style.top = "0px";
 
   const label = removeConfirm.querySelector("span");
-  if (label) label.textContent = `Remove ${catTypes[cat.type].name}?`;
+  if (label) label.textContent = `Remove ${catTypes[cat.type].name}? Refund: ${getRemoveRefund(cat)} fish`;
 
   const position = getClampedPanelPosition(cat, dims, removeConfirm);
   removeConfirm.style.left = `${position.left}px`;
@@ -1238,8 +1239,30 @@ function updateEffects(delta) {
   state.effects = state.effects.filter((effect) => effect.ttl > 0);
 }
 
+function canUseBoardActions() {
+  return (
+    state.gameStatus === "playing" &&
+    !state.isPaused &&
+    state.wavePhase === "active" &&
+    !state.waveIntroActive
+  );
+}
+
+function showBoardActionsBlockedHint(typeId) {
+  if (typeId) shakeCard(typeId);
+  showHint(state.isPaused ? UI_TEXT.hints.paused : UI_TEXT.hints.startWaveFirst);
+  render();
+}
+
 function handleCellClick(row, col) {
-  if (state.gameStatus !== "playing" || state.isPaused) return;
+  if (state.gameStatus !== "playing") return;
+  if (!canUseBoardActions()) {
+    clearInteractionState();
+    flashCell(row, col);
+    showHint(state.isPaused ? UI_TEXT.hints.paused : UI_TEXT.hints.startWaveFirst);
+    render();
+    return;
+  }
 
   const cat = getCatAt(row, col);
   if (!state.selectedCatType && cat) {
@@ -1261,10 +1284,8 @@ function selectCat(typeId) {
   if (state.gameStatus !== "playing") return;
   if (state.pendingRemoveCatId) clearPendingRemove();
   closeCellActionMenu();
-  if (state.isPaused) {
-    shakeCard(typeId);
-    showHint(UI_TEXT.hints.paused);
-    render();
+  if (!canUseBoardActions()) {
+    showBoardActionsBlockedHint(typeId);
     return;
   }
   const type = catTypes[typeId];
@@ -1289,6 +1310,11 @@ function selectCat(typeId) {
 function placeCat(row, col) {
   const type = catTypes[state.selectedCatType];
   if (!type) return;
+
+  if (!canUseBoardActions()) {
+    denyPlacement(row, col, type.id, UI_TEXT.hints.startWaveFirst);
+    return;
+  }
 
   if (isCatOnCooldown(type.id)) {
     denyPlacement(row, col, type.id, UI_TEXT.hints.coolingDown);
@@ -1344,8 +1370,7 @@ function isCatOnCooldown(typeId) {
 function canSelectCat(typeId) {
   const type = catTypes[typeId];
   return Boolean(type)
-    && state.gameStatus === "playing"
-    && !state.isPaused
+    && canUseBoardActions()
     && state.fish >= type.price
     && !isCatOnCooldown(typeId);
 }
@@ -1366,22 +1391,35 @@ function clearPendingRemove() {
 }
 
 function confirmRemoveCat() {
-  if (state.gameStatus !== "playing" || state.isPaused) {
+  if (!canUseBoardActions()) {
     clearInteractionState();
     render();
     return;
   }
   if (!state.pendingRemoveCatId) return;
-  const removed = removeCatById(state.pendingRemoveCatId);
+  const cat = getPendingRemoveCat();
+  if (!cat) {
+    clearInteractionState();
+    render();
+    return;
+  }
+  const refund = getRemoveRefund(cat);
+  const removed = removeCatById(cat.id);
   clearInteractionState();
   if (removed) {
-    showHint(UI_TEXT.hints.removed);
+    refundCatCost(cat, refund);
+    showHint(`Cat removed +${refund} fish`);
   }
   render();
 }
 
 function openCellActionMenu(row, col) {
-  if (state.gameStatus !== "playing" || state.isPaused) return;
+  if (!canUseBoardActions()) {
+    clearInteractionState();
+    showHint(UI_TEXT.hints.startWaveFirst);
+    render();
+    return;
+  }
   const cat = getCatAt(row, col);
   if (!cat) {
     closeCellActionMenu();
@@ -1401,15 +1439,19 @@ function closeCellActionMenu() {
 
 function handleCellMenuUpgrade() {
   const cat = getActiveCellMenuCat();
-  if (!cat || state.gameStatus !== "playing" || state.isPaused) return;
+  if (!cat || !canUseBoardActions()) {
+    clearInteractionState();
+    render();
+    return;
+  }
   upgradeCat(cat.id);
   render();
 }
 
 function handleCellMenuRemove() {
   const cat = getActiveCellMenuCat();
-  if (!cat || state.gameStatus !== "playing" || state.isPaused) {
-    closeCellActionMenu();
+  if (!cat || !canUseBoardActions()) {
+    clearInteractionState();
     render();
     return;
   }
@@ -1431,8 +1473,7 @@ function handleCellMenuCancel() {
 function canUpgradeCat(cat) {
   return Boolean(cat)
     && cat.level === 1
-    && state.gameStatus === "playing"
-    && !state.isPaused
+    && canUseBoardActions()
     && state.fish >= getUpgradeCost(cat);
 }
 
@@ -1445,6 +1486,11 @@ function getUpgradedCatStats(cat) {
 }
 
 function upgradeCat(catId) {
+  if (!canUseBoardActions()) {
+    clearInteractionState();
+    return false;
+  }
+
   const cat = state.cats.find((candidate) => candidate.id === catId && candidate.hp > 0);
   if (!cat) {
     closeCellActionMenu();
@@ -1491,7 +1537,25 @@ function cancelRemoveCat() {
   render();
 }
 
+function getCatInvestedCost(cat) {
+  const type = catTypes[cat.type];
+  if (!type) return 0;
+  return type.price + (cat.level === 2 ? getUpgradeCost(cat) : 0);
+}
+
+function getRemoveRefund(cat) {
+  return Math.floor(getCatInvestedCost(cat) * 0.3);
+}
+
+function refundCatCost(cat, refund = getRemoveRefund(cat)) {
+  state.fish += refund;
+  state.runStats.fishRefunded += refund;
+  triggerFishFlash();
+  addEffectAtCell("fish", `+${refund}`, cat.row, cat.col);
+}
+
 function removeCatById(catId) {
+  if (!canUseBoardActions()) return false;
   const cat = state.cats.find((candidate) => candidate.id === catId && candidate.hp > 0);
   if (!cat) return false;
   const dims = getBoardMetrics();
@@ -1514,6 +1578,11 @@ function getPendingRemoveCat() {
 
 function reconcileRemoveState() {
   if (!state.pendingRemoveCatId) return;
+  if (!canUseBoardActions()) {
+    state.pendingRemoveCatId = null;
+    state.pendingRemoveCell = null;
+    return;
+  }
   const hasPendingCat = state.cats.some((cat) => cat.id === state.pendingRemoveCatId && cat.hp > 0);
   if (!hasPendingCat) {
     state.pendingRemoveCatId = null;
@@ -1558,7 +1627,7 @@ function getActiveCellMenuCat() {
 function reconcileCellActionMenu() {
   if (!state.activeCellMenu) return;
   const hasMenuCat = state.cats.some((cat) => cat.id === state.activeCellMenu.catId && cat.hp > 0);
-  if (!hasMenuCat || state.gameStatus !== "playing" || state.isPaused || state.pendingRemoveCatId || state.selectedCatType) {
+  if (!hasMenuCat || !canUseBoardActions() || state.pendingRemoveCatId || state.selectedCatType) {
     closeCellActionMenu();
   }
 }
@@ -1578,7 +1647,7 @@ function formatCooldownTime(cooldown) {
 function reconcileSelectedCat() {
   if (!state.selectedCatType) return;
   const type = catTypes[state.selectedCatType];
-  if (!type || state.gameStatus !== "playing" || state.fish < type.price || isCatOnCooldown(type.id)) {
+  if (!type || !canUseBoardActions() || state.fish < type.price || isCatOnCooldown(type.id)) {
     state.selectedCatType = null;
   }
 }
@@ -1744,6 +1813,7 @@ function prepareWaveIntro(index, seconds) {
     return;
   }
   debugWave("prepareWaveIntro", { requestedWaveIndex: index });
+  clearInteractionState();
   state.waveIndex = index;
   state.wavePhase = "preview";
   state.waveActive = false;
@@ -2035,6 +2105,7 @@ function resetRunStats(lives = CONFIG.startLives) {
     catsPlaced: 0,
     fishCollected: 0,
     fishSpent: 0,
+    fishRefunded: 0,
     fishDropsCollected: 0,
     catsUpgraded: 0,
     wavesCleared: 0,
@@ -2213,6 +2284,7 @@ function renderEndStats(result) {
     ["Cats upgraded", stats.catsUpgraded],
     ["Fish collected", stats.fishCollected],
     ["Drops collected", stats.fishDropsCollected],
+    ["Fish refunded", stats.fishRefunded],
   ];
   const victoryStats = [
     ...commonStats,
