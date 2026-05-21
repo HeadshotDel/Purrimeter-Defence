@@ -81,7 +81,7 @@ const catTypes = {
     name: "Yarn Cat",
     price: 50,
     role: "Basic ranged",
-    description: "Cheap lane shooter with steady yarn shots.",
+    description: "Good vs swarms, weak vs machines.",
     hp: 135,
     placeCooldown: 4,
     upgradeCost: 75,
@@ -89,6 +89,7 @@ const catTypes = {
     damage: 24,
     attackCooldown: 1.2,
     attackKind: "projectile",
+    attackType: "yarn",
     projectileType: "yarn",
     projectileSpeed: 430,
     className: "cat-yarn",
@@ -106,6 +107,7 @@ const catTypes = {
     damage: 0,
     attackCooldown: 0,
     attackKind: "none",
+    attackType: "block",
     className: "cat-tank",
   },
   sniper: {
@@ -113,7 +115,7 @@ const catTypes = {
     name: "Sniper Cat",
     price: 120,
     role: "Heavy shots",
-    description: "Slow cooldown, big damage, fast projectile.",
+    description: "Good vs armored machines.",
     hp: 115,
     placeCooldown: 8,
     upgradeCost: 130,
@@ -121,6 +123,7 @@ const catTypes = {
     damage: 95,
     attackCooldown: 2.6,
     attackKind: "projectile",
+    attackType: "pierce",
     projectileType: "sniper",
     projectileSpeed: 700,
     className: "cat-sniper",
@@ -138,6 +141,7 @@ const catTypes = {
     damage: 0,
     attackCooldown: 0,
     attackKind: "producer",
+    attackType: "economy",
     produceCooldown: 8.5,
     produceAmount: 32,
     className: "cat-fish",
@@ -147,7 +151,7 @@ const catTypes = {
     name: "Ninja Cat",
     price: 90,
     role: "Close combat",
-    description: "Quick melee hits when enemies get close.",
+    description: "Good vs fast pests.",
     hp: 170,
     placeCooldown: 6,
     upgradeCost: 110,
@@ -155,6 +159,7 @@ const catTypes = {
     damage: 34,
     attackCooldown: 0.62,
     attackKind: "melee",
+    attackType: "melee",
     meleeRangeCells: 0.92,
     className: "cat-ninja",
   },
@@ -163,18 +168,19 @@ const catTypes = {
     name: "Freezer Cat",
     price: 110,
     role: "Slows enemies",
-    description: "Weak snowballs that slow lane pressure.",
+    description: "Slows, weaker vs machines.",
     hp: 135,
     placeCooldown: 8,
     upgradeCost: 120,
-    level2: { damage: 1.25, slowDuration: 1.25, attackCooldown: 0.9 },
+    level2: { damage: 1.25, slowDuration: 1.15, attackCooldown: 0.9 },
     damage: 14,
     attackCooldown: 1.75,
     attackKind: "projectile",
+    attackType: "freeze",
     projectileType: "freeze",
     projectileSpeed: 390,
-    slowDuration: 3.4,
-    slowFactor: 0.45,
+    slowDuration: 2.4,
+    slowFactor: 0.6,
     className: "cat-freezer",
   },
 };
@@ -188,6 +194,7 @@ const enemyTypes = {
     damage: 13,
     attackCooldown: 1.05,
     reward: 8,
+    tags: ["organic", "swarm"],
     className: "enemy-mouse",
   },
   rat: {
@@ -198,6 +205,7 @@ const enemyTypes = {
     damage: 18,
     attackCooldown: 1.15,
     reward: 13,
+    tags: ["organic"],
     className: "enemy-rat",
   },
   canRat: {
@@ -209,6 +217,7 @@ const enemyTypes = {
     attackCooldown: 1.2,
     reward: 22,
     armor: 3,
+    tags: ["organic", "armored"],
     className: "enemy-can-rat",
   },
   roomba: {
@@ -221,6 +230,7 @@ const enemyTypes = {
     reward: 28,
     armor: 5,
     blockRadiusCells: 0.52,
+    tags: ["mechanical", "armored"],
     className: "enemy-roomba",
   },
   pigeon: {
@@ -231,6 +241,7 @@ const enemyTypes = {
     damage: 16,
     attackCooldown: 0.9,
     reward: 14,
+    tags: ["organic", "fast"],
     className: "enemy-pigeon",
   },
   laserDrone: {
@@ -244,6 +255,7 @@ const enemyTypes = {
     debuffRadiusCells: 1.55,
     debuffFactor: 1.8,
     debuffEffectText: "jam",
+    tags: ["mechanical", "flying", "debuff"],
     className: "enemy-laser-drone",
   },
   cucumber: {
@@ -257,6 +269,7 @@ const enemyTypes = {
     debuffRadiusCells: 0.95,
     debuffFactor: 1.35,
     debuffEffectText: "panic",
+    tags: ["hazard", "panic"],
     className: "enemy-cucumber",
   },
   "spray-bottle": {
@@ -270,6 +283,7 @@ const enemyTypes = {
     debuffRadiusCells: 1.35,
     debuffFactor: 1.55,
     debuffEffectText: "spritz",
+    tags: ["hazard", "water"],
     className: "enemy-spray-bottle",
   },
   "hair-dryer": {
@@ -285,6 +299,7 @@ const enemyTypes = {
     debuffRadiusCells: 2.2,
     debuffFactor: 1.65,
     debuffEffectText: "wind",
+    tags: ["hazard", "wind", "armored"],
     className: "enemy-hair-dryer",
   },
   "robot-mop": {
@@ -300,6 +315,7 @@ const enemyTypes = {
     debuffRadiusCells: 1.45,
     debuffFactor: 1.7,
     debuffEffectText: "wet",
+    tags: ["mechanical", "water", "armored"],
     className: "enemy-robot-mop",
   },
   "foil-ball": {
@@ -310,6 +326,7 @@ const enemyTypes = {
     damage: 10,
     attackCooldown: 0.85,
     reward: 7,
+    tags: ["swarm", "fast"],
     className: "enemy-foil-ball",
   },
   boss: {
@@ -322,6 +339,7 @@ const enemyTypes = {
     reward: 95,
     armor: 6,
     blockRadiusCells: 0.72,
+    tags: ["mechanical", "boss", "armored"],
     className: "enemy-boss enemy-smart-vacuum-boss",
   },
 };
@@ -334,6 +352,7 @@ const fallbackEnemyType = {
   damage: 12,
   attackCooldown: 1.15,
   reward: 0,
+  tags: [],
   className: "enemy-generic",
 };
 
@@ -342,6 +361,56 @@ function getEnemyDefinition(typeId) {
   if (type) return type;
   debugWave("unknown enemy type fallback", { enemyType: typeId });
   return fallbackEnemyType;
+}
+
+function getEnemyTags(enemy) {
+  const typeId = typeof enemy === "string" ? enemy : enemy?.type ?? enemy?.id;
+  return getEnemyDefinition(typeId).tags ?? [];
+}
+
+function enemyHasTag(enemy, tag) {
+  return getEnemyTags(enemy).includes(tag);
+}
+
+// Keep counters readable: each attack type has a few broad strengths and weaknesses.
+function getDamageMultiplier(attackType, enemy) {
+  switch (attackType) {
+    case "yarn":
+      if (enemyHasTag(enemy, "boss")) return 0.5;
+      if (enemyHasTag(enemy, "mechanical")) return 0.65;
+      if (enemyHasTag(enemy, "armored")) return 0.75;
+      if (enemyHasTag(enemy, "swarm")) return 1.15;
+      return 1;
+    case "pierce":
+      if (enemyHasTag(enemy, "swarm")) return 0.75;
+      if (enemyHasTag(enemy, "boss")) return 1;
+      if (enemyHasTag(enemy, "armored")) return 1.25;
+      if (enemyHasTag(enemy, "mechanical")) return 1.2;
+      return 1;
+    case "melee":
+      if (enemyHasTag(enemy, "boss")) return 0.75;
+      if (enemyHasTag(enemy, "mechanical")) return 0.8;
+      if (enemyHasTag(enemy, "armored")) return 0.85;
+      if (enemyHasTag(enemy, "swarm")) return 1.25;
+      if (enemyHasTag(enemy, "organic")) return 1.15;
+      return 1;
+    case "freeze":
+      if (enemyHasTag(enemy, "boss")) return 0.35;
+      if (enemyHasTag(enemy, "mechanical")) return 0.5;
+      if (enemyHasTag(enemy, "swarm")) return 0.8;
+      if (enemyHasTag(enemy, "organic")) return 0.75;
+      return 0.75;
+    default:
+      return 1;
+  }
+}
+
+function calculateDamage(baseDamage, attackType, enemy) {
+  const multiplier = getDamageMultiplier(attackType, enemy);
+  return {
+    amount: baseDamage * multiplier,
+    multiplier,
+  };
 }
 
 function createCatCooldowns() {
@@ -378,13 +447,13 @@ const expertSiegeWaves = [
   { name: "Wave 1", interval: 2.08, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }] },
   { name: "Wave 2", interval: 1.92, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "pigeon", count: 3 }] },
   { name: "Wave 3", interval: 1.76, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }] },
-  { name: "Wave 4", interval: 1.62, groups: [{ type: "rat", count: 4 }, { type: "cucumber", count: 4 }, { type: "laserDrone", count: 3 }, { type: "foil-ball", count: 4 }] },
+  { name: "Wave 4", interval: 1.62, groups: [{ type: "rat", count: 3 }, { type: "cucumber", count: 4 }, { type: "spray-bottle", count: 2 }, { type: "laserDrone", count: 2 }, { type: "foil-ball", count: 4 }] },
   { name: "Wave 5", interval: 1.52, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }] },
   { name: "Wave 6", interval: 1.44, groups: [{ type: "mouse", count: 6 }, { type: "rat", count: 4 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 5 }] },
   { name: "Wave 7", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "roomba", count: 3 }, { type: "cucumber", count: 3 }, { type: "canRat", count: 2 }] },
-  { name: "Wave 8", interval: 1.3, groups: [{ type: "rat", count: 4 }, { type: "laserDrone", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 4 }, { type: "robot-mop", count: 1 }, { type: "roomba", count: 2 }] },
-  { name: "Wave 9", interval: 1.24, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 4 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 2 }, { type: "laserDrone", count: 2 }, { type: "cucumber", count: 3 }] },
-  { name: "Wave 10", interval: 1.18, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 3 }, { type: "roomba", count: 3 }, { type: "boss", count: 1 }] },
+  { name: "Wave 8", interval: 1.3, groups: [{ type: "rat", count: 4 }, { type: "laserDrone", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 4 }] },
+  { name: "Wave 9", interval: 1.24, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 4 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 2 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 3 }] },
+  { name: "Wave 10", interval: 1.18, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 3 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 3 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 6 }, { type: "boss", count: 1 }] },
 ];
 
 const difficultyDefinitions = {
@@ -413,9 +482,9 @@ const difficultyDefinitions = {
     name: "Vacuum Siege",
     label: "Nightmare",
     description: "Ten waves of household menace.",
-    startingFish: 105,
+    startingFish: 100,
     lives: 5,
-    naturalDropInterval: [4.6, 6.2],
+    naturalDropInterval: [4.8, 6.4],
     waves: expertSiegeWaves,
   },
 };
@@ -479,6 +548,7 @@ const soundCooldowns = {
   button: 0.06,
   fishCollect: 0.035,
   debuff: 0.55,
+  panic: 0.28,
 };
 
 const state = {
@@ -705,6 +775,10 @@ function playSound(name) {
     case "debuff":
       playNoise({ duration: 0.09, gain: 0.018, filterFrequency: 520 });
       playTone({ frequency: 145, duration: 0.08, type: "triangle", gain: 0.02, release: 0.04 });
+      break;
+    case "panic":
+      playTone({ frequency: 190, duration: 0.045, type: "square", gain: 0.025, release: 0.025 });
+      playTone({ frequency: 155, duration: 0.055, type: "sawtooth", gain: 0.018, start: 0.04, release: 0.035 });
       break;
     case "removeRefund":
       playTone({ frequency: 420, duration: 0.055, type: "triangle", gain: 0.028, release: 0.04 });
@@ -1008,13 +1082,14 @@ function renderCat(cat, dims) {
   const attackingClass = cat.attackFlash > 0 ? "is-attacking" : "";
   const hitClass = cat.hitFlash > 0 ? "is-hit" : "";
   const debuffedClass = cat.debuffFactor > 1 ? "is-debuffed" : "";
+  const panickedClass = isCatPanicked(cat, dims) ? "cat-panicked" : "";
   const upgradedClass = cat.level === 2 ? "cat-upgraded" : "";
   const cooldown = stats.attackKind === "none"
     ? ""
     : `<div class="cooldown ${producerClass}"><div class="cooldown-fill" style="height:${cooldownPercent}%"></div></div>`;
 
   return `
-    <div class="unit cat cat-sprite ${type.className} ${attackingClass} ${hitClass} ${debuffedClass} ${upgradedClass}" style="left:${pos.x}px; top:${pos.y}px">
+    <div class="unit cat cat-sprite ${type.className} ${attackingClass} ${hitClass} ${debuffedClass} ${panickedClass} ${upgradedClass}" style="left:${pos.x}px; top:${pos.y}px">
       <div class="hp-bar"><div class="hp-fill" style="width:${hpPercent}%"></div></div>
       ${renderCatLevelBadge(cat)}
       <div class="cat-tail"></div>
@@ -1545,6 +1620,12 @@ function updateCats(delta) {
     if (stats.attackKind === "projectile") {
       const target = findRangedTarget(cat, dims);
       if (!target) return;
+      if (shouldCatMiss(cat, dims)) {
+        showMiss(cat, dims);
+        cat.attackTimer = 0;
+        cat.attackFlash = 0.12;
+        return;
+      }
       fireProjectile(cat, target, dims);
       cat.attackTimer = 0;
       cat.attackFlash = 0.2;
@@ -1554,7 +1635,13 @@ function updateCats(delta) {
     if (stats.attackKind === "melee") {
       const target = findMeleeTarget(cat, dims);
       if (!target) return;
-      damageEnemy(target, stats.damage);
+      if (shouldCatMiss(cat, dims)) {
+        showMiss(cat, dims);
+        cat.attackTimer = 0;
+        cat.attackFlash = 0.12;
+        return;
+      }
+      damageEnemy(target, stats.damage, stats.attackType);
       cat.attackTimer = 0;
       cat.attackFlash = 0.18;
     }
@@ -1573,9 +1660,9 @@ function updateProjectiles(delta) {
     const enemy = findProjectileHit(projectile);
 
     if (enemy) {
-      damageEnemy(enemy, projectile.damage);
+      damageEnemy(enemy, projectile.damage, projectile.attackType);
       if (projectile.kind === "freeze") {
-        applySlow(enemy, projectile.slowDuration, projectile.slowFactor);
+        applySlow(enemy, projectile.slowDuration, projectile.slowFactor, projectile.sourceCatLevel);
       }
       return false;
     }
@@ -2029,12 +2116,13 @@ function damageCat(cat, amount) {
   }
 }
 
-function damageEnemy(enemy, amount) {
+function damageEnemy(enemy, amount, attackType = "generic") {
   if (enemy.dead) return;
   playSound("hit");
   const type = getEnemyDefinition(enemy.type);
+  const damage = calculateDamage(amount, attackType, enemy);
   const armor = type.armor ?? 0;
-  const finalDamage = Math.max(4, amount - armor);
+  const finalDamage = Math.max(3, damage.amount - armor);
   enemy.hp -= finalDamage;
   enemy.hitFlash = 0.16;
   const dims = getBoardMetrics();
@@ -2051,9 +2139,10 @@ function damageEnemy(enemy, amount) {
   }
 }
 
-function applySlow(enemy, duration, factor) {
-  enemy.slowTimer = Math.max(enemy.slowTimer, duration);
-  enemy.slowFactor = Math.min(enemy.slowFactor, factor);
+function applySlow(enemy, duration, factor, sourceLevel = 1) {
+  const slow = getSlowEffect(enemy, sourceLevel);
+  enemy.slowTimer = Math.max(enemy.slowTimer, duration * slow.durationMultiplier);
+  enemy.slowFactor = Math.min(enemy.slowFactor, slow.factor);
   const dims = getBoardMetrics();
   addEffect("freeze", "slow", enemy.x, rowCenter(enemy.row, dims));
 }
@@ -2076,6 +2165,19 @@ function applyAttackDebuff(enemy, dims = getBoardMetrics()) {
       enemy.debuffEffectTimer = 1.1;
     }
   }
+}
+
+function getSlowEffect(enemy, sourceLevel = 1) {
+  if (enemyHasTag(enemy, "boss")) {
+    return { factor: sourceLevel >= 2 ? 0.8 : 0.85, durationMultiplier: 0.55 };
+  }
+  if (enemyHasTag(enemy, "mechanical")) {
+    return { factor: sourceLevel >= 2 ? 0.7 : 0.75, durationMultiplier: 0.7 };
+  }
+  if (enemyHasTag(enemy, "fast") || enemyHasTag(enemy, "swarm")) {
+    return { factor: 0.7, durationMultiplier: 0.8 };
+  }
+  return { factor: sourceLevel >= 2 ? 0.55 : 0.6, durationMultiplier: 1 };
 }
 
 function checkWinLose() {
@@ -2303,11 +2405,13 @@ function fireProjectile(cat, target, dims) {
     previousX: pos.x + dims.cellWidth * 0.26,
     y: pos.y - dims.cellHeight * 0.04,
     kind: stats.projectileType,
+    attackType: stats.attackType,
     damage: stats.damage,
     speed: stats.projectileSpeed,
     hitRadius: stats.projectileType === "sniper" ? 26 : 20,
     slowDuration: stats.slowDuration ?? 0,
     slowFactor: stats.slowFactor ?? 1,
+    sourceCatLevel: cat.level,
     targetId: target.id,
   });
 }
@@ -2410,10 +2514,49 @@ function addEffect(kind, text, x, y) {
   });
 }
 
+function isCatPanicked(cat, dims = getBoardMetrics()) {
+  if (cat.type === "ninja" || cat.type === "tank") return false;
+  const catX = cellCenter(cat.row, cat.col, dims).x;
+  const radius = dims.cellWidth * 1.55;
+  return state.enemies.some((enemy) => (
+    enemy.type === "cucumber" &&
+    enemy.hp > 0 &&
+    !enemy.dead &&
+    enemy.row === cat.row &&
+    Math.abs(enemy.x - catX) <= radius
+  ));
+}
+
+function getCatMissChance(cat, dims = getBoardMetrics()) {
+  if (!isCatPanicked(cat, dims)) return 0;
+  switch (cat.type) {
+    case "yarn":
+      return 0.35;
+    case "sniper":
+      return 0.15;
+    case "freezer":
+      return 0.2;
+    default:
+      return 0;
+  }
+}
+
+function shouldCatMiss(cat, dims = getBoardMetrics()) {
+  const missChance = getCatMissChance(cat, dims);
+  return missChance > 0 && Math.random() < missChance;
+}
+
+function showMiss(cat, dims = getBoardMetrics()) {
+  const pos = cellCenter(cat.row, cat.col, dims);
+  addEffect("miss combat-float", "MISS", pos.x, pos.y - dims.cellHeight * 0.38);
+  playSound("panic");
+}
+
 function getEffectiveCooldown(cat) {
   const stats = getCatStats(cat);
   const base = stats.attackKind === "producer" ? stats.produceCooldown : stats.attackCooldown;
-  return Math.max(0.1, base * (cat.debuffFactor || 1));
+  const panicFactor = stats.attackKind === "producer" && isCatPanicked(cat) ? 1.35 : 1;
+  return Math.max(0.1, base * (cat.debuffFactor || 1) * panicFactor);
 }
 
 function getCatStats(cat) {
@@ -2423,9 +2566,11 @@ function getCatStats(cat) {
     hp: type.hp,
     damage: type.damage ?? 0,
     attackCooldown: type.attackCooldown ?? 0,
+    attackType: type.attackType ?? "generic",
     produceAmount: type.produceAmount ?? 0,
     produceCooldown: type.produceCooldown ?? 0,
     slowDuration: type.slowDuration ?? 0,
+    slowFactor: type.slowFactor ?? 1,
   };
 
   if (cat.level === 2) {

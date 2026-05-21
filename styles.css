@@ -1048,6 +1048,15 @@ h1 {
   outline-offset: 2px;
 }
 
+.cat-panicked {
+  animation: shake 0.18s steps(2) infinite;
+}
+
+.cat-panicked .cat-body {
+  outline: 3px solid rgba(208, 182, 255, 0.72);
+  outline-offset: 3px;
+}
+
 .cat-upgraded .cat-body {
   filter: brightness(1.12) saturate(1.18);
   outline: 3px solid rgba(255, 213, 106, 0.56);
@@ -1465,6 +1474,14 @@ h1 {
 .float-text.debuff {
   background: #d0b6ff;
   box-shadow: 0 0 14px rgba(208, 182, 255, 0.32);
+}
+
+.float-text.miss,
+.combat-float.miss {
+  color: #07111a;
+  background: #d0b6ff;
+  box-shadow: 0 0 14px rgba(208, 182, 255, 0.34);
+  animation: pop-out 0.45s steps(3) forwards;
 }
 
 .float-text.death {
