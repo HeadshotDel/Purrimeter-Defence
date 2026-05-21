@@ -22,6 +22,7 @@
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   color: var(--ink);
   background:
     radial-gradient(circle at 18% 8%, rgba(119, 217, 255, 0.13), transparent 15rem),
@@ -755,6 +756,8 @@ h1 {
 }
 
 .enemy-roomba .enemy-body,
+.enemy-vacuum .enemy-body,
+.enemy-robot-vacuum .enemy-body,
 .enemy-boss .enemy-body {
   height: 42%;
   top: 58%;
@@ -766,6 +769,8 @@ h1 {
 }
 
 .enemy-roomba .enemy-body::after,
+.enemy-vacuum .enemy-body::after,
+.enemy-robot-vacuum .enemy-body::after,
 .enemy-boss .enemy-body::after {
   right: 7px;
   top: 12px;
@@ -776,6 +781,8 @@ h1 {
 }
 
 .enemy-roomba .enemy-body::before,
+.enemy-vacuum .enemy-body::before,
+.enemy-robot-vacuum .enemy-body::before,
 .enemy-boss .enemy-body::before {
   left: 50%;
   top: -7px;
@@ -798,6 +805,17 @@ h1 {
   height: 13px;
   background: #a9bddc;
   border: 3px solid #0a0d18;
+}
+
+.enemy-generic .enemy-body {
+  width: 76%;
+  height: 62%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 48%),
+    #b76a7e;
+  box-shadow:
+    inset 0 -7px 0 rgba(0, 0, 0, 0.22),
+    0 0 0 3px rgba(255, 213, 106, 0.12);
 }
 
 .enemy-laser-drone .enemy-body {
@@ -1576,7 +1594,16 @@ h1 {
   z-index: 30;
   display: grid;
   place-items: center;
-  padding: 20px;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  padding:
+    max(20px, env(safe-area-inset-top))
+    20px
+    max(24px, env(safe-area-inset-bottom));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   background:
     radial-gradient(circle at 50% 22%, rgba(255, 213, 106, 0.16), transparent 22rem),
     radial-gradient(circle at 20% 75%, rgba(119, 217, 255, 0.1), transparent 16rem),
@@ -1589,6 +1616,7 @@ h1 {
 
 .start-panel {
   width: min(520px, 100%);
+  margin: auto 0;
   padding: 28px;
   text-align: center;
   border: var(--pixel-border);
@@ -1997,8 +2025,36 @@ h1 {
   background-image: url("./assets/enemies/rat-walk.png");
 }
 
-.uses-image-asset .enemy-roomba .enemy-body {
+.uses-image-asset .enemy-can-rat .enemy-body {
+  border: 3px solid #0a0d18;
+  background-color: #a5b4bd;
+  background-image: none;
+  box-shadow:
+    inset 0 -7px 0 rgba(0, 0, 0, 0.2),
+    inset 9px 0 0 rgba(255, 255, 255, 0.22),
+    inset -9px 0 0 rgba(0, 0, 0, 0.13);
+}
+
+.uses-image-asset .enemy-roomba .enemy-body,
+.uses-image-asset .enemy-vacuum .enemy-body,
+.uses-image-asset .enemy-robot-vacuum .enemy-body {
   background-image: url("./assets/enemies/roomba-walk.png");
+}
+
+.uses-image-asset .enemy-pigeon .enemy-body {
+  border: 3px solid #0a0d18;
+  background-color: #8aa2c8;
+  background-image: none;
+  box-shadow: inset 0 -7px 0 rgba(0, 0, 0, 0.18);
+}
+
+.uses-image-asset .enemy-generic .enemy-body {
+  border: 3px solid #0a0d18;
+  background-color: #b76a7e;
+  background-image: none;
+  box-shadow:
+    inset 0 -7px 0 rgba(0, 0, 0, 0.22),
+    0 0 0 3px rgba(255, 213, 106, 0.12);
 }
 
 .uses-image-asset .enemy-laser-drone .enemy-body {
@@ -2110,7 +2166,9 @@ h1 {
   background-image: url("./assets/enemies/can-rat-walk.png");
 }
 
-.uses-image-asset .enemy-roomba .enemy-body {
+.uses-image-asset .enemy-roomba .enemy-body,
+.uses-image-asset .enemy-vacuum .enemy-body,
+.uses-image-asset .enemy-robot-vacuum .enemy-body {
   background-image: url("./assets/enemies/roomba-walk.png");
 }
 
@@ -2457,6 +2515,140 @@ h1 {
   .difficulty-card {
     min-height: 74px;
     text-align: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .start-screen {
+    place-items: start center;
+    padding:
+      max(12px, env(safe-area-inset-top))
+      12px
+      max(24px, env(safe-area-inset-bottom));
+  }
+
+  .start-panel {
+    width: min(100%, 480px);
+    margin: 0;
+    padding: 18px;
+  }
+
+  .start-mark {
+    margin-bottom: 8px;
+    transform: scale(1);
+  }
+
+  .start-panel h2 {
+    margin-top: 4px;
+    font-size: clamp(1.55rem, 10vw, 2.25rem);
+  }
+
+  .tagline {
+    margin-bottom: 10px;
+  }
+
+  .rule-list {
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .rule-list li {
+    padding: 6px 8px;
+  }
+
+  .difficulty-selector {
+    gap: 7px;
+    margin-bottom: 10px;
+  }
+
+  .difficulty-card {
+    min-height: auto;
+    padding: 7px 8px;
+  }
+
+  .best-run-panel {
+    margin-bottom: 10px;
+    padding: 8px;
+  }
+
+  .best-chips {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .start-sound-toggle,
+  .start-button {
+    min-height: 38px;
+  }
+}
+
+@media (max-height: 520px) {
+  .start-screen {
+    place-items: start center;
+    padding:
+      max(8px, env(safe-area-inset-top))
+      12px
+      max(18px, env(safe-area-inset-bottom));
+  }
+
+  .start-panel {
+    width: min(100%, 760px);
+    margin: 0;
+    padding: 12px;
+  }
+
+  .start-mark {
+    margin-bottom: 4px;
+    transform: scale(0.88);
+  }
+
+  .start-panel h2 {
+    margin: 2px 0;
+    font-size: clamp(1.35rem, 7vh, 2rem);
+  }
+
+  .tagline {
+    margin-bottom: 8px;
+    font-size: 0.78rem;
+  }
+
+  .rule-list {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+
+  .rule-list li {
+    padding: 5px 6px;
+  }
+
+  .difficulty-selector {
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .difficulty-card {
+    min-height: auto;
+    padding: 6px;
+  }
+
+  .best-run-panel {
+    margin-bottom: 8px;
+    padding: 7px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .difficulty-selector {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .difficulty-card {
+    text-align: left;
+  }
+
+  .rule-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

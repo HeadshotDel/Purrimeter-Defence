@@ -259,6 +259,24 @@ const enemyTypes = {
   },
 };
 
+const fallbackEnemyType = {
+  id: "unknown",
+  name: "Unknown Enemy",
+  hp: 90,
+  speed: 24,
+  damage: 12,
+  attackCooldown: 1.15,
+  reward: 0,
+  className: "enemy-generic",
+};
+
+function getEnemyDefinition(typeId) {
+  const type = enemyTypes[typeId];
+  if (type) return type;
+  debugWave("unknown enemy type fallback", { enemyType: typeId });
+  return fallbackEnemyType;
+}
+
 function createCatCooldowns() {
   return Object.fromEntries(Object.keys(catTypes).map((typeId) => [typeId, 0]));
 }
@@ -272,49 +290,55 @@ const alleyRushWaves = [
   { name: "Wave 6", interval: 1.48, groups: [{ type: "rat", count: 5 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }, { type: "laserDrone", count: 2 }, { type: "boss", count: 1 }] },
 ];
 
+const vacuumSiegeWaves = [
+  { name: "Wave 1", interval: 2.65, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
+  { name: "Wave 2", interval: 2.25, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 3 }, { type: "canRat", count: 1 }] },
+  { name: "Wave 3", interval: 1.92, groups: [{ type: "rat", count: 4 }, { type: "roomba", count: 1 }, { type: "laserDrone", count: 1 }] },
+  { name: "Wave 4", interval: 1.75, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }, { type: "pigeon", count: 2 }] },
+  { name: "Wave 5", interval: 1.55, groups: [{ type: "rat", count: 5 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }, { type: "laserDrone", count: 2 }] },
+  { name: "Wave 6", interval: 1.38, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 3 }, { type: "laserDrone", count: 2 }, { type: "boss", count: 1 }] },
+];
+
+const expertSiegeWaves = [
+  { name: "Wave 1", interval: 2.45, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
+  { name: "Wave 2", interval: 2.1, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 3 }, { type: "canRat", count: 1 }] },
+  { name: "Wave 3", interval: 1.9, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 1 }, { type: "laserDrone", count: 1 }] },
+  { name: "Wave 4", interval: 1.72, groups: [{ type: "mouse", count: 3 }, { type: "rat", count: 4 }, { type: "roomba", count: 2 }, { type: "pigeon", count: 2 }] },
+  { name: "Wave 5", interval: 1.56, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }, { type: "laserDrone", count: 2 }, { type: "pigeon", count: 2 }] },
+  { name: "Wave 6", interval: 1.44, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 3 }, { type: "roomba", count: 3 }, { type: "laserDrone", count: 2 }, { type: "pigeon", count: 3 }] },
+  { name: "Wave 7", interval: 1.34, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "roomba", count: 3 }, { type: "laserDrone", count: 3 }, { type: "pigeon", count: 2 }, { type: "boss", count: 1 }] },
+];
+
 const difficultyDefinitions = {
   cozy: {
     id: "cozy",
     name: "Cozy Rooftop",
-    label: "Beginner",
-    description: "A softer first defense.",
-    startingFish: 150,
-    lives: 5,
-    naturalDropInterval: [3.2, 4.8],
-    waves: [
-      { name: "Wave 1", interval: 3.05, groups: [{ type: "mouse", count: 3 }, { type: "rat", count: 1 }] },
-      { name: "Wave 2", interval: 2.72, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
-      { name: "Wave 3", interval: 2.45, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 3 }] },
-      { name: "Wave 4", interval: 2.18, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 1 }] },
-      { name: "Wave 5", interval: 1.95, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 1 }] },
-    ],
-  },
-  alley: {
-    id: "alley",
-    name: "Alley Rush",
     label: "Normal",
-    description: "More pests, faster pressure.",
-    startingFish: 130,
+    description: "A full rooftop defense.",
+    startingFish: 135,
     lives: 5,
     naturalDropInterval: [3.6, 5],
     waves: alleyRushWaves,
   },
+  alley: {
+    id: "alley",
+    name: "Alley Rush",
+    label: "Hard",
+    description: "Machines arrive early.",
+    startingFish: 125,
+    lives: 5,
+    naturalDropInterval: [4, 5.5],
+    waves: vacuumSiegeWaves,
+  },
   siege: {
     id: "siege",
     name: "Vacuum Siege",
-    label: "Boss",
-    description: "Machines arrive early.",
-    startingFish: 120,
+    label: "Expert",
+    description: "A longer machine siege.",
+    startingFish: 115,
     lives: 5,
-    naturalDropInterval: [4, 5.5],
-    waves: [
-      { name: "Wave 1", interval: 2.65, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
-      { name: "Wave 2", interval: 2.25, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 3 }, { type: "canRat", count: 1 }] },
-      { name: "Wave 3", interval: 1.92, groups: [{ type: "rat", count: 4 }, { type: "roomba", count: 1 }, { type: "laserDrone", count: 1 }] },
-      { name: "Wave 4", interval: 1.75, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }, { type: "pigeon", count: 2 }] },
-      { name: "Wave 5", interval: 1.55, groups: [{ type: "rat", count: 5 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }, { type: "laserDrone", count: 2 }] },
-      { name: "Wave 6", interval: 1.38, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 3 }, { type: "laserDrone", count: 2 }, { type: "boss", count: 1 }] },
-    ],
+    naturalDropInterval: [4.2, 5.8],
+    waves: expertSiegeWaves,
   },
 };
 
@@ -922,9 +946,10 @@ function renderCatLevelBadge(cat) {
 }
 
 function renderEnemy(enemy, dims) {
-  const type = enemyTypes[enemy.type];
+  const type = getEnemyDefinition(enemy.type);
   const y = rowCenter(enemy.row, dims);
-  const hpPercent = Math.max(0, Math.min(100, (enemy.hp / enemy.maxHp) * 100));
+  const maxHp = enemy.maxHp || type.hp || 1;
+  const hpPercent = Math.max(0, Math.min(100, (enemy.hp / maxHp) * 100));
   const hitClass = enemy.hitFlash > 0 ? "is-hit" : "";
   const slowClass = enemy.slowTimer > 0 ? "is-slowed" : "";
 
@@ -1112,7 +1137,7 @@ function renderEnemyPreview() {
 
 function renderEnemyChips(groups) {
   return groups.map((group) => {
-    const enemy = enemyTypes[group.type];
+    const enemy = getEnemyDefinition(group.type);
     return `
       <span class="enemy-chip" title="${enemy.name}">
         <span class="enemy-icon ${enemy.className}"><span class="enemy-body"></span></span>
@@ -1367,7 +1392,7 @@ function updateEnemies(delta) {
   });
 
   state.enemies.forEach((enemy) => {
-    const type = enemyTypes[enemy.type];
+    const type = getEnemyDefinition(enemy.type);
     if (enemy.hitFlash > 0) enemy.hitFlash -= delta;
     if (enemy.slowTimer > 0) {
       enemy.slowTimer -= delta;
@@ -1922,7 +1947,7 @@ function damageCat(cat, amount) {
 function damageEnemy(enemy, amount) {
   if (enemy.dead) return;
   playSound("hit");
-  const type = enemyTypes[enemy.type];
+  const type = getEnemyDefinition(enemy.type);
   const armor = type.armor ?? 0;
   const finalDamage = Math.max(4, amount - armor);
   enemy.hp -= finalDamage;
@@ -1950,7 +1975,7 @@ function applySlow(enemy, duration, factor) {
 
 function applyDroneDebuff(enemy) {
   const dims = getBoardMetrics();
-  const type = enemyTypes[enemy.type];
+  const type = getEnemyDefinition(enemy.type);
   const radius = dims.cellWidth * type.debuffRadiusCells;
   const target = state.cats
     .filter((cat) => cat.row === enemy.row && cat.hp > 0 && catTypes[cat.type].attackKind !== "none")
@@ -2214,7 +2239,7 @@ function findMeleeTarget(cat, dims) {
 }
 
 function findBlockingCat(enemy, dims) {
-  const enemyType = enemyTypes[enemy.type];
+  const enemyType = getEnemyDefinition(enemy.type);
   const radius = dims.cellWidth * (enemyType.blockRadiusCells ?? 0.43);
   return state.cats
     .filter((cat) => {
