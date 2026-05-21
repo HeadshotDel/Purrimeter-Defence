@@ -5,7 +5,7 @@ const CONFIG = {
   useImageAssets: true,
   gridRows: 5,
   gridCols: 12,
-  startFish: 150,
+  startFish: 125,
   startLives: 5,
   naturalFishValue: 25,
   fishCatDropValue: 32,
@@ -243,7 +243,74 @@ const enemyTypes = {
     reward: 20,
     debuffRadiusCells: 1.55,
     debuffFactor: 1.8,
+    debuffEffectText: "jam",
     className: "enemy-laser-drone",
+  },
+  cucumber: {
+    id: "cucumber",
+    name: "Cucumber",
+    hp: 82,
+    speed: 55,
+    damage: 12,
+    attackCooldown: 0.9,
+    reward: 12,
+    debuffRadiusCells: 0.95,
+    debuffFactor: 1.35,
+    debuffEffectText: "panic",
+    className: "enemy-cucumber",
+  },
+  "spray-bottle": {
+    id: "spray-bottle",
+    name: "Spray Bottle",
+    hp: 155,
+    speed: 24,
+    damage: 14,
+    attackCooldown: 1.05,
+    reward: 18,
+    debuffRadiusCells: 1.35,
+    debuffFactor: 1.55,
+    debuffEffectText: "spritz",
+    className: "enemy-spray-bottle",
+  },
+  "hair-dryer": {
+    id: "hair-dryer",
+    name: "Hair Dryer",
+    hp: 460,
+    speed: 12,
+    damage: 22,
+    attackCooldown: 1,
+    reward: 38,
+    armor: 2,
+    blockRadiusCells: 0.55,
+    debuffRadiusCells: 2.2,
+    debuffFactor: 1.65,
+    debuffEffectText: "wind",
+    className: "enemy-hair-dryer",
+  },
+  "robot-mop": {
+    id: "robot-mop",
+    name: "Robot Mop",
+    hp: 520,
+    speed: 11,
+    damage: 26,
+    attackCooldown: 1.05,
+    reward: 42,
+    armor: 4,
+    blockRadiusCells: 0.58,
+    debuffRadiusCells: 1.45,
+    debuffFactor: 1.7,
+    debuffEffectText: "wet",
+    className: "enemy-robot-mop",
+  },
+  "foil-ball": {
+    id: "foil-ball",
+    name: "Tin Foil Ball",
+    hp: 34,
+    speed: 62,
+    damage: 10,
+    attackCooldown: 0.85,
+    reward: 7,
+    className: "enemy-foil-ball",
   },
   boss: {
     id: "boss",
@@ -282,62 +349,73 @@ function createCatCooldowns() {
 }
 
 const alleyRushWaves = [
-  { name: "Wave 1", interval: 2.65, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 1 }] },
-  { name: "Wave 2", interval: 2.2, groups: [{ type: "mouse", count: 6 }, { type: "rat", count: 3 }] },
-  { name: "Wave 3", interval: 2, groups: [{ type: "mouse", count: 3 }, { type: "rat", count: 5 }, { type: "canRat", count: 2 }] },
-  { name: "Wave 4", interval: 1.82, groups: [{ type: "rat", count: 6 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }] },
-  { name: "Wave 5", interval: 1.58, groups: [{ type: "mouse", count: 5 }, { type: "rat", count: 5 }, { type: "pigeon", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }] },
-  { name: "Wave 6", interval: 1.48, groups: [{ type: "rat", count: 5 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }, { type: "laserDrone", count: 2 }, { type: "boss", count: 1 }] },
+  { name: "Wave 1", interval: 2.35, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
+  { name: "Wave 2", interval: 2.15, groups: [{ type: "mouse", count: 6 }, { type: "rat", count: 4 }] },
+  { name: "Wave 3", interval: 1.98, groups: [{ type: "rat", count: 5 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 4", interval: 1.86, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }, { type: "pigeon", count: 3 }] },
+  { name: "Wave 5", interval: 1.72, groups: [{ type: "rat", count: 5 }, { type: "canRat", count: 2 }, { type: "roomba", count: 1 }] },
+  { name: "Wave 6", interval: 1.62, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }] },
+  { name: "Wave 7", interval: 1.52, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 5 }, { type: "cucumber", count: 3 }, { type: "foil-ball", count: 3 }] },
+  { name: "Wave 8", interval: 1.44, groups: [{ type: "rat", count: 4 }, { type: "spray-bottle", count: 2 }, { type: "roomba", count: 2 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 9", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "pigeon", count: 3 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }] },
+  { name: "Wave 10", interval: 1.32, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }, { type: "boss", count: 1 }] },
 ];
 
 const vacuumSiegeWaves = [
-  { name: "Wave 1", interval: 2.65, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
-  { name: "Wave 2", interval: 2.25, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 3 }, { type: "canRat", count: 1 }] },
-  { name: "Wave 3", interval: 1.92, groups: [{ type: "rat", count: 4 }, { type: "roomba", count: 1 }, { type: "laserDrone", count: 1 }] },
-  { name: "Wave 4", interval: 1.75, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }, { type: "pigeon", count: 2 }] },
-  { name: "Wave 5", interval: 1.55, groups: [{ type: "rat", count: 5 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }, { type: "laserDrone", count: 2 }] },
-  { name: "Wave 6", interval: 1.38, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 3 }, { type: "laserDrone", count: 2 }, { type: "boss", count: 1 }] },
+  { name: "Wave 1", interval: 2.2, groups: [{ type: "mouse", count: 5 }, { type: "rat", count: 3 }] },
+  { name: "Wave 2", interval: 2.02, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 3", interval: 1.84, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }, { type: "pigeon", count: 4 }] },
+  { name: "Wave 4", interval: 1.72, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }] },
+  { name: "Wave 5", interval: 1.58, groups: [{ type: "mouse", count: 6 }, { type: "rat", count: 4 }, { type: "laserDrone", count: 2 }, { type: "foil-ball", count: 4 }] },
+  { name: "Wave 6", interval: 1.48, groups: [{ type: "rat", count: 4 }, { type: "cucumber", count: 4 }, { type: "spray-bottle", count: 3 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 7", interval: 1.42, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "robot-mop", count: 1 }, { type: "roomba", count: 2 }] },
+  { name: "Wave 8", interval: 1.34, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "pigeon", count: 3 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }] },
+  { name: "Wave 9", interval: 1.28, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "robot-mop", count: 2 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }, { type: "cucumber", count: 3 }] },
+  { name: "Wave 10", interval: 1.24, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 3 }, { type: "roomba", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "boss", count: 1 }] },
 ];
 
 const expertSiegeWaves = [
-  { name: "Wave 1", interval: 2.45, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
-  { name: "Wave 2", interval: 2.1, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 3 }, { type: "canRat", count: 1 }] },
-  { name: "Wave 3", interval: 1.9, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 1 }, { type: "laserDrone", count: 1 }] },
-  { name: "Wave 4", interval: 1.72, groups: [{ type: "mouse", count: 3 }, { type: "rat", count: 4 }, { type: "roomba", count: 2 }, { type: "pigeon", count: 2 }] },
-  { name: "Wave 5", interval: 1.56, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }, { type: "laserDrone", count: 2 }, { type: "pigeon", count: 2 }] },
-  { name: "Wave 6", interval: 1.44, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 3 }, { type: "roomba", count: 3 }, { type: "laserDrone", count: 2 }, { type: "pigeon", count: 3 }] },
-  { name: "Wave 7", interval: 1.34, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "roomba", count: 3 }, { type: "laserDrone", count: 3 }, { type: "pigeon", count: 2 }, { type: "boss", count: 1 }] },
+  { name: "Wave 1", interval: 2.08, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }] },
+  { name: "Wave 2", interval: 1.92, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "pigeon", count: 3 }] },
+  { name: "Wave 3", interval: 1.76, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }] },
+  { name: "Wave 4", interval: 1.62, groups: [{ type: "rat", count: 4 }, { type: "cucumber", count: 4 }, { type: "laserDrone", count: 3 }, { type: "foil-ball", count: 4 }] },
+  { name: "Wave 5", interval: 1.52, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }] },
+  { name: "Wave 6", interval: 1.44, groups: [{ type: "mouse", count: 6 }, { type: "rat", count: 4 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 5 }] },
+  { name: "Wave 7", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "roomba", count: 3 }, { type: "cucumber", count: 3 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 8", interval: 1.3, groups: [{ type: "rat", count: 4 }, { type: "laserDrone", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 4 }, { type: "robot-mop", count: 1 }, { type: "roomba", count: 2 }] },
+  { name: "Wave 9", interval: 1.24, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 4 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 2 }, { type: "laserDrone", count: 2 }, { type: "cucumber", count: 3 }] },
+  { name: "Wave 10", interval: 1.18, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 3 }, { type: "roomba", count: 3 }, { type: "boss", count: 1 }] },
 ];
 
 const difficultyDefinitions = {
   cozy: {
     id: "cozy",
     name: "Cozy Rooftop",
-    label: "Normal",
-    description: "A full rooftop defense.",
-    startingFish: 135,
+    label: "Hard",
+    description: "Ten waves of rooftop trouble.",
+    startingFish: 125,
     lives: 5,
-    naturalDropInterval: [3.6, 5],
+    naturalDropInterval: [4, 5.4],
     waves: alleyRushWaves,
   },
   alley: {
     id: "alley",
     name: "Alley Rush",
-    label: "Hard",
-    description: "Machines arrive early.",
-    startingFish: 125,
+    label: "Expert",
+    description: "Debuffs and machines stack up.",
+    startingFish: 115,
     lives: 5,
-    naturalDropInterval: [4, 5.5],
+    naturalDropInterval: [4.3, 5.8],
     waves: vacuumSiegeWaves,
   },
   siege: {
     id: "siege",
     name: "Vacuum Siege",
-    label: "Expert",
-    description: "A longer machine siege.",
-    startingFish: 115,
+    label: "Nightmare",
+    description: "Ten waves of household menace.",
+    startingFish: 105,
     lives: 5,
-    naturalDropInterval: [4.2, 5.8],
+    naturalDropInterval: [4.6, 6.2],
     waves: expertSiegeWaves,
   },
 };
@@ -400,6 +478,7 @@ const soundCooldowns = {
   error: 0.15,
   button: 0.06,
   fishCollect: 0.035,
+  debuff: 0.55,
 };
 
 const state = {
@@ -622,6 +701,10 @@ function playSound(name) {
       break;
     case "catHurt":
       playTone({ frequency: 230, duration: 0.08, type: "sawtooth", gain: 0.032, release: 0.045 });
+      break;
+    case "debuff":
+      playNoise({ duration: 0.09, gain: 0.018, filterFrequency: 520 });
+      playTone({ frequency: 145, duration: 0.08, type: "triangle", gain: 0.02, release: 0.04 });
       break;
     case "removeRefund":
       playTone({ frequency: 420, duration: 0.055, type: "triangle", gain: 0.028, release: 0.04 });
@@ -1283,6 +1366,7 @@ function spawnEnemy(typeId, row) {
     slowTimer: 0,
     slowFactor: 1,
     hitFlash: 0,
+    debuffEffectTimer: 0,
     dead: false,
   });
 
@@ -1394,13 +1478,14 @@ function updateEnemies(delta) {
   state.enemies.forEach((enemy) => {
     const type = getEnemyDefinition(enemy.type);
     if (enemy.hitFlash > 0) enemy.hitFlash -= delta;
+    if (enemy.debuffEffectTimer > 0) enemy.debuffEffectTimer -= delta;
     if (enemy.slowTimer > 0) {
       enemy.slowTimer -= delta;
       if (enemy.slowTimer <= 0) enemy.slowFactor = 1;
     }
 
-    if (enemy.type === "laserDrone") {
-      applyDroneDebuff(enemy);
+    if (type.debuffRadiusCells) {
+      applyAttackDebuff(enemy, dims);
     }
 
     const blockingCat = findBlockingCat(enemy, dims);
@@ -1973,8 +2058,7 @@ function applySlow(enemy, duration, factor) {
   addEffect("freeze", "slow", enemy.x, rowCenter(enemy.row, dims));
 }
 
-function applyDroneDebuff(enemy) {
-  const dims = getBoardMetrics();
+function applyAttackDebuff(enemy, dims = getBoardMetrics()) {
   const type = getEnemyDefinition(enemy.type);
   const radius = dims.cellWidth * type.debuffRadiusCells;
   const target = state.cats
@@ -1985,6 +2069,12 @@ function applyDroneDebuff(enemy) {
 
   if (target) {
     target.debuffFactor = Math.max(target.debuffFactor, type.debuffFactor);
+    if ((enemy.debuffEffectTimer ?? 0) <= 0) {
+      const pos = cellCenter(target.row, target.col, dims);
+      addEffect("debuff", type.debuffEffectText ?? "slow", pos.x, pos.y - dims.cellHeight * 0.35);
+      playSound("debuff");
+      enemy.debuffEffectTimer = 1.1;
+    }
   }
 }
 

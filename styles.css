@@ -807,6 +807,162 @@ h1 {
   border: 3px solid #0a0d18;
 }
 
+.enemy-cucumber {
+  width: clamp(32px, 4vw, 46px);
+  height: clamp(38px, 4.6vw, 54px);
+}
+
+.enemy-cucumber .enemy-body {
+  width: 48%;
+  height: 78%;
+  transform: translate(-50%, -48%) rotate(-10deg);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.18), transparent 42%),
+    #58bd63;
+  box-shadow:
+    inset 0 -8px 0 rgba(0, 0, 0, 0.16),
+    0 0 0 3px rgba(129, 235, 117, 0.08);
+}
+
+.enemy-cucumber .enemy-body::before {
+  left: 9px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  background: #10172a;
+  box-shadow: 13px 1px 0 #10172a;
+}
+
+.enemy-cucumber .enemy-body::after {
+  right: 50%;
+  top: 24px;
+  width: 11px;
+  height: 4px;
+  transform: translateX(50%);
+  background: #10172a;
+}
+
+.enemy-spray-bottle .enemy-body {
+  width: 58%;
+  height: 76%;
+  transform: translate(-50%, -48%);
+  border-radius: 8px 8px 12px 12px;
+  background:
+    linear-gradient(180deg, #c7fbff 0 34%, #63c9e6 34% 100%);
+  box-shadow:
+    inset 0 -8px 0 rgba(0, 0, 0, 0.18),
+    0 0 0 3px rgba(119, 217, 255, 0.09);
+}
+
+.enemy-spray-bottle .enemy-body::before {
+  left: 50%;
+  top: -12px;
+  width: 18px;
+  height: 11px;
+  transform: translateX(-20%);
+  border: 3px solid #0a0d18;
+  background: #41506c;
+}
+
+.enemy-spray-bottle .enemy-body::after {
+  right: -12px;
+  top: -10px;
+  width: 14px;
+  height: 4px;
+  background: #77d9ff;
+  box-shadow: 8px 4px 0 -2px rgba(119, 217, 255, 0.7);
+}
+
+.enemy-hair-dryer {
+  width: clamp(58px, 6.6vw, 78px);
+  height: clamp(46px, 5.2vw, 64px);
+}
+
+.enemy-hair-dryer .enemy-body {
+  width: 84%;
+  height: 54%;
+  transform: translate(-50%, -48%);
+  border-radius: 12px 18px 18px 12px;
+  background:
+    linear-gradient(90deg, #f0b47e 0 58%, #d56b73 58% 100%);
+  box-shadow:
+    inset 0 -8px 0 rgba(0, 0, 0, 0.18),
+    18px 0 0 -10px rgba(255, 213, 106, 0.7);
+}
+
+.enemy-hair-dryer .enemy-body::before {
+  left: 18px;
+  top: 23px;
+  width: 13px;
+  height: 22px;
+  transform: rotate(12deg);
+  border: 3px solid #0a0d18;
+  border-top: 0;
+  background: #bd6c58;
+}
+
+.enemy-hair-dryer .enemy-body::after {
+  right: -18px;
+  top: 12px;
+  width: 18px;
+  height: 5px;
+  background: #ffd56a;
+  box-shadow: 10px 7px 0 -2px rgba(255, 213, 106, 0.5);
+}
+
+.enemy-robot-mop {
+  width: clamp(54px, 6.2vw, 72px);
+  height: clamp(44px, 5.2vw, 64px);
+}
+
+.enemy-robot-mop .enemy-body {
+  height: 48%;
+  top: 56%;
+  border-radius: 999px 999px 10px 10px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16), transparent 44%),
+    #3c8090;
+  box-shadow:
+    inset 0 -7px 0 rgba(0, 0, 0, 0.22),
+    0 9px 0 -3px #a7f1ff;
+}
+
+.enemy-robot-mop .enemy-body::before {
+  left: 13px;
+  top: -8px;
+  width: 10px;
+  height: 10px;
+  background: #77d9ff;
+  box-shadow: 0 0 10px rgba(119, 217, 255, 0.7);
+}
+
+.enemy-robot-mop .enemy-body::after {
+  right: 8px;
+  top: 11px;
+  width: 8px;
+  height: 8px;
+  background: #ffd56a;
+  box-shadow: 0 0 9px rgba(255, 213, 106, 0.55);
+}
+
+.enemy-foil-ball {
+  width: clamp(26px, 3.5vw, 38px);
+  height: clamp(26px, 3.5vw, 38px);
+}
+
+.enemy-foil-ball .enemy-body {
+  width: 78%;
+  height: 78%;
+  transform: translate(-50%, -50%) rotate(12deg);
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, #f7fbff 0 22%, #9aa8b8 22% 48%, #d9e2ee 48% 100%);
+  box-shadow:
+    inset -5px -5px 0 rgba(0, 0, 0, 0.18),
+    0 0 10px rgba(209, 224, 238, 0.28);
+}
+
 .enemy-generic .enemy-body {
   width: 76%;
   height: 62%;
@@ -1304,6 +1460,11 @@ h1 {
 
 .float-text.freeze {
   background: #a7f1ff;
+}
+
+.float-text.debuff {
+  background: #d0b6ff;
+  box-shadow: 0 0 14px rgba(208, 182, 255, 0.32);
 }
 
 .float-text.death {
@@ -2046,6 +2207,65 @@ h1 {
   background-color: #8aa2c8;
   background-image: none;
   box-shadow: inset 0 -7px 0 rgba(0, 0, 0, 0.18);
+}
+
+.uses-image-asset .enemy-cucumber .enemy-body {
+  width: 48%;
+  height: 78%;
+  border: 3px solid #0a0d18;
+  border-radius: 999px;
+  background-color: #58bd63;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.18), transparent 42%);
+  box-shadow:
+    inset 0 -8px 0 rgba(0, 0, 0, 0.16),
+    0 0 0 3px rgba(129, 235, 117, 0.08);
+}
+
+.uses-image-asset .enemy-spray-bottle .enemy-body {
+  width: 58%;
+  height: 76%;
+  border: 3px solid #0a0d18;
+  border-radius: 8px 8px 12px 12px;
+  background-color: #63c9e6;
+  background-image: linear-gradient(180deg, #c7fbff 0 34%, #63c9e6 34% 100%);
+  box-shadow:
+    inset 0 -8px 0 rgba(0, 0, 0, 0.18),
+    0 0 0 3px rgba(119, 217, 255, 0.09);
+}
+
+.uses-image-asset .enemy-hair-dryer .enemy-body {
+  width: 84%;
+  height: 54%;
+  border: 3px solid #0a0d18;
+  border-radius: 12px 18px 18px 12px;
+  background-color: #f0b47e;
+  background-image: linear-gradient(90deg, #f0b47e 0 58%, #d56b73 58% 100%);
+  box-shadow:
+    inset 0 -8px 0 rgba(0, 0, 0, 0.18),
+    18px 0 0 -10px rgba(255, 213, 106, 0.7);
+}
+
+.uses-image-asset .enemy-robot-mop .enemy-body {
+  height: 48%;
+  border: 3px solid #0a0d18;
+  border-radius: 999px 999px 10px 10px;
+  background-color: #3c8090;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.16), transparent 44%);
+  box-shadow:
+    inset 0 -7px 0 rgba(0, 0, 0, 0.22),
+    0 9px 0 -3px #a7f1ff;
+}
+
+.uses-image-asset .enemy-foil-ball .enemy-body {
+  width: 78%;
+  height: 78%;
+  border: 3px solid #0a0d18;
+  border-radius: 50%;
+  background-color: #d9e2ee;
+  background-image: linear-gradient(135deg, #f7fbff 0 22%, #9aa8b8 22% 48%, #d9e2ee 48% 100%);
+  box-shadow:
+    inset -5px -5px 0 rgba(0, 0, 0, 0.18),
+    0 0 10px rgba(209, 224, 238, 0.28);
 }
 
 .uses-image-asset .enemy-generic .enemy-body {

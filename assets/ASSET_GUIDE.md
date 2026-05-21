@@ -40,6 +40,11 @@ Use lowercase kebab-case names. Keep animation/action names at the end.
 - `roomba-walk.png`
 - `pigeon-walk.png`
 - `laser-drone-walk.png`
+- `cucumber-walk.png`
+- `spray-bottle-walk.png`
+- `hair-dryer-walk.png`
+- `robot-mop-walk.png`
+- `foil-ball-walk.png`
 - `smart-vacuum-boss-walk.png`
 
 ### projectiles/
@@ -80,6 +85,11 @@ The game already renders stable classes:
 - `.enemy-roomba`
 - `.enemy-pigeon`
 - `.enemy-laser-drone`
+- `.enemy-cucumber`
+- `.enemy-spray-bottle`
+- `.enemy-hair-dryer`
+- `.enemy-robot-mop`
+- `.enemy-foil-ball`
 - `.enemy-smart-vacuum-boss`
 - `.enemy-boss` remains as a compatibility alias for the boss fallback CSS.
 
