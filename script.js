@@ -914,9 +914,14 @@ function gameLoop(timestamp) {
 
 // Active waves spawn enemies first, then wait for the field to be cleared.
 function updateWaves(delta) {
-  const waves = getActiveWaves();
-  if (state.waveIndex >= waves.length) return;
+  if (state.gameStatus !== "playing") return;
+  if (state.isPaused) return;
   if (state.wavePhase !== "active") return;
+
+  const waves = getActiveWaves();
+  const wave = waves[state.waveIndex];
+  if (!wave) return;
+  if (!state.waveActive || state.waveIntroActive) return;
 
   if (state.currentWaveSpawnComplete) {
     if (state.enemies.length === 0) completeCurrentWave();
@@ -926,11 +931,10 @@ function updateWaves(delta) {
   state.nextSpawnIn -= delta;
   if (state.nextSpawnIn <= 0 && state.waveSpawnCursor < state.waveSpawnList.length) {
     const spawn = state.waveSpawnList[state.waveSpawnCursor];
-    spawnEnemy(spawn.type, randomRow());
-    state.waveSpawnCursor += 1;
-
-    const wave = waves[state.waveIndex];
-    state.nextSpawnIn = spawn.interval ?? wave.interval;
+    if (spawnEnemy(spawn.type, randomRow())) {
+      state.waveSpawnCursor += 1;
+      state.nextSpawnIn = spawn.interval ?? wave.interval;
+    }
   }
 
   if (state.waveSpawnCursor >= state.waveSpawnList.length) {
@@ -940,7 +944,12 @@ function updateWaves(delta) {
 }
 
 function spawnEnemy(typeId, row) {
+  if (state.gameStatus !== "playing") return false;
+  if (state.isPaused) return false;
+  if (state.wavePhase !== "active") return false;
+
   const type = enemyTypes[typeId];
+  if (!type) return false;
   const dims = getBoardMetrics();
   state.enemies.push({
     id: nextId("enemy"),
@@ -960,6 +969,8 @@ function spawnEnemy(typeId, row) {
   if (typeId === "boss") {
     state.bossWarningTimer = CONFIG.bossWarningSeconds;
   }
+
+  return true;
 }
 
 function updateFeedbackTimers(delta) {
@@ -1561,7 +1572,6 @@ function checkWinLose() {
     state.wavePhase = "complete";
     state.waveActive = false;
     state.waveIntroActive = false;
-    state.currentWaveSpawnComplete = false;
     state.projectiles = [];
     state.fishDrops = [];
     state.catCooldowns = createCatCooldowns();
@@ -1645,13 +1655,13 @@ function prepareWaveIntro(index, seconds) {
   const waves = getActiveWaves();
   if (state.gameStatus !== "playing") return;
   if (!waves[index]) return;
-  if (state.wavePhase === "active" && state.enemies.length > 0) return;
+  if (state.wavePhase === "active") return;
+  if (state.enemies.length > 0) return;
   state.waveIndex = index;
   state.wavePhase = "preview";
   state.waveActive = false;
   state.waveIntroActive = true;
   state.waveIntroTimer = seconds;
-  state.currentWaveSpawnComplete = false;
   state.waveSpawnList = [];
   state.waveSpawnCursor = 0;
   state.nextSpawnIn = 0;
@@ -1683,7 +1693,11 @@ function completeCurrentWave() {
   if (!state.currentWaveSpawnComplete) return;
   if (state.enemies.length > 0) return;
   state.waveActive = false;
-  state.currentWaveSpawnComplete = false;
+  state.wavePhase = "complete";
+  state.waveSpawnList = [];
+  state.waveSpawnCursor = 0;
+  state.nextSpawnIn = 0;
+  state.waveTimer = 0;
   state.projectiles = [];
   state.runStats.wavesCleared = Math.max(state.runStats.wavesCleared, state.waveIndex + 1);
 
@@ -1693,6 +1707,10 @@ function completeCurrentWave() {
     state.gameStatus = "victory";
     state.waveIntroActive = false;
     state.waveActive = false;
+    state.waveSpawnList = [];
+    state.waveSpawnCursor = 0;
+    state.nextSpawnIn = 0;
+    state.waveTimer = 0;
     state.fishDrops = [];
     state.catCooldowns = createCatCooldowns();
     clearInteractionState();
@@ -1709,6 +1727,7 @@ function canStartWave() {
     state.gameStatus === "playing" &&
     state.wavePhase === "preview" &&
     state.waveIntroActive &&
+    state.enemies.length === 0 &&
     Boolean(waves[state.waveIndex])
   );
 }
