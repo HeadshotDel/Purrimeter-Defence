@@ -6,7 +6,7 @@ const CONFIG = {
   gridRows: 5,
   gridCols: 12,
   startFish: 150,
-  startLives: 12,
+  startLives: 5,
   naturalFishValue: 25,
   fishCatDropValue: 32,
   fishDropLifetime: 8,
@@ -276,7 +276,7 @@ const difficultyDefinitions = {
     label: "Beginner",
     description: "A softer first defense.",
     startingFish: 150,
-    lives: 12,
+    lives: 5,
     naturalDropInterval: [3.2, 4.8],
     waves: [
       { name: "Wave 1", interval: 3.05, groups: [{ type: "mouse", count: 3 }, { type: "rat", count: 1 }] },
@@ -292,7 +292,7 @@ const difficultyDefinitions = {
     label: "Normal",
     description: "More pests, faster pressure.",
     startingFish: 130,
-    lives: 10,
+    lives: 5,
     naturalDropInterval: [3.6, 5],
     waves: alleyRushWaves,
   },
@@ -302,7 +302,7 @@ const difficultyDefinitions = {
     label: "Boss",
     description: "Machines arrive early.",
     startingFish: 120,
-    lives: 8,
+    lives: 5,
     naturalDropInterval: [4, 5.5],
     waves: [
       { name: "Wave 1", interval: 2.65, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 2 }] },
@@ -385,6 +385,7 @@ const state = {
   waveSpawnCursor: 0,
   currentWaveSpawnComplete: false,
   nextSpawnIn: 0,
+  hasStartedFirstWave: false,
   naturalFishDropTimer: 0,
   fishFlashTimer: 0,
   hintTimer: 0,
@@ -980,6 +981,8 @@ function updateCatCooldowns(delta) {
 }
 
 function updateFishDrops(delta) {
+  if (!state.hasStartedFirstWave) return;
+
   state.naturalFishDropTimer -= delta;
   if (state.naturalFishDropTimer <= 0) {
     spawnFishDrop("natural");
@@ -1624,6 +1627,7 @@ function resetRun(status) {
   state.waveSpawnCursor = 0;
   state.currentWaveSpawnComplete = false;
   state.nextSpawnIn = 0;
+  state.hasStartedFirstWave = false;
   state.naturalFishDropTimer = CONFIG.firstNaturalFishDropDelay;
   state.fishFlashTimer = 0;
   state.hintTimer = 0;
@@ -1668,6 +1672,7 @@ function startWave() {
   state.waveSpawnCursor = 0;
   state.nextSpawnIn = CONFIG.waveStartDelay;
   state.waveTimer = 0;
+  state.hasStartedFirstWave = true;
   render();
 }
 
