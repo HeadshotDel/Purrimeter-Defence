@@ -1,0 +1,91 @@
+{
+  "name": "Sniper projectile",
+  "slug": "sniper-projectile",
+  "category": "projectile",
+  "description": "Cute precise fishbone/needle-like long-range shot.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 64,
+    "height": 64
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "sniper-projectile-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      128,
+      128
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "sniper-projectile-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/sniper-projectile-00.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "08b5fdd3a6d19eaf026ba9f2089ff5c2c8e0350142c18b5e783eb9e77195dfe1"
+    },
+    {
+      "index": 1,
+      "file": "frames/sniper-projectile-01.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "df64412d872c89cc96243b7a0d2171265410fa7e381ec6ae82dda1cfe0e945c3"
+    },
+    {
+      "index": 2,
+      "file": "frames/sniper-projectile-02.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "a84b4114631c940039c336dd5835eb7b204f0dd2fe8cfbdf2c88d564528bc21f"
+    },
+    {
+      "index": 3,
+      "file": "frames/sniper-projectile-03.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "326a5b69681850ad5e165853b751dbb31f23ade8715e7f8798af2423f7303e02"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1ca85772cc81919cfd72c7fe7d337b.png",
+    "rawSha256": "a150da870145188a490f2df10c8210edbadfa0633ff840edd3615f7d88675b9e",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 64,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.84
+  }
+}

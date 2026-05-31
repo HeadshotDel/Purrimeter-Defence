@@ -1,0 +1,91 @@
+{
+  "name": "Ninja slash hit",
+  "slug": "impact-ninja",
+  "category": "impact",
+  "description": "Dark quick slash hit effect for Ninja Cat.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 96,
+    "height": 96
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "impact-ninja-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      192,
+      192
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "impact-ninja-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/impact-ninja-00.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "3d3ce7ef5d873eff15e7517f08ed6a4c168825cc76a944f7b6275a4f565f1566"
+    },
+    {
+      "index": 1,
+      "file": "frames/impact-ninja-01.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "04ab5a80bc8850fb87e241d06435b75f55bc95f1ccbd3266efd424b8ff1ddadb"
+    },
+    {
+      "index": 2,
+      "file": "frames/impact-ninja-02.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "baab88b6a20d2136e3def246da9e9c0995b86c8f4250a4fc4fd441c1bcc7c0a2"
+    },
+    {
+      "index": 3,
+      "file": "frames/impact-ninja-03.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "92c936bc6f4013e81842c2bdcb3a6f6ec103d5b28f321173225f182fc955e789"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1caa4d8e5481919326b7187220af49.png",
+    "rawSha256": "65517004ba59389284e55f8948f027a89bec4d1d780b20eb29f2f9f699a1b26e",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 96,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.88
+  }
+}

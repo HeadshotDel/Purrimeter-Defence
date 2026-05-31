@@ -1,0 +1,91 @@
+{
+  "name": "Freezer projectile",
+  "slug": "freezer-projectile",
+  "category": "projectile",
+  "description": "Blue-white icy snowball/frost shard projectile.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 64,
+    "height": 64
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "freezer-projectile-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      128,
+      128
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "freezer-projectile-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/freezer-projectile-00.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "ed8ebbdf39a636ebd58cdf814db9b9021f3b77c194c55a8546328b0cd647ee6f"
+    },
+    {
+      "index": 1,
+      "file": "frames/freezer-projectile-01.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "cd5c0a28724a050b1e9f862c20d89dc2c721ccf55149a2d5635531d5941f31c8"
+    },
+    {
+      "index": 2,
+      "file": "frames/freezer-projectile-02.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "88e45afa76e8c20bccf95a4d8ce666f9f79fae59ce05bd9789bb4bfacdbdfd02"
+    },
+    {
+      "index": 3,
+      "file": "frames/freezer-projectile-03.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "b70c6a3d8f9de520a00e64206f1ecfe98c4ce119e59406b02fc106316b6e8b89"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1ca89aa44c8191a1cf7b99ff2d1cac.png",
+    "rawSha256": "d926433a80e21e39a78996de3ba65581c2a7135a827d12bd13512ce757d0835d",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 64,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.84
+  }
+}

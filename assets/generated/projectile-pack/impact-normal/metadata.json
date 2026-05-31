@@ -1,0 +1,91 @@
+{
+  "name": "Normal hit puff",
+  "slug": "impact-normal",
+  "category": "impact",
+  "description": "Soft cartoon normal hit puff impact.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 96,
+    "height": 96
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "impact-normal-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      192,
+      192
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "impact-normal-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/impact-normal-00.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "8de15ab4f86fddae689aaea2dca8acc8bcbff8bbda7b98fada873a11bcd8af98"
+    },
+    {
+      "index": 1,
+      "file": "frames/impact-normal-01.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "901c8e9cdc2f9b86410c56a3e77de1d953ee775706fb4accd47a614c93e02981"
+    },
+    {
+      "index": 2,
+      "file": "frames/impact-normal-02.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "81f609ab3cdd660a1b769ae7f78e614a986dc9745e49f7d461ee12a46c2560c1"
+    },
+    {
+      "index": 3,
+      "file": "frames/impact-normal-03.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "ce1f7e77789a8f215ae0995e578f4390a7c77132e473112bf01a962bd61dd110"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1ca9706d6881918adaa8aadfd9880a.png",
+    "rawSha256": "7bb2277d31e94fb5e7decf51a2c540b270a22ed321d973c2ad2273362fe4fcd4",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 96,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.88
+  }
+}

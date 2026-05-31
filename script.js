@@ -78,6 +78,81 @@ const catSpriteSheets = {
   },
 };
 
+const projectileFxSheets = {
+  "yarn-projectile": {
+    assetPath: "./assets/generated/projectile-pack/yarn-projectile/yarn-projectile-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+    loopSeconds: 0.38,
+  },
+  "sniper-projectile": {
+    assetPath: "./assets/generated/projectile-pack/sniper-projectile/sniper-projectile-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+    loopSeconds: 0.28,
+  },
+  "freezer-projectile": {
+    assetPath: "./assets/generated/projectile-pack/freezer-projectile/freezer-projectile-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+    loopSeconds: 0.48,
+  },
+  "ninja-projectile": {
+    assetPath: "./assets/generated/projectile-pack/ninja-projectile/ninja-projectile-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+    loopSeconds: 0.32,
+  },
+  "fish-drop": {
+    assetPath: "./assets/generated/projectile-pack/fish-drop/fish-drop-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+    loopSeconds: 0.8,
+  },
+  "impact-normal": {
+    assetPath: "./assets/generated/projectile-pack/impact-normal/impact-normal-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+  },
+  "impact-pierce": {
+    assetPath: "./assets/generated/projectile-pack/impact-pierce/impact-pierce-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+  },
+  "impact-freeze": {
+    assetPath: "./assets/generated/projectile-pack/impact-freeze/impact-freeze-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+  },
+  "impact-ninja": {
+    assetPath: "./assets/generated/projectile-pack/impact-ninja/impact-ninja-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+  },
+  "impact-armored": {
+    assetPath: "./assets/generated/projectile-pack/impact-armored/impact-armored-sheet.png",
+    columns: 2,
+    rows: 2,
+    frames: 4,
+  },
+};
+
+const projectileVisualMap = {
+  yarn: "yarn-projectile",
+  sniper: "sniper-projectile",
+  freeze: "freezer-projectile",
+  ninja: "ninja-projectile",
+};
+
 const UI_TEXT = {
   startTagline: "Pixel cats defend the rooftop",
   rules: [
@@ -886,8 +961,36 @@ function preloadGeneratedCatSprites(gameShell) {
   });
 }
 
+function preloadGeneratedProjectileFx() {
+  if (!CONFIG.useImageAssets) return;
+
+  Object.values(projectileFxSheets).forEach((sprite) => {
+    const image = new Image();
+    image.onload = () => {
+      sprite.loaded = true;
+    };
+    image.onerror = () => {
+      sprite.loaded = false;
+    };
+    image.src = sprite.assetPath;
+  });
+}
+
 function getVisualTimeSeconds() {
   return (typeof performance !== "undefined" ? performance.now() : Date.now()) / 1000;
+}
+
+function getSpriteSheetFrameStyle(sprite, frame) {
+  const row = Math.floor(frame / sprite.columns);
+  const col = frame % sprite.columns;
+  const xPercent = sprite.columns <= 1 ? 0 : (col / (sprite.columns - 1)) * 100;
+  const yPercent = sprite.rows <= 1 ? 0 : (row / (sprite.rows - 1)) * 100;
+
+  return [
+    `background-image:url('${sprite.assetPath}')`,
+    "background-size:200% 200%",
+    `background-position:${xPercent}% ${yPercent}%`,
+  ].join(";");
 }
 
 function triggerCatSpriteAttack(cat) {
@@ -922,6 +1025,7 @@ function init() {
   const gameShell = document.querySelector(".game-shell");
   gameShell.classList.toggle("uses-image-asset", CONFIG.useImageAssets);
   preloadGeneratedCatSprites(gameShell);
+  preloadGeneratedProjectileFx();
   board = document.getElementById("board");
   boardShell = document.querySelector(".board-shell");
   unitLayer = document.getElementById("unitLayer");
@@ -1172,11 +1276,11 @@ function render() {
   unitLayer.innerHTML = [
     ...state.cats.map((cat) => renderCat(cat, dims, visualTime)),
     ...state.enemies.map((enemy) => renderEnemy(enemy, dims)),
-    ...state.projectiles.map((projectile) => renderProjectile(projectile)),
+    ...state.projectiles.map((projectile) => renderProjectile(projectile, visualTime)),
   ].join("");
 
-  fishDropLayer.innerHTML = renderFishDrops();
-  effectLayer.innerHTML = state.effects.map(renderEffect).join("");
+  fishDropLayer.innerHTML = renderFishDrops(visualTime);
+  effectLayer.innerHTML = state.effects.map((effect) => renderEffect(effect, visualTime)).join("");
   renderCellActionMenu(dims);
   renderRemoveConfirm(dims);
 }
@@ -1233,24 +1337,42 @@ function renderEnemy(enemy, dims) {
   `;
 }
 
-function renderProjectile(projectile) {
-  return `<div class="projectile projectile-sprite projectile-${projectile.kind} projectile-trail" style="left:${projectile.x}px; top:${projectile.y}px"></div>`;
+function getLoopingSpriteStyle(assetKey, visualTime) {
+  const sprite = projectileFxSheets[assetKey];
+  if (!sprite?.loaded || !CONFIG.useImageAssets) return "";
+
+  const loopSeconds = sprite.loopSeconds ?? 0.42;
+  const frameDuration = loopSeconds / sprite.frames;
+  const frame = Math.floor((visualTime % loopSeconds) / frameDuration) % sprite.frames;
+  return getSpriteSheetFrameStyle(sprite, frame);
 }
 
-function renderFishDrops() {
+function renderProjectile(projectile, visualTime = getVisualTimeSeconds()) {
+  const assetKey = projectileVisualMap[projectile.kind];
+  const spriteStyle = getLoopingSpriteStyle(assetKey, visualTime);
+  const generatedClass = spriteStyle ? "generated-projectile" : "";
+  const spriteStyleAttribute = spriteStyle ? `;${spriteStyle}` : "";
+
+  return `<div class="projectile projectile-sprite projectile-${projectile.kind} projectile-trail ${generatedClass}" style="left:${projectile.x}px; top:${projectile.y}px${spriteStyleAttribute}"></div>`;
+}
+
+function renderFishDrops(visualTime = getVisualTimeSeconds()) {
+  const fishSpriteStyle = getLoopingSpriteStyle("fish-drop", visualTime);
   return state.fishDrops.map((drop) => {
     const lifeRatio = Math.max(0, Math.min(1, drop.lifetime / drop.maxLifetime));
     const fadingClass = lifeRatio < 0.28 ? "is-fading" : "";
     const expiringClass = drop.lifetime < 1.5 ? "is-expiring" : "";
+    const generatedClass = fishSpriteStyle ? "generated-fish-drop" : "";
+    const spriteStyleAttribute = fishSpriteStyle ? `;${fishSpriteStyle}` : "";
     return `
       <button
-        class="fish-drop fish-drop-${drop.source} ${fadingClass} ${expiringClass}"
+        class="fish-drop fish-drop-${drop.source} ${fadingClass} ${expiringClass} ${generatedClass}"
         data-id="${drop.id}"
         type="button"
         tabindex="-1"
         aria-label="Collect ${drop.value} fish"
         title="+${drop.value} fish"
-        style="left:${drop.x}px; top:${drop.y}px"
+        style="left:${drop.x}px; top:${drop.y}px${spriteStyleAttribute}"
       >
         <span class="fish-pop">+${drop.value}</span>
       </button>
@@ -1281,7 +1403,25 @@ function renderCatCardState(card, type) {
   if (cooldownTime) cooldownTime.textContent = isCoolingDown ? formatCooldownTime(cooldown) : "";
 }
 
+function getImpactSpriteStyle(effect) {
+  const sprite = projectileFxSheets[effect.assetKey];
+  if (!sprite?.loaded || !CONFIG.useImageAssets) return "";
+
+  const maxTtl = effect.maxTtl || 0.36;
+  const elapsed = maxTtl - effect.ttl;
+  const progress = Math.max(0, Math.min(0.999, elapsed / maxTtl));
+  const frame = Math.min(sprite.frames - 1, Math.floor(progress * sprite.frames));
+  return getSpriteSheetFrameStyle(sprite, frame);
+}
+
 function renderEffect(effect) {
+  if (effect.kind === "impact-fx") {
+    const spriteStyle = getImpactSpriteStyle(effect);
+    const generatedClass = spriteStyle ? "generated-impact-fx" : "";
+    const spriteStyleAttribute = spriteStyle ? `;${spriteStyle}` : "";
+    return `<div class="impact-fx impact-fx-${effect.assetKey} ${generatedClass}" style="left:${effect.x}px; top:${effect.y}px${spriteStyleAttribute}"></div>`;
+  }
+
   return `<div class="float-text ${effect.kind}" style="left:${effect.x}px; top:${effect.y}px">${effect.text}</div>`;
 }
 
@@ -2255,6 +2395,7 @@ function damageEnemy(enemy, amount, attackType = "generic", sourceCatType = null
   enemy.hp -= finalDamage;
   enemy.hitFlash = 0.16;
   const dims = getBoardMetrics();
+  addImpactEffect(attackType, enemy, enemy.x, rowCenter(enemy.row, dims));
   addEffect("damage", `-${Math.round(finalDamage)}`, enemy.x, rowCenter(enemy.row, dims) - dims.cellHeight * 0.2);
 
   if (enemy.hp <= 0) {
@@ -2641,6 +2782,30 @@ function addEffect(kind, text, x, y) {
     x,
     y,
     ttl: 0.72,
+  });
+}
+
+function getImpactAssetKey(attackType, enemy) {
+  if (attackType === "freeze") return "impact-freeze";
+  if (attackType === "pierce") return "impact-pierce";
+  if (attackType === "melee") return "impact-ninja";
+  if (enemyHasTag(enemy, "boss") || enemyHasTag(enemy, "mechanical") || enemyHasTag(enemy, "armored")) {
+    return "impact-armored";
+  }
+  return "impact-normal";
+}
+
+function addImpactEffect(attackType, enemy, x, y) {
+  const assetKey = getImpactAssetKey(attackType, enemy);
+  const ttl = 0.34;
+  state.effects.push({
+    id: nextId("effect"),
+    kind: "impact-fx",
+    assetKey,
+    x,
+    y,
+    ttl,
+    maxTtl: ttl,
   });
 }
 

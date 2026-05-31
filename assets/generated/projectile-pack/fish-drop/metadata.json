@@ -1,0 +1,91 @@
+{
+  "name": "Fish support icon / fish drop",
+  "slug": "fish-drop",
+  "category": "projectile",
+  "description": "Small readable fish resource/economy drop.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 64,
+    "height": 64
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "fish-drop-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      128,
+      128
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "fish-drop-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/fish-drop-00.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "c2af5299f8fa797ffaeba10beb5d46e95590c95a3001d6532747231470ae1fe0"
+    },
+    {
+      "index": 1,
+      "file": "frames/fish-drop-01.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "b777a5239a039b1091e6019daad4ca4efb3417d5273ba8517b6772b419796fdd"
+    },
+    {
+      "index": 2,
+      "file": "frames/fish-drop-02.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "183d255a618c91bef92a08e3afa77e06641c1ac5dbeb1f9646ec7c41e86afb33"
+    },
+    {
+      "index": 3,
+      "file": "frames/fish-drop-03.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "a8ad4e6f1244b171abaa9278dfc8e038aa7b7d6136a9ef32487757c04e4b623a"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1ca926cbe08191b50e5f51f2a70c29.png",
+    "rawSha256": "2d39e0c0aaf48daaa0478dc2c9588bf611b2387c04a4ec435c58a3e85eaa6bf7",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 64,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.84
+  }
+}

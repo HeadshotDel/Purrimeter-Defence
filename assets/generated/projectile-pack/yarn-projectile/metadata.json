@@ -1,0 +1,91 @@
+{
+  "name": "Yarn projectile",
+  "slug": "yarn-projectile",
+  "category": "projectile",
+  "description": "Small flying yarn/thread ball for Yarn Cat.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 64,
+    "height": 64
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "yarn-projectile-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      128,
+      128
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "yarn-projectile-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/yarn-projectile-00.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "3b7be669f689027868cf42a94b12dde6bdfef7cb6102bf193c61411c1df08a6e"
+    },
+    {
+      "index": 1,
+      "file": "frames/yarn-projectile-01.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "158f2662985ad098ce9b8822bb6c85d35576915f7696f660cd5b3ed504940a2b"
+    },
+    {
+      "index": 2,
+      "file": "frames/yarn-projectile-02.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "6226a18252d4100249d8949651b2cc7b115ea0bc4f9a8b975378c5dd5c5493b2"
+    },
+    {
+      "index": 3,
+      "file": "frames/yarn-projectile-03.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "b129033be952e5b477b25c2c3dcc144089db6bf63d48e605d53843a8a29f9c71"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1ca81155b08191a6b280b05e7d3165.png",
+    "rawSha256": "6123978e583873689543411dcaf21a9992568d61f170b606334acbc22a465f6b",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 64,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.84
+  }
+}

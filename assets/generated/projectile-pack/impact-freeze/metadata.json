@@ -1,0 +1,91 @@
+{
+  "name": "Freeze hit burst",
+  "slug": "impact-freeze",
+  "category": "impact",
+  "description": "Blue-white frost burst impact effect.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 96,
+    "height": 96
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "impact-freeze-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      192,
+      192
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "impact-freeze-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/impact-freeze-00.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "afaf4c8f5aa8d21ed78638b577e29d0df945d8b1707c0e4f1427d62c2889ccfb"
+    },
+    {
+      "index": 1,
+      "file": "frames/impact-freeze-01.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "fa8dda99c5c26ed00f518be3a9c963dc82de1170eb7cac0d0cad25a5dc7d5dfc"
+    },
+    {
+      "index": 2,
+      "file": "frames/impact-freeze-02.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "5599d16202772390f2f44deb1525eafbd2524fcca7a7a31fde9924d02c91e736"
+    },
+    {
+      "index": 3,
+      "file": "frames/impact-freeze-03.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "682624740bc7ad1d834026edcfc4b44306ac0be5a7d62698f5cfacb1647845f3"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1ca9face3c8191add9380d6f71733f.png",
+    "rawSha256": "e69b1c832eb893725068160e4e2d0d0631b7efc0fa0fd89be1d5c3d83a80d7d8",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 96,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.88
+  }
+}

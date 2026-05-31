@@ -1,0 +1,91 @@
+{
+  "name": "Boss/armored hit spark",
+  "slug": "impact-armored",
+  "category": "impact",
+  "description": "Chunky spark impact for armored and boss targets.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 96,
+    "height": 96
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "impact-armored-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      192,
+      192
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "impact-armored-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/impact-armored-00.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "97877289120a916fdcc951118b7a0decd748d60929dc2e505e89a3e7ac53ce80"
+    },
+    {
+      "index": 1,
+      "file": "frames/impact-armored-01.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "74697e036874356457db3c7ace5898e5b0e00cd00d48d14680e5df6f238ebdc4"
+    },
+    {
+      "index": 2,
+      "file": "frames/impact-armored-02.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "bab0a4e3bac6cd9de47ba10873810ad999ea2beecb311d410343f258410eb677"
+    },
+    {
+      "index": 3,
+      "file": "frames/impact-armored-03.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "b9c476f0e4eec16790af15694d8b71f75b311776aa46cc2d939dd32b479af90b"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1caa8f92d88191be34c5303af97bc9.png",
+    "rawSha256": "bf15d98206337c97d6e6559abddca9e0c0673727b11132370283b7f6607391b8",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 96,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.88
+  }
+}

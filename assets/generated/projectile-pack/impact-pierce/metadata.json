@@ -1,0 +1,91 @@
+{
+  "name": "Pierce hit spark",
+  "slug": "impact-pierce",
+  "category": "impact",
+  "description": "Sharp clean spark for pierce hits.",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, cat-pack compatible",
+  "frameSize": {
+    "width": 96,
+    "height": 96
+  },
+  "frameCount": 4,
+  "sheet": {
+    "file": "impact-pierce-sheet.png",
+    "rows": 2,
+    "cols": 2,
+    "size": [
+      192,
+      192
+    ],
+    "layout": "row-major 2x2 animation frames"
+  },
+  "previewGif": {
+    "file": "impact-pierce-preview.gif",
+    "frames": 4,
+    "loop": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/impact-pierce-00.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "005202d26aee1ac29872f2d0d773aaf54ade977f0154115ac16596562cf02289"
+    },
+    {
+      "index": 1,
+      "file": "frames/impact-pierce-01.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "a5ca1c961bf84460a84a1a903bc96f548ba9fb25a33f2ad2af82f3191d48f708"
+    },
+    {
+      "index": 2,
+      "file": "frames/impact-pierce-02.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "981d66871f99d95b89dcddf9d4f27c2ed426a56f508f4cdf6b3109a6a7e0e02e"
+    },
+    {
+      "index": 3,
+      "file": "frames/impact-pierce-03.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "hasVisiblePixels": true,
+      "sha256": "c9e76fb81aac637ad464327a5290aa5d1b9710aa846ca66635924e504f9c374e"
+    }
+  ],
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1ca9aab9988191a03e517fe7895de0.png",
+    "rawSha256": "0c8ecf2ff2063fa28091cc1199a3e82c09a09dade17121b93fc9323cd13272e6",
+    "processor": "/Users/psyops/Documents/Codex/Purrimeter Defence/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "pipeline": "generate2dsprite magenta chroma-key cleanup and grid extraction"
+  },
+  "pipelineSettings": {
+    "rows": 2,
+    "cols": 2,
+    "cellSize": 96,
+    "sharedScale": true,
+    "componentMode": "all",
+    "fitScale": 0.88
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "pack": "projectile-pack",
+  "generatedFor": "Purrrimeter Defence",
+  "assetCount": 10,
+  "assets": [
+    {
+      "slug": "yarn-projectile",
+      "category": "projectile",
+      "folder": "assets/generated/projectile-pack/yarn-projectile",
+      "frameSize": [
+        64,
+        64
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        128,
+        128
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "sniper-projectile",
+      "category": "projectile",
+      "folder": "assets/generated/projectile-pack/sniper-projectile",
+      "frameSize": [
+        64,
+        64
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        128,
+        128
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "freezer-projectile",
+      "category": "projectile",
+      "folder": "assets/generated/projectile-pack/freezer-projectile",
+      "frameSize": [
+        64,
+        64
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        128,
+        128
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "ninja-projectile",
+      "category": "projectile",
+      "folder": "assets/generated/projectile-pack/ninja-projectile",
+      "frameSize": [
+        64,
+        64
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        128,
+        128
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "fish-drop",
+      "category": "projectile",
+      "folder": "assets/generated/projectile-pack/fish-drop",
+      "frameSize": [
+        64,
+        64
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        128,
+        128
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "impact-normal",
+      "category": "impact",
+      "folder": "assets/generated/projectile-pack/impact-normal",
+      "frameSize": [
+        96,
+        96
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        192,
+        192
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "impact-pierce",
+      "category": "impact",
+      "folder": "assets/generated/projectile-pack/impact-pierce",
+      "frameSize": [
+        96,
+        96
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        192,
+        192
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "impact-freeze",
+      "category": "impact",
+      "folder": "assets/generated/projectile-pack/impact-freeze",
+      "frameSize": [
+        96,
+        96
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        192,
+        192
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "impact-ninja",
+      "category": "impact",
+      "folder": "assets/generated/projectile-pack/impact-ninja",
+      "frameSize": [
+        96,
+        96
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        192,
+        192
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    },
+    {
+      "slug": "impact-armored",
+      "category": "impact",
+      "folder": "assets/generated/projectile-pack/impact-armored",
+      "frameSize": [
+        96,
+        96
+      ],
+      "frameCount": 4,
+      "sheetSize": [
+        192,
+        192
+      ],
+      "rgbaFramesOk": true,
+      "sheetSizeOk": true,
+      "gifFrames": 4,
+      "gifOk": true,
+      "metadataOk": true
+    }
+  ],
+  "checks": {
+    "framesAreTransparentRGBA": true,
+    "dimensionsMatchRequestedSizes": true,
+    "gifPreviewsGenerated": true,
+    "metadataJsonGenerated": true
+  },
+  "passed": true
+}
