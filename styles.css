@@ -2183,16 +2183,39 @@ h1 {
   background-image: url("./assets/cats/sniper-cat-idle.png");
 }
 
-.uses-image-asset.sniper-test-asset-ready .cat-sniper .cat-body {
-  background-image: url("./assets/generated/sniper-cat-test/sniper-cat-test-sheet.png");
+.uses-image-asset.cat-pack-yarn-ready .cat-yarn .cat-body,
+.uses-image-asset.cat-pack-tank-ready .cat-tank .cat-body,
+.uses-image-asset.cat-pack-sniper-ready .cat-sniper .cat-body,
+.uses-image-asset.cat-pack-fish-ready .cat-fish .cat-body,
+.uses-image-asset.cat-pack-ninja-ready .cat-ninja .cat-body,
+.uses-image-asset.cat-pack-freezer-ready .cat-freezer .cat-body {
   background-size: 600% 200%;
   background-position: 0% 0%;
   image-rendering: auto;
-  animation: sniper-test-idle 0.7s linear infinite;
 }
 
-.uses-image-asset.sniper-test-asset-ready .cat-sniper.is-attacking .cat-body {
-  animation: sniper-test-attack 0.2s linear 1;
+.uses-image-asset.cat-pack-yarn-ready .cat-yarn .cat-body {
+  background-image: url("./assets/generated/cat-pack/yarn-cat/yarn-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-tank-ready .cat-tank .cat-body {
+  background-image: url("./assets/generated/cat-pack/tank-cat/tank-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-sniper-ready .cat-sniper .cat-body {
+  background-image: url("./assets/generated/cat-pack/sniper-cat/sniper-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-fish-ready .cat-fish .cat-body {
+  background-image: url("./assets/generated/cat-pack/fish-cat/fish-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-ninja-ready .cat-ninja .cat-body {
+  background-image: url("./assets/generated/cat-pack/ninja-cat/ninja-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-freezer-ready .cat-freezer .cat-body {
+  background-image: url("./assets/generated/cat-pack/freezer-cat/freezer-cat-sheet.png");
 }
 
 .uses-image-asset .cat-fish .cat-body {
@@ -2476,52 +2499,6 @@ h1 {
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes sniper-test-idle {
-  0%,
-  24.99% {
-    background-position: 0% 0%;
-  }
-  25%,
-  49.99% {
-    background-position: 20% 0%;
-  }
-  50%,
-  74.99% {
-    background-position: 40% 0%;
-  }
-  75%,
-  100% {
-    background-position: 60% 0%;
-  }
-}
-
-@keyframes sniper-test-attack {
-  0%,
-  16.65% {
-    background-position: 0% 100%;
-  }
-  16.66%,
-  33.32% {
-    background-position: 20% 100%;
-  }
-  33.33%,
-  49.99% {
-    background-position: 40% 100%;
-  }
-  50%,
-  66.65% {
-    background-position: 60% 100%;
-  }
-  66.66%,
-  83.32% {
-    background-position: 80% 100%;
-  }
-  83.33%,
-  100% {
-    background-position: 100% 100%;
   }
 }
 

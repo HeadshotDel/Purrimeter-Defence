@@ -20,10 +20,62 @@ const CONFIG = {
   baseColumnBuffer: -0.45,
   bestRunStorageKey: "catline-defense-best-runs",
   mutedStorageKey: "purrimeter-muted",
-  generatedSniperTestAsset: "./assets/generated/sniper-cat-test/sniper-cat-test-sheet.png",
+  catSpriteIdleSeconds: 1,
+  catSpriteAttackSeconds: 0.54,
   debugWaveFlow: false,
   debugPanic: false,
   debugDamage: false,
+};
+
+const catSpriteSheets = {
+  yarn: {
+    assetPath: "./assets/generated/cat-pack/yarn-cat/yarn-cat-sheet.png",
+    readyClass: "cat-pack-yarn-ready",
+    columns: 6,
+    rows: 2,
+    idleFrames: 4,
+    attackFrames: 6,
+  },
+  tank: {
+    assetPath: "./assets/generated/cat-pack/tank-cat/tank-cat-sheet.png",
+    readyClass: "cat-pack-tank-ready",
+    columns: 6,
+    rows: 2,
+    idleFrames: 4,
+    attackFrames: 6,
+  },
+  sniper: {
+    assetPath: "./assets/generated/cat-pack/sniper-cat/sniper-cat-sheet.png",
+    readyClass: "cat-pack-sniper-ready",
+    columns: 6,
+    rows: 2,
+    idleFrames: 4,
+    attackFrames: 6,
+  },
+  fish: {
+    assetPath: "./assets/generated/cat-pack/fish-cat/fish-cat-sheet.png",
+    readyClass: "cat-pack-fish-ready",
+    columns: 6,
+    rows: 2,
+    idleFrames: 4,
+    attackFrames: 6,
+  },
+  ninja: {
+    assetPath: "./assets/generated/cat-pack/ninja-cat/ninja-cat-sheet.png",
+    readyClass: "cat-pack-ninja-ready",
+    columns: 6,
+    rows: 2,
+    idleFrames: 4,
+    attackFrames: 6,
+  },
+  freezer: {
+    assetPath: "./assets/generated/cat-pack/freezer-cat/freezer-cat-sheet.png",
+    readyClass: "cat-pack-freezer-ready",
+    columns: 6,
+    rows: 2,
+    idleFrames: 4,
+    attackFrames: 6,
+  },
 };
 
 const UI_TEXT = {
@@ -823,19 +875,53 @@ function nextId(prefix) {
   return `${prefix}-${idCounter}`;
 }
 
-function preloadGeneratedSniperTestAsset(gameShell) {
-  if (!CONFIG.useImageAssets || !gameShell || !CONFIG.generatedSniperTestAsset) return;
+function preloadGeneratedCatSprites(gameShell) {
+  if (!CONFIG.useImageAssets || !gameShell) return;
 
-  const image = new Image();
-  image.onload = () => gameShell.classList.add("sniper-test-asset-ready");
-  image.onerror = () => gameShell.classList.remove("sniper-test-asset-ready");
-  image.src = CONFIG.generatedSniperTestAsset;
+  Object.values(catSpriteSheets).forEach((sprite) => {
+    const image = new Image();
+    image.onload = () => gameShell.classList.add(sprite.readyClass);
+    image.onerror = () => gameShell.classList.remove(sprite.readyClass);
+    image.src = sprite.assetPath;
+  });
+}
+
+function getVisualTimeSeconds() {
+  return (typeof performance !== "undefined" ? performance.now() : Date.now()) / 1000;
+}
+
+function triggerCatSpriteAttack(cat) {
+  cat.spriteAttackStartedAt = getVisualTimeSeconds();
+  cat.spriteAttackDuration = CONFIG.catSpriteAttackSeconds;
+}
+
+function getCatSpriteStyle(cat, visualTime) {
+  const sprite = catSpriteSheets[cat.type];
+  if (!sprite || !CONFIG.useImageAssets) return "";
+
+  const gameShell = document.querySelector(".game-shell");
+  if (!gameShell?.classList.contains(sprite.readyClass)) return "";
+
+  const attackDuration = cat.spriteAttackDuration ?? CONFIG.catSpriteAttackSeconds;
+  const attackElapsed = visualTime - (cat.spriteAttackStartedAt ?? -Infinity);
+  const isAttackFrame = attackElapsed >= 0 && attackElapsed < attackDuration;
+  const frameDuration = isAttackFrame
+    ? attackDuration / sprite.attackFrames
+    : CONFIG.catSpriteIdleSeconds / sprite.idleFrames;
+  const frame = isAttackFrame
+    ? Math.min(sprite.attackFrames - 1, Math.floor(attackElapsed / frameDuration))
+    : Math.floor((visualTime % CONFIG.catSpriteIdleSeconds) / frameDuration) % sprite.idleFrames;
+  const row = isAttackFrame ? 1 : 0;
+  const xPercent = sprite.columns <= 1 ? 0 : (frame / (sprite.columns - 1)) * 100;
+  const yPercent = sprite.rows <= 1 ? 0 : (row / (sprite.rows - 1)) * 100;
+
+  return `background-position:${xPercent}% ${yPercent}%`;
 }
 
 function init() {
   const gameShell = document.querySelector(".game-shell");
   gameShell.classList.toggle("uses-image-asset", CONFIG.useImageAssets);
-  preloadGeneratedSniperTestAsset(gameShell);
+  preloadGeneratedCatSprites(gameShell);
   board = document.getElementById("board");
   boardShell = document.querySelector(".board-shell");
   unitLayer = document.getElementById("unitLayer");
@@ -1081,8 +1167,10 @@ function render() {
     if (type) renderCatCardState(card, type);
   });
 
+  const visualTime = getVisualTimeSeconds();
+
   unitLayer.innerHTML = [
-    ...state.cats.map((cat) => renderCat(cat, dims)),
+    ...state.cats.map((cat) => renderCat(cat, dims, visualTime)),
     ...state.enemies.map((enemy) => renderEnemy(enemy, dims)),
     ...state.projectiles.map((projectile) => renderProjectile(projectile)),
   ].join("");
@@ -1093,7 +1181,7 @@ function render() {
   renderRemoveConfirm(dims);
 }
 
-function renderCat(cat, dims) {
+function renderCat(cat, dims, visualTime = getVisualTimeSeconds()) {
   const type = catTypes[cat.type];
   const stats = getCatStats(cat);
   const pos = cellCenter(cat.row, cat.col, dims);
@@ -1108,6 +1196,8 @@ function renderCat(cat, dims) {
   const debuffedClass = cat.debuffFactor > 1 ? "is-debuffed" : "";
   const panickedClass = isCatPanicked(cat, dims) ? "cat-panicked" : "";
   const upgradedClass = cat.level === 2 ? "cat-upgraded" : "";
+  const spriteStyle = getCatSpriteStyle(cat, visualTime);
+  const spriteStyleAttribute = spriteStyle ? ` style="${spriteStyle}"` : "";
   const cooldown = stats.attackKind === "none"
     ? ""
     : `<div class="cooldown ${producerClass}"><div class="cooldown-fill" style="height:${cooldownPercent}%"></div></div>`;
@@ -1117,7 +1207,7 @@ function renderCat(cat, dims) {
       <div class="hp-bar"><div class="hp-fill" style="width:${hpPercent}%"></div></div>
       ${renderCatLevelBadge(cat)}
       <div class="cat-tail"></div>
-      <div class="cat-body"><span class="cat-face"></span></div>
+      <div class="cat-body"${spriteStyleAttribute}><span class="cat-face"></span></div>
       ${cooldown}
     </div>
   `;
@@ -1631,6 +1721,7 @@ function updateCats(delta) {
       cat.attackTimer = Math.min(effectiveCooldown, cat.attackTimer + delta);
       if (cat.attackTimer >= effectiveCooldown) {
         cat.attackTimer = 0;
+        triggerCatSpriteAttack(cat);
         spawnFishDrop("fishcat", cat.row, cat.col, stats.produceAmount);
       }
       return;
@@ -1651,6 +1742,7 @@ function updateCats(delta) {
         return;
       }
       fireProjectile(cat, target, dims);
+      triggerCatSpriteAttack(cat);
       cat.attackTimer = 0;
       cat.attackFlash = 0.2;
       return;
@@ -1666,6 +1758,7 @@ function updateCats(delta) {
         return;
       }
       damageEnemy(target, stats.damage, stats.attackType, cat.type);
+      triggerCatSpriteAttack(cat);
       cat.attackTimer = 0;
       cat.attackFlash = 0.18;
     }
@@ -1816,6 +1909,8 @@ function placeCat(row, col) {
     maxHp: type.hp,
     attackTimer: type.attackKind === "producer" ? type.produceCooldown * 0.35 : type.attackCooldown * 0.4,
     attackFlash: 0,
+    spriteAttackStartedAt: -Infinity,
+    spriteAttackDuration: CONFIG.catSpriteAttackSeconds,
     hitFlash: 0,
     debuffFactor: 1,
     dead: false,
