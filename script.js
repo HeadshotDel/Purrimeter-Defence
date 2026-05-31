@@ -20,6 +20,7 @@ const CONFIG = {
   baseColumnBuffer: -0.45,
   bestRunStorageKey: "catline-defense-best-runs",
   mutedStorageKey: "purrimeter-muted",
+  generatedSniperTestAsset: "./assets/generated/sniper-cat-test/sniper-cat-test-sheet.png",
   debugWaveFlow: false,
   debugPanic: false,
   debugDamage: false,
@@ -822,8 +823,19 @@ function nextId(prefix) {
   return `${prefix}-${idCounter}`;
 }
 
+function preloadGeneratedSniperTestAsset(gameShell) {
+  if (!CONFIG.useImageAssets || !gameShell || !CONFIG.generatedSniperTestAsset) return;
+
+  const image = new Image();
+  image.onload = () => gameShell.classList.add("sniper-test-asset-ready");
+  image.onerror = () => gameShell.classList.remove("sniper-test-asset-ready");
+  image.src = CONFIG.generatedSniperTestAsset;
+}
+
 function init() {
-  document.querySelector(".game-shell").classList.toggle("uses-image-asset", CONFIG.useImageAssets);
+  const gameShell = document.querySelector(".game-shell");
+  gameShell.classList.toggle("uses-image-asset", CONFIG.useImageAssets);
+  preloadGeneratedSniperTestAsset(gameShell);
   board = document.getElementById("board");
   boardShell = document.querySelector(".board-shell");
   unitLayer = document.getElementById("unitLayer");
