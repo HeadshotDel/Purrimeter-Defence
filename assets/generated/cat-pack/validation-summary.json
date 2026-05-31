@@ -1,0 +1,542 @@
+{
+  "yarn-cat": {
+    "frameCount": 10,
+    "all128Rgba": true,
+    "sheetSize": [
+      768,
+      256
+    ],
+    "frameChecks": [
+      {
+        "file": "yarn-cat/frames/yarn-cat-idle-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-idle-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-idle-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-idle-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-attack-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-attack-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-attack-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-attack-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-attack-04.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "yarn-cat/frames/yarn-cat-attack-05.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      }
+    ]
+  },
+  "tank-cat": {
+    "frameCount": 10,
+    "all128Rgba": true,
+    "sheetSize": [
+      768,
+      256
+    ],
+    "frameChecks": [
+      {
+        "file": "tank-cat/frames/tank-cat-idle-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-idle-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-idle-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-idle-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-attack-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-attack-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-attack-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-attack-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-attack-04.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "tank-cat/frames/tank-cat-attack-05.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      }
+    ]
+  },
+  "sniper-cat": {
+    "frameCount": 10,
+    "all128Rgba": true,
+    "sheetSize": [
+      768,
+      256
+    ],
+    "frameChecks": [
+      {
+        "file": "sniper-cat/frames/sniper-cat-idle-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-idle-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-idle-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-idle-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-attack-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-attack-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-attack-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-attack-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-attack-04.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "sniper-cat/frames/sniper-cat-attack-05.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      }
+    ]
+  },
+  "fish-cat": {
+    "frameCount": 10,
+    "all128Rgba": true,
+    "sheetSize": [
+      768,
+      256
+    ],
+    "frameChecks": [
+      {
+        "file": "fish-cat/frames/fish-cat-idle-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-idle-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-idle-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-idle-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-attack-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-attack-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-attack-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-attack-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-attack-04.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "fish-cat/frames/fish-cat-attack-05.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      }
+    ]
+  },
+  "ninja-cat": {
+    "frameCount": 10,
+    "all128Rgba": true,
+    "sheetSize": [
+      768,
+      256
+    ],
+    "frameChecks": [
+      {
+        "file": "ninja-cat/frames/ninja-cat-idle-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-idle-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-idle-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-idle-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-attack-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-attack-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-attack-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-attack-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-attack-04.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "ninja-cat/frames/ninja-cat-attack-05.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      }
+    ]
+  },
+  "freezer-cat": {
+    "frameCount": 10,
+    "all128Rgba": true,
+    "sheetSize": [
+      768,
+      256
+    ],
+    "frameChecks": [
+      {
+        "file": "freezer-cat/frames/freezer-cat-idle-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-idle-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-idle-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-idle-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-attack-00.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-attack-01.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-attack-02.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-attack-03.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-attack-04.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      },
+      {
+        "file": "freezer-cat/frames/freezer-cat-attack-05.png",
+        "size": [
+          128,
+          128
+        ],
+        "mode": "RGBA"
+      }
+    ]
+  }
+}

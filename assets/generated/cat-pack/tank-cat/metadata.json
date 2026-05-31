@@ -1,0 +1,180 @@
+{
+  "name": "tank-cat",
+  "displayName": "Tank Cat",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent cat tower pack",
+  "identity": "sturdy defensive armor / helmet theme",
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "tank-cat-sheet.png",
+    "columns": 6,
+    "rows": 2,
+    "width": 768,
+    "height": 256,
+    "layout": "top row: idle frames 0-3, columns 4-5 transparent; bottom row: attack frames 0-5"
+  },
+  "animations": {
+    "idle": {
+      "frameCount": 4,
+      "durationMs": 150,
+      "frames": [
+        "frames/tank-cat-idle-00.png",
+        "frames/tank-cat-idle-01.png",
+        "frames/tank-cat-idle-02.png",
+        "frames/tank-cat-idle-03.png"
+      ]
+    },
+    "attack": {
+      "frameCount": 6,
+      "durationMs": 90,
+      "frames": [
+        "frames/tank-cat-attack-00.png",
+        "frames/tank-cat-attack-01.png",
+        "frames/tank-cat-attack-02.png",
+        "frames/tank-cat-attack-03.png",
+        "frames/tank-cat-attack-04.png",
+        "frames/tank-cat-attack-05.png"
+      ]
+    }
+  },
+  "frames": [
+    {
+      "name": "tank-cat-idle-00",
+      "file": "frames/tank-cat-idle-00.png",
+      "animation": "idle",
+      "index": 0,
+      "sheet": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-idle-01",
+      "file": "frames/tank-cat-idle-01.png",
+      "animation": "idle",
+      "index": 1,
+      "sheet": {
+        "x": 128,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-idle-02",
+      "file": "frames/tank-cat-idle-02.png",
+      "animation": "idle",
+      "index": 2,
+      "sheet": {
+        "x": 256,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-idle-03",
+      "file": "frames/tank-cat-idle-03.png",
+      "animation": "idle",
+      "index": 3,
+      "sheet": {
+        "x": 384,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-attack-00",
+      "file": "frames/tank-cat-attack-00.png",
+      "animation": "attack",
+      "index": 0,
+      "sheet": {
+        "x": 0,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-attack-01",
+      "file": "frames/tank-cat-attack-01.png",
+      "animation": "attack",
+      "index": 1,
+      "sheet": {
+        "x": 128,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-attack-02",
+      "file": "frames/tank-cat-attack-02.png",
+      "animation": "attack",
+      "index": 2,
+      "sheet": {
+        "x": 256,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-attack-03",
+      "file": "frames/tank-cat-attack-03.png",
+      "animation": "attack",
+      "index": 3,
+      "sheet": {
+        "x": 384,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-attack-04",
+      "file": "frames/tank-cat-attack-04.png",
+      "animation": "attack",
+      "index": 4,
+      "sheet": {
+        "x": 512,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    {
+      "name": "tank-cat-attack-05",
+      "file": "frames/tank-cat-attack-05.png",
+      "animation": "attack",
+      "index": 5,
+      "sheet": {
+        "x": 640,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    }
+  ],
+  "anchor": {
+    "x": 64,
+    "y": 64,
+    "type": "center"
+  },
+  "source": {
+    "idleRawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1c9a8e0e848191ba0a672fae6f6bfe.png",
+    "attackRawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0d956fd94cab29fc016a1c9acff8cc8191974df5703ad2dd74.png",
+    "processor": ".codex/skills/generate2dsprite/scripts/generate2dsprite.py"
+  },
+  "notes": [
+    "Generated as asset files only; gameplay code and existing rendering code were not modified.",
+    "Every frame is centered, 128x128 RGBA, and exported with transparent background.",
+    "Final sheet uses a stable 6x2 layout for all units."
+  ]
+}
