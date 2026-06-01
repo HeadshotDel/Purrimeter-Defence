@@ -634,6 +634,9 @@ let board;
 let gameShell;
 let boardShell;
 let unitLayer;
+let catUnitLayer;
+let enemyUnitLayer;
+let projectileUnitLayer;
 let fishDropLayer;
 let effectLayer;
 let catCards;
@@ -676,6 +679,8 @@ let endStats;
 let boardCells = [];
 let catCardElements = [];
 let difficultyCardElements = [];
+let catNodes = new Map();
+let enemyNodes = new Map();
 
 let lastTimestamp = 0;
 let idCounter = 0;
@@ -687,11 +692,13 @@ const renderCache = {
   catCardStates: new Map(),
   difficultyCards: "",
   enemyPreview: "",
+  catUnitLayerHTML: null,
+  enemyUnitLayerHTML: null,
   effectLayerHTML: null,
   fishDropLayerHTML: null,
+  projectileUnitLayerHTML: null,
   startBestRun: "",
   soundToggle: "",
-  unitLayerHTML: null,
   waveOverlay: "",
 };
 
@@ -1052,6 +1059,7 @@ function init() {
   board = document.getElementById("board");
   boardShell = document.querySelector(".board-shell");
   unitLayer = document.getElementById("unitLayer");
+  ensureUnitSublayers();
   fishDropLayer = document.getElementById("fishDropLayer");
   effectLayer = document.getElementById("effectLayer");
   catCards = document.getElementById("catCards");
@@ -1314,11 +1322,10 @@ function render() {
 
   const visualTime = getVisualTimeSeconds();
 
-  setLayerHTML("unitLayerHTML", unitLayer, [
-    ...state.cats.map((cat) => renderCat(cat, dims, visualTime)),
-    ...state.enemies.map((enemy) => renderEnemy(enemy, dims)),
-    ...state.projectiles.map((projectile) => renderProjectile(projectile, visualTime)),
-  ].join(""));
+  ensureUnitSublayers();
+  renderCatsRetained(dims, visualTime);
+  renderEnemiesRetained(dims);
+  setLayerHTML("projectileUnitLayerHTML", projectileUnitLayer, state.projectiles.map((projectile) => renderProjectile(projectile, visualTime)).join(""));
 
   setLayerHTML("fishDropLayerHTML", fishDropLayer, renderFishDrops(visualTime));
   setLayerHTML("effectLayerHTML", effectLayer, state.effects.map((effect) => renderEffect(effect, visualTime)).join(""));
@@ -1326,10 +1333,174 @@ function render() {
   renderRemoveConfirm(dims);
 }
 
+function ensureUnitSublayers() {
+  if (!unitLayer) return;
+  if (
+    catUnitLayer?.parentElement === unitLayer &&
+    enemyUnitLayer?.parentElement === unitLayer &&
+    projectileUnitLayer?.parentElement === unitLayer
+  ) {
+    return;
+  }
+
+  unitLayer.innerHTML = "";
+  catNodes.clear();
+  enemyNodes.clear();
+  catUnitLayer = createUnitSublayer("catUnitLayer", "cat-unit-layer");
+  enemyUnitLayer = createUnitSublayer("enemyUnitLayer", "enemy-unit-layer");
+  projectileUnitLayer = createUnitSublayer("projectileUnitLayer", "projectile-unit-layer");
+  unitLayer.append(catUnitLayer, enemyUnitLayer, projectileUnitLayer);
+  renderCache.catUnitLayerHTML = null;
+  renderCache.enemyUnitLayerHTML = null;
+  renderCache.projectileUnitLayerHTML = null;
+}
+
+function createUnitSublayer(id, className) {
+  const layer = document.createElement("div");
+  layer.id = id;
+  layer.className = `unit-sublayer ${className}`;
+  layer.setAttribute("aria-hidden", "true");
+  layer.style.position = "absolute";
+  layer.style.inset = "0";
+  layer.style.pointerEvents = "none";
+  return layer;
+}
+
 function setLayerHTML(cacheKey, layer, html) {
   if (renderCache[cacheKey] === html) return;
   renderCache[cacheKey] = html;
   layer.innerHTML = html;
+}
+
+function renderCatsRetained(dims, visualTime = getVisualTimeSeconds()) {
+  const liveIds = new Set();
+
+  state.cats.forEach((cat) => {
+    liveIds.add(cat.id);
+    let node = catNodes.get(cat.id);
+    if (!node) {
+      node = createCatNode(cat);
+      catNodes.set(cat.id, node);
+      catUnitLayer.appendChild(node);
+    }
+    updateCatNode(node, cat, dims, visualTime);
+  });
+
+  catNodes.forEach((node, catId) => {
+    if (liveIds.has(catId)) return;
+    node.remove();
+    catNodes.delete(catId);
+  });
+}
+
+function createCatNode(cat) {
+  const node = document.createElement("div");
+  node.dataset.catId = cat.id;
+  node.innerHTML = `
+    <div class="hp-bar"><div class="hp-fill"></div></div>
+    <span class="cat-level-badge">Lv.2</span>
+    <div class="cat-tail"></div>
+    <div class="cat-body"><span class="cat-face"></span></div>
+    <div class="cooldown"><div class="cooldown-fill"></div></div>
+  `;
+  node.hpFill = node.querySelector(".hp-fill");
+  node.levelBadge = node.querySelector(".cat-level-badge");
+  node.catBody = node.querySelector(".cat-body");
+  node.cooldown = node.querySelector(".cooldown");
+  node.cooldownFill = node.querySelector(".cooldown-fill");
+  return node;
+}
+
+function updateCatNode(node, cat, dims, visualTime = getVisualTimeSeconds()) {
+  const type = catTypes[cat.type];
+  const stats = getCatStats(cat);
+  const pos = cellCenter(cat.row, cat.col, dims);
+  const hpPercent = Math.max(0, Math.min(100, (cat.hp / cat.maxHp) * 100));
+  const effectiveCooldown = getEffectiveCooldown(cat);
+  const cooldownPercent = stats.attackKind === "none"
+    ? 0
+    : Math.max(0, Math.min(100, (cat.attackTimer / effectiveCooldown) * 100));
+  const producerClass = stats.attackKind === "producer" ? "producer-timer" : "";
+  const className = [
+    "unit",
+    "cat",
+    "cat-sprite",
+    type.className,
+    cat.attackFlash > 0 ? "is-attacking" : "",
+    cat.hitFlash > 0 ? "is-hit" : "",
+    cat.debuffFactor > 1 ? "is-debuffed" : "",
+    isCatPanicked(cat, dims) ? "cat-panicked" : "",
+    cat.level === 2 ? "cat-upgraded" : "",
+  ].filter(Boolean).join(" ");
+  const spriteStyle = getCatSpriteStyle(cat, visualTime);
+
+  node.dataset.catType = cat.type;
+  node.className = className;
+  node.style.left = `${pos.x}px`;
+  node.style.top = `${pos.y}px`;
+  node.hpFill.style.width = `${hpPercent}%`;
+  node.levelBadge.style.display = cat.level === 2 ? "" : "none";
+  node.cooldown.style.display = stats.attackKind === "none" ? "none" : "";
+  node.cooldown.className = `cooldown ${producerClass}`.trim();
+  node.cooldownFill.style.height = `${cooldownPercent}%`;
+  if (spriteStyle) {
+    node.catBody.setAttribute("style", spriteStyle);
+  } else {
+    node.catBody.removeAttribute("style");
+  }
+}
+
+function renderEnemiesRetained(dims) {
+  const liveIds = new Set();
+
+  state.enemies.forEach((enemy) => {
+    liveIds.add(enemy.id);
+    let node = enemyNodes.get(enemy.id);
+    if (!node) {
+      node = createEnemyNode(enemy);
+      enemyNodes.set(enemy.id, node);
+      enemyUnitLayer.appendChild(node);
+    }
+    updateEnemyNode(node, enemy, dims);
+  });
+
+  enemyNodes.forEach((node, enemyId) => {
+    if (liveIds.has(enemyId)) return;
+    node.remove();
+    enemyNodes.delete(enemyId);
+  });
+}
+
+function createEnemyNode(enemy) {
+  const node = document.createElement("div");
+  node.dataset.enemyId = enemy.id;
+  node.innerHTML = `
+    <div class="hp-bar"><div class="hp-fill"></div></div>
+    <div class="enemy-body"></div>
+  `;
+  node.hpFill = node.querySelector(".hp-fill");
+  return node;
+}
+
+function updateEnemyNode(node, enemy, dims) {
+  const type = getEnemyDefinition(enemy.type);
+  const y = rowCenter(enemy.row, dims);
+  const maxHp = enemy.maxHp || type.hp || 1;
+  const hpPercent = Math.max(0, Math.min(100, (enemy.hp / maxHp) * 100));
+  const className = [
+    "unit",
+    "enemy",
+    "enemy-sprite",
+    type.className,
+    enemy.hitFlash > 0 ? "is-hit" : "",
+    enemy.slowTimer > 0 ? "is-slowed" : "",
+  ].filter(Boolean).join(" ");
+
+  node.dataset.enemyType = enemy.type;
+  node.className = className;
+  node.style.left = `${enemy.x}px`;
+  node.style.top = `${y}px`;
+  node.hpFill.style.width = `${hpPercent}%`;
 }
 
 function renderCat(cat, dims, visualTime = getVisualTimeSeconds()) {
