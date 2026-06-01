@@ -154,6 +154,92 @@ const projectileVisualMap = {
   ninja: "ninja-projectile",
 };
 
+const enemySpriteSheets = {
+  mouse: {
+    assetPath: "./assets/generated/enemy-pack/mouse/mouse-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.7,
+    hitSeconds: 0.16,
+  },
+  rat: {
+    assetPath: "./assets/generated/enemy-pack/rat/rat-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.78,
+    hitSeconds: 0.16,
+  },
+  "can-rat": {
+    assetPath: "./assets/generated/enemy-pack/can-rat/can-rat-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.82,
+    hitSeconds: 0.16,
+  },
+  roomba: {
+    assetPath: "./assets/generated/enemy-pack/roomba/roomba-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.72,
+    hitSeconds: 0.16,
+  },
+  "robot-mop": {
+    assetPath: "./assets/generated/enemy-pack/robot-mop/robot-mop-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.76,
+    hitSeconds: 0.16,
+  },
+  "hair-dryer": {
+    assetPath: "./assets/generated/enemy-pack/hair-dryer/hair-dryer-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.68,
+    hitSeconds: 0.16,
+  },
+  "cucumber-panic": {
+    assetPath: "./assets/generated/enemy-pack/cucumber-panic/cucumber-panic-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.64,
+    hitSeconds: 0.16,
+  },
+  "boss-smart-vacuum": {
+    assetPath: "./assets/generated/enemy-pack/boss-smart-vacuum/boss-smart-vacuum-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.9,
+    hitSeconds: 0.16,
+  },
+};
+
+const enemyVisualMap = {
+  mouse: "mouse",
+  rat: "rat",
+  canRat: "can-rat",
+  roomba: "roomba",
+  "robot-mop": "robot-mop",
+  "hair-dryer": "hair-dryer",
+  cucumber: "cucumber-panic",
+  boss: "boss-smart-vacuum",
+};
+
 const UI_TEXT = {
   startTagline: "Pixel cats defend the rooftop",
   rules: [
@@ -1007,6 +1093,21 @@ function preloadGeneratedProjectileFx() {
   });
 }
 
+function preloadGeneratedEnemySprites() {
+  if (!CONFIG.useImageAssets) return;
+
+  Object.values(enemySpriteSheets).forEach((sprite) => {
+    const image = new Image();
+    image.onload = () => {
+      sprite.loaded = true;
+    };
+    image.onerror = () => {
+      sprite.loaded = false;
+    };
+    image.src = sprite.assetPath;
+  });
+}
+
 function getVisualTimeSeconds() {
   return (typeof performance !== "undefined" ? performance.now() : Date.now()) / 1000;
 }
@@ -1051,11 +1152,42 @@ function getCatSpriteStyle(cat, visualTime) {
   return `background-position:${xPercent}% ${yPercent}%`;
 }
 
+function getEnemySpriteStyle(enemy, visualTime = getVisualTimeSeconds()) {
+  const spriteKey = enemyVisualMap[enemy.type];
+  const sprite = enemySpriteSheets[spriteKey];
+  if (!sprite?.loaded || !CONFIG.useImageAssets) return "";
+
+  const isHitFrame = enemy.hitFlash > 0;
+  const hitSeconds = sprite.hitSeconds ?? 0.16;
+  const row = isHitFrame ? 1 : 0;
+  const frameCount = isHitFrame ? sprite.hitFrames : sprite.walkFrames;
+  const frame = isHitFrame
+    ? Math.min(frameCount - 1, Math.floor(((hitSeconds - enemy.hitFlash) / hitSeconds) * frameCount))
+    : Math.floor((visualTime % sprite.walkLoopSeconds) / (sprite.walkLoopSeconds / frameCount)) % frameCount;
+  const xPercent = sprite.columns <= 1 ? 0 : (frame / (sprite.columns - 1)) * 100;
+  const yPercent = sprite.rows <= 1 ? 0 : (row / (sprite.rows - 1)) * 100;
+
+  return [
+    `background-image:url('${sprite.assetPath}')`,
+    `background-size:${sprite.columns * 100}% ${sprite.rows * 100}%`,
+    `background-position:${xPercent}% ${yPercent}%`,
+    "background-repeat:no-repeat",
+    "background-color:transparent",
+    "width:100%",
+    "height:100%",
+    "border:0",
+    "border-radius:0",
+    "box-shadow:none",
+    "image-rendering:auto",
+  ].join(";");
+}
+
 function init() {
   gameShell = document.querySelector(".game-shell");
   gameShell.classList.toggle("uses-image-asset", CONFIG.useImageAssets);
   preloadGeneratedCatSprites(gameShell);
   preloadGeneratedProjectileFx();
+  preloadGeneratedEnemySprites();
   board = document.getElementById("board");
   boardShell = document.querySelector(".board-shell");
   unitLayer = document.getElementById("unitLayer");
@@ -1324,7 +1456,7 @@ function render() {
 
   ensureUnitSublayers();
   renderCatsRetained(dims, visualTime);
-  renderEnemiesRetained(dims);
+  renderEnemiesRetained(dims, visualTime);
   setLayerHTML("projectileUnitLayerHTML", projectileUnitLayer, state.projectiles.map((projectile) => renderProjectile(projectile, visualTime)).join(""));
 
   setLayerHTML("fishDropLayerHTML", fishDropLayer, renderFishDrops(visualTime));
@@ -1450,7 +1582,7 @@ function updateCatNode(node, cat, dims, visualTime = getVisualTimeSeconds()) {
   }
 }
 
-function renderEnemiesRetained(dims) {
+function renderEnemiesRetained(dims, visualTime = getVisualTimeSeconds()) {
   const liveIds = new Set();
 
   state.enemies.forEach((enemy) => {
@@ -1461,7 +1593,7 @@ function renderEnemiesRetained(dims) {
       enemyNodes.set(enemy.id, node);
       enemyUnitLayer.appendChild(node);
     }
-    updateEnemyNode(node, enemy, dims);
+    updateEnemyNode(node, enemy, dims, visualTime);
   });
 
   enemyNodes.forEach((node, enemyId) => {
@@ -1479,19 +1611,22 @@ function createEnemyNode(enemy) {
     <div class="enemy-body"></div>
   `;
   node.hpFill = node.querySelector(".hp-fill");
+  node.enemyBody = node.querySelector(".enemy-body");
   return node;
 }
 
-function updateEnemyNode(node, enemy, dims) {
+function updateEnemyNode(node, enemy, dims, visualTime = getVisualTimeSeconds()) {
   const type = getEnemyDefinition(enemy.type);
   const y = rowCenter(enemy.row, dims);
   const maxHp = enemy.maxHp || type.hp || 1;
   const hpPercent = Math.max(0, Math.min(100, (enemy.hp / maxHp) * 100));
+  const spriteStyle = getEnemySpriteStyle(enemy, visualTime);
   const className = [
     "unit",
     "enemy",
     "enemy-sprite",
     type.className,
+    spriteStyle ? "generated-enemy" : "",
     enemy.hitFlash > 0 ? "is-hit" : "",
     enemy.slowTimer > 0 ? "is-slowed" : "",
   ].filter(Boolean).join(" ");
@@ -1501,6 +1636,11 @@ function updateEnemyNode(node, enemy, dims) {
   node.style.left = `${enemy.x}px`;
   node.style.top = `${y}px`;
   node.hpFill.style.width = `${hpPercent}%`;
+  if (spriteStyle) {
+    node.enemyBody.setAttribute("style", spriteStyle);
+  } else {
+    node.enemyBody.removeAttribute("style");
+  }
 }
 
 function renderCat(cat, dims, visualTime = getVisualTimeSeconds()) {
