@@ -22,6 +22,7 @@ const CONFIG = {
   mutedStorageKey: "purrimeter-muted",
   catSpriteIdleSeconds: 1,
   catSpriteAttackSeconds: 0.54,
+  maxActiveEffects: 60,
   debugWaveFlow: false,
   debugPanic: false,
   debugDamage: false,
@@ -630,6 +631,7 @@ const difficultyDefinitions = {
 };
 
 let board;
+let gameShell;
 let boardShell;
 let unitLayer;
 let fishDropLayer;
@@ -671,9 +673,27 @@ let modalTitle;
 let modalMessage;
 let modalKicker;
 let endStats;
+let boardCells = [];
+let catCardElements = [];
+let difficultyCardElements = [];
 
 let lastTimestamp = 0;
 let idCounter = 0;
+let boardMetricsCache = null;
+let isGameLoopFrame = false;
+
+const renderCache = {
+  cellStates: new Map(),
+  catCardStates: new Map(),
+  difficultyCards: "",
+  enemyPreview: "",
+  effectLayerHTML: null,
+  fishDropLayerHTML: null,
+  startBestRun: "",
+  soundToggle: "",
+  unitLayerHTML: null,
+  waveOverlay: "",
+};
 
 const audioState = {
   context: null,
@@ -808,6 +828,10 @@ function toggleMuted() {
 }
 
 function renderSoundToggle() {
+  const cacheKey = String(audioState.muted);
+  if (renderCache.soundToggle === cacheKey) return;
+  renderCache.soundToggle = cacheKey;
+
   [soundToggleButton, startSoundToggleButton].forEach((button) => {
     if (!button) return;
     button.textContent = audioState.muted ? "Sound: Off" : "Sound: On";
@@ -1002,7 +1026,6 @@ function getCatSpriteStyle(cat, visualTime) {
   const sprite = catSpriteSheets[cat.type];
   if (!sprite || !CONFIG.useImageAssets) return "";
 
-  const gameShell = document.querySelector(".game-shell");
   if (!gameShell?.classList.contains(sprite.readyClass)) return "";
 
   const attackDuration = cat.spriteAttackDuration ?? CONFIG.catSpriteAttackSeconds;
@@ -1022,7 +1045,7 @@ function getCatSpriteStyle(cat, visualTime) {
 }
 
 function init() {
-  const gameShell = document.querySelector(".game-shell");
+  gameShell = document.querySelector(".game-shell");
   gameShell.classList.toggle("uses-image-asset", CONFIG.useImageAssets);
   preloadGeneratedCatSprites(gameShell);
   preloadGeneratedProjectileFx();
@@ -1126,7 +1149,10 @@ function init() {
       handleEscapeKey();
     }
   });
-  window.addEventListener("resize", render);
+  window.addEventListener("resize", () => {
+    invalidateBoardMetrics();
+    render();
+  });
 
   render();
   requestAnimationFrame(gameLoop);
@@ -1134,6 +1160,8 @@ function init() {
 
 function createGrid() {
   board.innerHTML = "";
+  boardCells = [];
+  renderCache.cellStates.clear();
   for (let row = 0; row < CONFIG.gridRows; row += 1) {
     for (let col = 0; col < CONFIG.gridCols; col += 1) {
       const cell = document.createElement("button");
@@ -1144,12 +1172,15 @@ function createGrid() {
       cell.setAttribute("aria-label", `Row ${row + 1}, column ${col + 1}`);
       cell.addEventListener("click", () => handleCellClick(row, col));
       board.appendChild(cell);
+      boardCells.push(cell);
     }
   }
 }
 
 function createCatCards() {
   catCards.innerHTML = "";
+  catCardElements = [];
+  renderCache.catCardStates.clear();
   Object.values(catTypes).forEach((type) => {
     const card = document.createElement("button");
     card.type = "button";
@@ -1171,8 +1202,12 @@ function createCatCards() {
         <span class="card-cooldown-time"></span>
       </div>
     `;
+    card.cooldownFill = card.querySelector(".card-cooldown-fill");
+    card.cooldownTime = card.querySelector(".card-cooldown-time");
+    card.cooldownOverlay = card.querySelector(".card-cooldown");
     card.addEventListener("click", () => selectCat(type.id));
     catCards.appendChild(card);
+    catCardElements.push(card);
   });
 }
 
@@ -1186,7 +1221,9 @@ function createDifficultyCards() {
     </button>
   `).join("");
 
-  difficultySelector.querySelectorAll(".difficulty-card").forEach((card) => {
+  difficultyCardElements = Array.from(difficultySelector.querySelectorAll(".difficulty-card"));
+  renderCache.difficultyCards = "";
+  difficultyCardElements.forEach((card) => {
     card.addEventListener("click", () => selectDifficulty(card.dataset.difficulty));
   });
 }
@@ -1219,6 +1256,7 @@ function getActiveWaves() {
 }
 
 function render() {
+  if (!isGameLoopFrame) invalidateBoardMetrics();
   const dims = getBoardMetrics();
   const activeDifficulty = getDifficulty();
   const activeWaves = getActiveWaves();
@@ -1255,34 +1293,43 @@ function render() {
   renderWaveOverlay();
   renderEnemyPreview();
 
-  document.querySelectorAll(".cell").forEach((cell) => {
+  boardCells.forEach((cell) => {
     const row = Number(cell.dataset.row);
     const col = Number(cell.dataset.col);
     const hasCat = Boolean(getCatAt(row, col));
     const isPendingRemove = state.pendingRemoveCell?.row === row && state.pendingRemoveCell?.col === col;
     const isActionMenuTarget = state.activeCellMenu?.row === row && state.activeCellMenu?.col === col;
+    const cellKey = `${hasCat ? 1 : 0}|${isPendingRemove ? 1 : 0}|${isActionMenuTarget ? 1 : 0}`;
+    if (renderCache.cellStates.get(cell) === cellKey) return;
+    renderCache.cellStates.set(cell, cellKey);
     cell.classList.toggle("occupied", hasCat);
     cell.classList.toggle("pending-remove", isPendingRemove);
     cell.classList.toggle("action-menu-target", isActionMenuTarget);
   });
 
-  document.querySelectorAll(".cat-card").forEach((card) => {
+  catCardElements.forEach((card) => {
     const type = catTypes[card.dataset.type];
     if (type) renderCatCardState(card, type);
   });
 
   const visualTime = getVisualTimeSeconds();
 
-  unitLayer.innerHTML = [
+  setLayerHTML("unitLayerHTML", unitLayer, [
     ...state.cats.map((cat) => renderCat(cat, dims, visualTime)),
     ...state.enemies.map((enemy) => renderEnemy(enemy, dims)),
     ...state.projectiles.map((projectile) => renderProjectile(projectile, visualTime)),
-  ].join("");
+  ].join(""));
 
-  fishDropLayer.innerHTML = renderFishDrops(visualTime);
-  effectLayer.innerHTML = state.effects.map((effect) => renderEffect(effect, visualTime)).join("");
+  setLayerHTML("fishDropLayerHTML", fishDropLayer, renderFishDrops(visualTime));
+  setLayerHTML("effectLayerHTML", effectLayer, state.effects.map((effect) => renderEffect(effect, visualTime)).join(""));
   renderCellActionMenu(dims);
   renderRemoveConfirm(dims);
+}
+
+function setLayerHTML(cacheKey, layer, html) {
+  if (renderCache[cacheKey] === html) return;
+  renderCache[cacheKey] = html;
+  layer.innerHTML = html;
 }
 
 function renderCat(cat, dims, visualTime = getVisualTimeSeconds()) {
@@ -1385,10 +1432,24 @@ function renderCatCardState(card, type) {
   const isCoolingDown = cooldown > 0;
   const isTooExpensive = state.fish < type.price;
   const selected = state.selectedCatType === type.id;
-  const cooldownFill = card.querySelector(".card-cooldown-fill");
-  const cooldownTime = card.querySelector(".card-cooldown-time");
-  const cooldownOverlay = card.querySelector(".card-cooldown");
+  const cooldownFill = card.cooldownFill;
+  const cooldownTime = card.cooldownTime;
+  const cooldownOverlay = card.cooldownOverlay;
   const remainingPercent = getCooldownRemainingPercent(type, cooldown);
+  const cooldownText = isCoolingDown ? formatCooldownTime(cooldown) : "";
+  const disabled = !canSelectCat(type.id);
+  const stateKey = [
+    selected,
+    isTooExpensive,
+    isCoolingDown,
+    disabled,
+    canUseBoardActions(),
+    cooldownText,
+    remainingPercent,
+  ].join("|");
+
+  if (renderCache.catCardStates.get(card) === stateKey) return;
+  renderCache.catCardStates.set(card, stateKey);
 
   card.classList.toggle("selected", selected);
   card.classList.toggle("too-expensive", isTooExpensive && !isCoolingDown);
@@ -1396,11 +1457,11 @@ function renderCatCardState(card, type) {
   card.classList.toggle("on-cooldown", isCoolingDown);
   card.classList.toggle("is-disabled", !canUseBoardActions() || isTooExpensive || isCoolingDown);
   card.setAttribute("aria-pressed", String(selected));
-  card.setAttribute("aria-disabled", String(!canSelectCat(type.id)));
+  card.setAttribute("aria-disabled", String(disabled));
 
   if (cooldownOverlay) cooldownOverlay.classList.toggle("hidden", !isCoolingDown);
   if (cooldownFill) cooldownFill.style.height = `${remainingPercent}%`;
-  if (cooldownTime) cooldownTime.textContent = isCoolingDown ? formatCooldownTime(cooldown) : "";
+  if (cooldownTime) cooldownTime.textContent = cooldownText;
 }
 
 function getImpactSpriteStyle(effect) {
@@ -1513,7 +1574,11 @@ function getClampedPanelPosition(cat, dims, panel) {
 
 function renderDifficultyCards() {
   if (!difficultySelector) return;
-  difficultySelector.querySelectorAll(".difficulty-card").forEach((card) => {
+  const cacheKey = state.selectedDifficulty;
+  if (renderCache.difficultyCards === cacheKey) return;
+  renderCache.difficultyCards = cacheKey;
+
+  difficultyCardElements.forEach((card) => {
     const isSelected = card.dataset.difficulty === state.selectedDifficulty;
     card.classList.toggle("selected", isSelected);
     card.setAttribute("aria-pressed", String(isSelected));
@@ -1522,9 +1587,25 @@ function renderDifficultyCards() {
 
 function renderWaveOverlay() {
   const waves = getActiveWaves();
-  if (!state.waveIntroActive || state.waveIndex >= waves.length) return;
-  debugWave("renderWaveOverlay");
+  if (!state.waveIntroActive || state.waveIndex >= waves.length) {
+    renderCache.waveOverlay = "hidden";
+    return;
+  }
   const wave = waves[state.waveIndex];
+  const cacheKey = [
+    getDifficulty().id,
+    state.waveIndex,
+    waves.length,
+    wave.name,
+    UI_TEXT.waveMessages[state.waveIndex] ?? "",
+    UI_TEXT.waveTips[state.waveIndex] ?? "",
+    getWaveGroupsSignature(wave.groups),
+  ].join("|");
+
+  if (renderCache.waveOverlay === cacheKey) return;
+  renderCache.waveOverlay = cacheKey;
+  debugWave("renderWaveOverlay");
+
   waveKicker.textContent = `${getDifficulty().name} · Wave ${state.waveIndex + 1}/${waves.length}`;
   waveTitle.textContent = UI_TEXT.waveMessages[state.waveIndex] ?? wave.name;
   waveTip.textContent = UI_TEXT.waveTips[state.waveIndex] ?? "";
@@ -1535,6 +1616,20 @@ function renderWaveOverlay() {
 function renderEnemyPreview() {
   const waves = getActiveWaves();
   const wave = waves[Math.min(state.waveIndex, waves.length - 1)];
+  const difficulty = getDifficulty();
+  const cacheKey = wave
+    ? [
+      state.gameStatus,
+      difficulty.id,
+      state.waveIndex,
+      waves.length,
+      getWaveGroupsSignature(wave.groups),
+    ].join("|")
+    : `${state.gameStatus}|${difficulty.id}|empty`;
+
+  if (renderCache.enemyPreview === cacheKey) return;
+  renderCache.enemyPreview = cacheKey;
+
   if (!wave || state.gameStatus === "victory") {
     enemyPreview.innerHTML = `<span class="preview-label">Wave preview</span><span class="preview-empty">Roof clear</span>`;
     return;
@@ -1542,9 +1637,13 @@ function renderEnemyPreview() {
 
   enemyPreview.innerHTML = `
     <span class="preview-label">Incoming</span>
-    <span class="preview-wave">${getDifficulty().name} · Wave ${Math.min(state.waveIndex + 1, waves.length)}/${waves.length}</span>
+    <span class="preview-wave">${difficulty.name} · Wave ${Math.min(state.waveIndex + 1, waves.length)}/${waves.length}</span>
     <span class="preview-icons">${renderEnemyChips(wave.groups)}</span>
   `;
+}
+
+function getWaveGroupsSignature(groups = []) {
+  return groups.map((group) => `${group.type}:${group.count}`).join(",");
 }
 
 function renderEnemyChips(groups) {
@@ -1562,8 +1661,11 @@ function renderEnemyChips(groups) {
 function renderStartBestRun() {
   if (!startBestRun || !resetBestButton) return;
   const difficulty = getSelectedDifficulty();
-  const best = loadBestRun(difficulty.id);
-  state.bestRun = best;
+  const best = state.bestRun;
+  const cacheKey = `${difficulty.id}|${difficulty.waves.length}|${best ? JSON.stringify(best) : "none"}`;
+  if (renderCache.startBestRun === cacheKey) return;
+  renderCache.startBestRun = cacheKey;
+
   resetBestButton.classList.toggle("hidden", !best);
   resetBestButton.textContent = "Reset best for this mode";
 
@@ -1587,6 +1689,8 @@ function renderStartBestRun() {
 }
 
 function gameLoop(timestamp) {
+  isGameLoopFrame = true;
+  invalidateBoardMetrics();
   const rawDelta = lastTimestamp ? (timestamp - lastTimestamp) / 1000 : 0;
   const delta = Math.min(rawDelta, 0.05);
   lastTimestamp = timestamp;
@@ -1605,6 +1709,7 @@ function gameLoop(timestamp) {
   }
 
   render();
+  isGameLoopFrame = false;
   requestAnimationFrame(gameLoop);
 }
 
@@ -2783,6 +2888,7 @@ function addEffect(kind, text, x, y) {
     y,
     ttl: 0.72,
   });
+  trimVisualEffects();
 }
 
 function getImpactAssetKey(attackType, enemy) {
@@ -2807,6 +2913,23 @@ function addImpactEffect(attackType, enemy, x, y) {
     ttl,
     maxTtl: ttl,
   });
+  trimVisualEffects();
+}
+
+function trimVisualEffects() {
+  const overflow = state.effects.length - CONFIG.maxActiveEffects;
+  if (overflow <= 0) return;
+
+  let remaining = overflow;
+  state.effects = state.effects.filter((effect) => {
+    if (remaining <= 0 || effect.kind !== "impact-fx") return true;
+    remaining -= 1;
+    return false;
+  });
+
+  if (remaining > 0) {
+    state.effects.splice(0, remaining);
+  }
 }
 
 function isCatPanicked(cat, dims = getBoardMetrics()) {
@@ -2911,15 +3034,21 @@ function getCatStats(cat) {
 }
 
 function getBoardMetrics() {
+  if (boardMetricsCache) return boardMetricsCache;
   const rect = board.getBoundingClientRect();
   const width = rect.width || 960;
   const height = rect.height || 400;
-  return {
+  boardMetricsCache = {
     width,
     height,
     cellWidth: width / CONFIG.gridCols,
     cellHeight: height / CONFIG.gridRows,
   };
+  return boardMetricsCache;
+}
+
+function invalidateBoardMetrics() {
+  boardMetricsCache = null;
 }
 
 function cellCenter(row, col, dims = getBoardMetrics()) {
