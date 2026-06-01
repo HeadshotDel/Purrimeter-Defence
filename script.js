@@ -163,6 +163,7 @@ const enemySpriteSheets = {
     hitFrames: 3,
     walkLoopSeconds: 0.7,
     hitSeconds: 0.16,
+    flipX: true,
   },
   rat: {
     assetPath: "./assets/generated/enemy-pack/rat/rat-sheet.png",
@@ -172,6 +173,7 @@ const enemySpriteSheets = {
     hitFrames: 3,
     walkLoopSeconds: 0.78,
     hitSeconds: 0.16,
+    flipX: true,
   },
   "can-rat": {
     assetPath: "./assets/generated/enemy-pack/can-rat/can-rat-sheet.png",
@@ -181,6 +183,7 @@ const enemySpriteSheets = {
     hitFrames: 3,
     walkLoopSeconds: 0.82,
     hitSeconds: 0.16,
+    flipX: true,
   },
   roomba: {
     assetPath: "./assets/generated/enemy-pack/roomba/roomba-sheet.png",
@@ -1179,6 +1182,7 @@ function getEnemySpriteStyle(enemy, visualTime = getVisualTimeSeconds()) {
     "border-radius:0",
     "box-shadow:none",
     "image-rendering:auto",
+    sprite.flipX ? "transform:translate(-50%, -42%) scaleX(-1)" : "",
   ].join(";");
 }
 
