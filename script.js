@@ -230,6 +230,42 @@ const enemySpriteSheets = {
     walkLoopSeconds: 0.9,
     hitSeconds: 0.16,
   },
+  pigeon: {
+    assetPath: "./assets/generated/enemy-pack/pigeon/pigeon-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.68,
+    hitSeconds: 0.16,
+  },
+  "laser-drone": {
+    assetPath: "./assets/generated/enemy-pack/laser-drone/laser-drone-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.66,
+    hitSeconds: 0.16,
+  },
+  "spray-bottle": {
+    assetPath: "./assets/generated/enemy-pack/spray-bottle/spray-bottle-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.74,
+    hitSeconds: 0.16,
+  },
+  "foil-ball": {
+    assetPath: "./assets/generated/enemy-pack/foil-ball/foil-ball-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.5,
+    hitSeconds: 0.16,
+  },
 };
 
 const enemyVisualMap = {
@@ -241,6 +277,10 @@ const enemyVisualMap = {
   "hair-dryer": "hair-dryer",
   cucumber: "cucumber-panic",
   boss: "boss-smart-vacuum",
+  pigeon: "pigeon",
+  laserDrone: "laser-drone",
+  "spray-bottle": "spray-bottle",
+  "foil-ball": "foil-ball",
 };
 
 const UI_TEXT = {

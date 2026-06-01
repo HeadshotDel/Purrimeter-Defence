@@ -1,0 +1,435 @@
+{
+  "name": "pigeon",
+  "displayName": "Pigeon",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent enemy pack",
+  "identity": "flying pest enemy; clearly pigeon/bird; small-to-medium size; not a large grey block",
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_012b3bda146f9cde016a1d974372048199b884bff140e41052.png",
+    "rawSourceCopy": "pigeon-raw-source.png",
+    "rawSize": {
+      "width": 1619,
+      "height": 971
+    },
+    "rawSha256Prefix": "a30f3a792f13bf9b"
+  },
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "pigeon-sheet.png",
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "mode": "RGBA",
+    "transparent": true,
+    "layout": "row 1: walk/move frames 0-3, column 4 transparent; row 2: hit/damaged frames 0-2, columns 3-4 transparent; row 3: death frames 0-4",
+    "unusedCells": [
+      {
+        "row": 0,
+        "column": 4
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 4
+      }
+    ]
+  },
+  "animations": {
+    "walk": {
+      "frameCount": 4,
+      "frames": [
+        "frames/pigeon-walk-00.png",
+        "frames/pigeon-walk-01.png",
+        "frames/pigeon-walk-02.png",
+        "frames/pigeon-walk-03.png"
+      ]
+    },
+    "hit": {
+      "frameCount": 3,
+      "frames": [
+        "frames/pigeon-hit-00.png",
+        "frames/pigeon-hit-01.png",
+        "frames/pigeon-hit-02.png"
+      ]
+    },
+    "death": {
+      "frameCount": 5,
+      "frames": [
+        "frames/pigeon-death-00.png",
+        "frames/pigeon-death-01.png",
+        "frames/pigeon-death-02.png",
+        "frames/pigeon-death-03.png",
+        "frames/pigeon-death-04.png"
+      ]
+    }
+  },
+  "preview": {
+    "file": "pigeon-preview.gif",
+    "frames": 12,
+    "works": true
+  },
+  "frames": [
+    {
+      "name": "pigeon-walk-00",
+      "animation": "walk",
+      "row": 0,
+      "column": 0,
+      "file": "frames/pigeon-walk-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          82,
+          99,
+          324,
+          293
+        ],
+        "contentSize": {
+          "width": 69,
+          "height": 55
+        },
+        "offset": {
+          "x": 29,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "pigeon-walk-01",
+      "animation": "walk",
+      "row": 0,
+      "column": 1,
+      "file": "frames/pigeon-walk-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          72,
+          324,
+          294
+        ],
+        "contentSize": {
+          "width": 92,
+          "height": 63
+        },
+        "offset": {
+          "x": 18,
+          "y": 28
+        }
+      }
+    },
+    {
+      "name": "pigeon-walk-02",
+      "animation": "walk",
+      "row": 0,
+      "column": 2,
+      "file": "frames/pigeon-walk-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          55,
+          323,
+          296
+        ],
+        "contentSize": {
+          "width": 92,
+          "height": 68
+        },
+        "offset": {
+          "x": 18,
+          "y": 26
+        }
+      }
+    },
+    {
+      "name": "pigeon-walk-03",
+      "animation": "walk",
+      "row": 0,
+      "column": 3,
+      "file": "frames/pigeon-walk-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          98,
+          324,
+          293
+        ],
+        "contentSize": {
+          "width": 92,
+          "height": 55
+        },
+        "offset": {
+          "x": 18,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "pigeon-hit-00",
+      "animation": "hit",
+      "row": 1,
+      "column": 0,
+      "file": "frames/pigeon-hit-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          77,
+          56,
+          324,
+          280
+        ],
+        "contentSize": {
+          "width": 70,
+          "height": 64
+        },
+        "offset": {
+          "x": 29,
+          "y": 28
+        }
+      }
+    },
+    {
+      "name": "pigeon-hit-01",
+      "animation": "hit",
+      "row": 1,
+      "column": 1,
+      "file": "frames/pigeon-hit-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          74,
+          324,
+          280
+        ],
+        "contentSize": {
+          "width": 92,
+          "height": 58
+        },
+        "offset": {
+          "x": 18,
+          "y": 31
+        }
+      }
+    },
+    {
+      "name": "pigeon-hit-02",
+      "animation": "hit",
+      "row": 1,
+      "column": 2,
+      "file": "frames/pigeon-hit-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          93,
+          323,
+          285
+        ],
+        "contentSize": {
+          "width": 92,
+          "height": 55
+        },
+        "offset": {
+          "x": 18,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "pigeon-death-00",
+      "animation": "death",
+      "row": 2,
+      "column": 0,
+      "file": "frames/pigeon-death-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          51,
+          56,
+          311,
+          244
+        ],
+        "contentSize": {
+          "width": 74,
+          "height": 53
+        },
+        "offset": {
+          "x": 27,
+          "y": 33
+        }
+      }
+    },
+    {
+      "name": "pigeon-death-01",
+      "animation": "death",
+      "row": 2,
+      "column": 1,
+      "file": "frames/pigeon-death-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          51,
+          37,
+          324,
+          251
+        ],
+        "contentSize": {
+          "width": 78,
+          "height": 61
+        },
+        "offset": {
+          "x": 25,
+          "y": 29
+        }
+      }
+    },
+    {
+      "name": "pigeon-death-02",
+      "animation": "death",
+      "row": 2,
+      "column": 2,
+      "file": "frames/pigeon-death-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          56,
+          323,
+          258
+        ],
+        "contentSize": {
+          "width": 92,
+          "height": 57
+        },
+        "offset": {
+          "x": 18,
+          "y": 31
+        }
+      }
+    },
+    {
+      "name": "pigeon-death-03",
+      "animation": "death",
+      "row": 2,
+      "column": 3,
+      "file": "frames/pigeon-death-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          53,
+          304,
+          243
+        ],
+        "contentSize": {
+          "width": 86,
+          "height": 54
+        },
+        "offset": {
+          "x": 21,
+          "y": 33
+        }
+      }
+    },
+    {
+      "name": "pigeon-death-04",
+      "animation": "death",
+      "row": 2,
+      "column": 4,
+      "file": "frames/pigeon-death-04.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          67,
+          43,
+          274,
+          250
+        ],
+        "contentSize": {
+          "width": 59,
+          "height": 59
+        },
+        "offset": {
+          "x": 34,
+          "y": 30
+        }
+      }
+    }
+  ],
+  "validation": {
+    "frames128x128RGBA": true,
+    "sheet640x384RGBA": true,
+    "transparent": true,
+    "edgeTouchFrames": [],
+    "passed": true
+  }
+}

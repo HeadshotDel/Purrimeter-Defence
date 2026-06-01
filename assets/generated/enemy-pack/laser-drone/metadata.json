@@ -1,0 +1,435 @@
+{
+  "name": "laser-drone",
+  "displayName": "Laser Drone",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent enemy pack",
+  "identity": "small flying mechanical drone; hovering silhouette distinct from hair dryer",
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_012b3bda146f9cde016a1d977df1e88199b5ac77b6efaa9aa1.png",
+    "rawSourceCopy": "laser-drone-raw-source.png",
+    "rawSize": {
+      "width": 1619,
+      "height": 971
+    },
+    "rawSha256Prefix": "3fcca19738931933"
+  },
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "laser-drone-sheet.png",
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "mode": "RGBA",
+    "transparent": true,
+    "layout": "row 1: walk/move frames 0-3, column 4 transparent; row 2: hit/damaged frames 0-2, columns 3-4 transparent; row 3: death frames 0-4",
+    "unusedCells": [
+      {
+        "row": 0,
+        "column": 4
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 4
+      }
+    ]
+  },
+  "animations": {
+    "walk": {
+      "frameCount": 4,
+      "frames": [
+        "frames/laser-drone-walk-00.png",
+        "frames/laser-drone-walk-01.png",
+        "frames/laser-drone-walk-02.png",
+        "frames/laser-drone-walk-03.png"
+      ]
+    },
+    "hit": {
+      "frameCount": 3,
+      "frames": [
+        "frames/laser-drone-hit-00.png",
+        "frames/laser-drone-hit-01.png",
+        "frames/laser-drone-hit-02.png"
+      ]
+    },
+    "death": {
+      "frameCount": 5,
+      "frames": [
+        "frames/laser-drone-death-00.png",
+        "frames/laser-drone-death-01.png",
+        "frames/laser-drone-death-02.png",
+        "frames/laser-drone-death-03.png",
+        "frames/laser-drone-death-04.png"
+      ]
+    }
+  },
+  "preview": {
+    "file": "laser-drone-preview.gif",
+    "frames": 12,
+    "works": true
+  },
+  "frames": [
+    {
+      "name": "laser-drone-walk-00",
+      "animation": "walk",
+      "row": 0,
+      "column": 0,
+      "file": "frames/laser-drone-walk-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          46,
+          82,
+          322,
+          298
+        ],
+        "contentSize": {
+          "width": 82,
+          "height": 64
+        },
+        "offset": {
+          "x": 23,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "laser-drone-walk-01",
+      "animation": "walk",
+      "row": 0,
+      "column": 1,
+      "file": "frames/laser-drone-walk-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          58,
+          91,
+          324,
+          305
+        ],
+        "contentSize": {
+          "width": 79,
+          "height": 63
+        },
+        "offset": {
+          "x": 24,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "laser-drone-walk-02",
+      "animation": "walk",
+      "row": 0,
+      "column": 2,
+      "file": "frames/laser-drone-walk-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          89,
+          323,
+          304
+        ],
+        "contentSize": {
+          "width": 96,
+          "height": 64
+        },
+        "offset": {
+          "x": 16,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "laser-drone-walk-03",
+      "animation": "walk",
+      "row": 0,
+      "column": 3,
+      "file": "frames/laser-drone-walk-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          96,
+          324,
+          309
+        ],
+        "contentSize": {
+          "width": 96,
+          "height": 63
+        },
+        "offset": {
+          "x": 16,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "laser-drone-hit-00",
+      "animation": "hit",
+      "row": 1,
+      "column": 0,
+      "file": "frames/laser-drone-hit-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          35,
+          50,
+          276,
+          267
+        ],
+        "contentSize": {
+          "width": 71,
+          "height": 64
+        },
+        "offset": {
+          "x": 28,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "laser-drone-hit-01",
+      "animation": "hit",
+      "row": 1,
+      "column": 1,
+      "file": "frames/laser-drone-hit-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          54,
+          56,
+          294,
+          273
+        ],
+        "contentSize": {
+          "width": 71,
+          "height": 64
+        },
+        "offset": {
+          "x": 28,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "laser-drone-hit-02",
+      "animation": "hit",
+      "row": 1,
+      "column": 2,
+      "file": "frames/laser-drone-hit-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          84,
+          61,
+          308,
+          276
+        ],
+        "contentSize": {
+          "width": 66,
+          "height": 64
+        },
+        "offset": {
+          "x": 31,
+          "y": 32
+        }
+      }
+    },
+    {
+      "name": "laser-drone-death-00",
+      "animation": "death",
+      "row": 2,
+      "column": 0,
+      "file": "frames/laser-drone-death-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          52,
+          22,
+          281,
+          261
+        ],
+        "contentSize": {
+          "width": 68,
+          "height": 71
+        },
+        "offset": {
+          "x": 30,
+          "y": 28
+        }
+      }
+    },
+    {
+      "name": "laser-drone-death-01",
+      "animation": "death",
+      "row": 2,
+      "column": 1,
+      "file": "frames/laser-drone-death-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          38,
+          21,
+          301,
+          263
+        ],
+        "contentSize": {
+          "width": 78,
+          "height": 72
+        },
+        "offset": {
+          "x": 25,
+          "y": 28
+        }
+      }
+    },
+    {
+      "name": "laser-drone-death-02",
+      "animation": "death",
+      "row": 2,
+      "column": 2,
+      "file": "frames/laser-drone-death-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          45,
+          21,
+          297,
+          263
+        ],
+        "contentSize": {
+          "width": 75,
+          "height": 72
+        },
+        "offset": {
+          "x": 26,
+          "y": 28
+        }
+      }
+    },
+    {
+      "name": "laser-drone-death-03",
+      "animation": "death",
+      "row": 2,
+      "column": 3,
+      "file": "frames/laser-drone-death-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          34,
+          44,
+          315,
+          276
+        ],
+        "contentSize": {
+          "width": 83,
+          "height": 69
+        },
+        "offset": {
+          "x": 22,
+          "y": 29
+        }
+      }
+    },
+    {
+      "name": "laser-drone-death-04",
+      "animation": "death",
+      "row": 2,
+      "column": 4,
+      "file": "frames/laser-drone-death-04.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          48,
+          122,
+          295,
+          277
+        ],
+        "contentSize": {
+          "width": 73,
+          "height": 46
+        },
+        "offset": {
+          "x": 27,
+          "y": 41
+        }
+      }
+    }
+  ],
+  "validation": {
+    "frames128x128RGBA": true,
+    "sheet640x384RGBA": true,
+    "transparent": true,
+    "edgeTouchFrames": [],
+    "passed": true
+  }
+}

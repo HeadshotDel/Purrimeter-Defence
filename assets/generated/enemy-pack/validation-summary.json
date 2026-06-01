@@ -198,6 +198,94 @@
       "transparent": true,
       "edgeTouchFrames": [],
       "passed": true
+    },
+    {
+      "name": "pigeon",
+      "displayName": "Pigeon",
+      "path": "assets/generated/enemy-pack/pigeon",
+      "sheet": "pigeon-sheet.png",
+      "preview": "pigeon-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "laser-drone",
+      "displayName": "Laser Drone",
+      "path": "assets/generated/enemy-pack/laser-drone",
+      "sheet": "laser-drone-sheet.png",
+      "preview": "laser-drone-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "spray-bottle",
+      "displayName": "Spray Bottle",
+      "path": "assets/generated/enemy-pack/spray-bottle",
+      "sheet": "spray-bottle-sheet.png",
+      "preview": "spray-bottle-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "foil-ball",
+      "displayName": "Foil Ball",
+      "path": "assets/generated/enemy-pack/foil-ball",
+      "sheet": "foil-ball-sheet.png",
+      "preview": "foil-ball-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
     }
   ]
 }
