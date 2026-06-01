@@ -1,0 +1,125 @@
+{
+  "passed": true,
+  "variants": [
+    {
+      "id": "cozy-rooftop",
+      "path": "/Users/psyops/Documents/Codex/Purrimeter Defence/assets/generated/board-pack/cozy-rooftop",
+      "files": [
+        {
+          "file": "board-background.png",
+          "dimensions": [
+            1536,
+            640
+          ],
+          "mode": "RGB",
+          "bytes": 775964,
+          "kilobytes": 757.8,
+          "sha256": "f71f79d7f65ad39a"
+        },
+        {
+          "file": "board-grid-overlay.png",
+          "dimensions": [
+            1536,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 5540,
+          "kilobytes": 5.4,
+          "sha256": "9f09973d26bf24c8"
+        },
+        {
+          "file": "preview.png",
+          "dimensions": [
+            768,
+            320
+          ],
+          "mode": "RGB",
+          "bytes": 294420,
+          "kilobytes": 287.5,
+          "sha256": "e33264802a0c7d06"
+        }
+      ],
+      "notes": "Best gameplay readability: clean center cells, subtle warm rooftop lane markings, strong left/right context."
+    },
+    {
+      "id": "apartment-floor",
+      "path": "/Users/psyops/Documents/Codex/Purrimeter Defence/assets/generated/board-pack/apartment-floor",
+      "files": [
+        {
+          "file": "board-background.png",
+          "dimensions": [
+            1536,
+            640
+          ],
+          "mode": "RGB",
+          "bytes": 918906,
+          "kilobytes": 897.4,
+          "sha256": "bfc3ce932f0e1f7b"
+        },
+        {
+          "file": "board-grid-overlay.png",
+          "dimensions": [
+            1536,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 5540,
+          "kilobytes": 5.4,
+          "sha256": "9f09973d26bf24c8"
+        },
+        {
+          "file": "preview.png",
+          "dimensions": [
+            768,
+            320
+          ],
+          "mode": "RGB",
+          "bytes": 325740,
+          "kilobytes": 318.1,
+          "sha256": "57e1e86dc4c1775e"
+        }
+      ],
+      "notes": "Readable floor lanes with more household personality at the outer edges."
+    },
+    {
+      "id": "cardboard-fort",
+      "path": "/Users/psyops/Documents/Codex/Purrimeter Defence/assets/generated/board-pack/cardboard-fort",
+      "files": [
+        {
+          "file": "board-background.png",
+          "dimensions": [
+            1536,
+            640
+          ],
+          "mode": "RGB",
+          "bytes": 913577,
+          "kilobytes": 892.2,
+          "sha256": "4547d4e5ff4c0e59"
+        },
+        {
+          "file": "board-grid-overlay.png",
+          "dimensions": [
+            1536,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 5540,
+          "kilobytes": 5.4,
+          "sha256": "9f09973d26bf24c8"
+        },
+        {
+          "file": "preview.png",
+          "dimensions": [
+            768,
+            320
+          ],
+          "mode": "RGB",
+          "bytes": 316171,
+          "kilobytes": 308.8,
+          "sha256": "b37b10e2e2fb0376"
+        }
+      ],
+      "notes": "Most thematic variant; handmade tape lanes are clear while central play space remains open."
+    }
+  ]
+}

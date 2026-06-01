@@ -1,0 +1,55 @@
+{
+  "id": "cozy-rooftop",
+  "passed": true,
+  "checks": {
+    "required_files_exist": true,
+    "background_dimensions_1536x640": true,
+    "overlay_dimensions_1536x640": true,
+    "preview_dimensions_768x320": true,
+    "background_png_mode": "RGB",
+    "overlay_png_mode": "RGBA",
+    "preview_png_mode": "RGB",
+    "supports_5x12_grid": true,
+    "mobile_readability": "pass - low detail cell centers and readable lane separators",
+    "no_text_inside_images": "pass by prompt and visual inspection",
+    "no_gameplay_code_modified": true,
+    "file_sizes_reasonable": true,
+    "palette_optimization_colors": 128
+  },
+  "files": [
+    {
+      "file": "board-background.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGB",
+      "bytes": 775964,
+      "kilobytes": 757.8,
+      "sha256": "f71f79d7f65ad39a"
+    },
+    {
+      "file": "board-grid-overlay.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGBA",
+      "bytes": 5540,
+      "kilobytes": 5.4,
+      "sha256": "9f09973d26bf24c8"
+    },
+    {
+      "file": "preview.png",
+      "dimensions": [
+        768,
+        320
+      ],
+      "mode": "RGB",
+      "bytes": 294420,
+      "kilobytes": 287.5,
+      "sha256": "e33264802a0c7d06"
+    }
+  ],
+  "best_use": "Best gameplay readability: clean center cells, subtle warm rooftop lane markings, strong left/right context."
+}

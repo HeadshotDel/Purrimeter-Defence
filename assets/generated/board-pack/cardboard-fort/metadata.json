@@ -1,0 +1,64 @@
+{
+  "id": "cardboard-fort",
+  "name": "Cardboard Fort Board",
+  "map_mode": "grid_mode",
+  "visual_model": "baked_raster_background_plus_transparent_grid_overlay",
+  "runtime_object_model": "none",
+  "collision_model": "none",
+  "engine_target": "project-native static DOM board background candidate",
+  "game": "Purrrimeter Defence",
+  "board": {
+    "columns": 12,
+    "lanes": 5,
+    "target_dimensions": [
+      1536,
+      640
+    ],
+    "cell_dimensions": [
+      128,
+      128
+    ],
+    "aspect_ratio": "12:5"
+  },
+  "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0e9afe51814ce7c9016a1ddeb29abc8191ab2c6b3c7115e287.png",
+  "prompt_file": "board-background.prompt.txt",
+  "prompt": "Create a clean 2D cartoon mobile tower defense battlefield board background for a cute cat defense game. Theme: cardboard fort board. Composition must support a 12-column by 5-lane rectangular gameplay grid, wide aspect ratio 12:5. Flat top-down / slightly 3/4 top-down orthographic view, no strong perspective. Cardboard boxes and brown craft-paper floor, tape strips as handmade lane markings, soft horizontal separators for 5 lanes, faint 12-column rhythm but NOT a debug spreadsheet. Keep central cells very clean and low-detail for gameplay readability. Put cozy cat base hints on the left edge: folded blanket shapes, cardboard fort wall edges, tape tabs; put pest entry cues on the right edge: small torn cardboard openings and scuff marks. Playful but not busy, no text, no UI, no characters, no cats, no enemies. Clean 2D cartoon mobile game style matching cute generated sprites, soft outlines, warm palette, low texture noise, no blur, no glow, readable at small mobile scale.",
+  "files": [
+    {
+      "file": "board-background.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGB",
+      "bytes": 913577,
+      "kilobytes": 892.2,
+      "sha256": "4547d4e5ff4c0e59"
+    },
+    {
+      "file": "board-grid-overlay.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGBA",
+      "bytes": 5540,
+      "kilobytes": 5.4,
+      "sha256": "9f09973d26bf24c8"
+    },
+    {
+      "file": "preview.png",
+      "dimensions": [
+        768,
+        320
+      ],
+      "mode": "RGB",
+      "bytes": 316171,
+      "kilobytes": 308.8,
+      "sha256": "b37b10e2e2fb0376"
+    }
+  ],
+  "notes": "Most thematic variant; handmade tape lanes are clear while central play space remains open.",
+  "integration_status": "not integrated",
+  "performance_notes": "Single optimized PNG background (64 color palette pass) plus small transparent overlay; no filters, animation, or external assets required."
+}

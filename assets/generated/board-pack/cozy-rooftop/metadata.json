@@ -1,0 +1,64 @@
+{
+  "id": "cozy-rooftop",
+  "name": "Cozy Rooftop Board",
+  "map_mode": "grid_mode",
+  "visual_model": "baked_raster_background_plus_transparent_grid_overlay",
+  "runtime_object_model": "none",
+  "collision_model": "none",
+  "engine_target": "project-native static DOM board background candidate",
+  "game": "Purrrimeter Defence",
+  "board": {
+    "columns": 12,
+    "lanes": 5,
+    "target_dimensions": [
+      1536,
+      640
+    ],
+    "cell_dimensions": [
+      128,
+      128
+    ],
+    "aspect_ratio": "12:5"
+  },
+  "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0e9afe51814ce7c9016a1dde324ec481919d26d039f81ca83b.png",
+  "prompt_file": "board-background.prompt.txt",
+  "prompt": "Create a clean 2D cartoon mobile tower defense battlefield board background for a cute cat defense game. Theme: cozy rooftop board. Exact composition should support a 12-column by 5-lane rectangular gameplay grid, wide aspect ratio 12:5. Flat top-down / slightly 3/4 top-down orthographic view, no strong perspective. Warm rooftop tiles, subtle paw prints, subtle horizontal lane separators for 5 lanes, faint vertical rhythm for 12 build columns but NOT a debug spreadsheet grid. Keep the center of cells clean and low-detail for readable cats, enemies, projectiles, fish drops, and HP bars. Put decorative details mostly near edges: cozy cat defense side on the left with soft bedding/tile trim shapes, enemy entrance cues on the right with small vents/roof edge marks, no text, no UI, no characters, no enemies, no cats. Clean 2D cartoon mobile game style, soft outlines, warm palette, low noise, no blur, no glow, transparent effects not needed, readable at small mobile scale.",
+  "files": [
+    {
+      "file": "board-background.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGB",
+      "bytes": 775964,
+      "kilobytes": 757.8,
+      "sha256": "f71f79d7f65ad39a"
+    },
+    {
+      "file": "board-grid-overlay.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGBA",
+      "bytes": 5540,
+      "kilobytes": 5.4,
+      "sha256": "9f09973d26bf24c8"
+    },
+    {
+      "file": "preview.png",
+      "dimensions": [
+        768,
+        320
+      ],
+      "mode": "RGB",
+      "bytes": 294420,
+      "kilobytes": 287.5,
+      "sha256": "e33264802a0c7d06"
+    }
+  ],
+  "notes": "Best gameplay readability: clean center cells, subtle warm rooftop lane markings, strong left/right context.",
+  "integration_status": "not integrated",
+  "performance_notes": "Single optimized PNG background (128 color palette pass) plus small transparent overlay; no filters, animation, or external assets required."
+}

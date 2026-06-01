@@ -1,0 +1,55 @@
+{
+  "id": "apartment-floor",
+  "passed": true,
+  "checks": {
+    "required_files_exist": true,
+    "background_dimensions_1536x640": true,
+    "overlay_dimensions_1536x640": true,
+    "preview_dimensions_768x320": true,
+    "background_png_mode": "RGB",
+    "overlay_png_mode": "RGBA",
+    "preview_png_mode": "RGB",
+    "supports_5x12_grid": true,
+    "mobile_readability": "pass - low detail cell centers and readable lane separators",
+    "no_text_inside_images": "pass by prompt and visual inspection",
+    "no_gameplay_code_modified": true,
+    "file_sizes_reasonable": true,
+    "palette_optimization_colors": 96
+  },
+  "files": [
+    {
+      "file": "board-background.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGB",
+      "bytes": 918906,
+      "kilobytes": 897.4,
+      "sha256": "bfc3ce932f0e1f7b"
+    },
+    {
+      "file": "board-grid-overlay.png",
+      "dimensions": [
+        1536,
+        640
+      ],
+      "mode": "RGBA",
+      "bytes": 5540,
+      "kilobytes": 5.4,
+      "sha256": "9f09973d26bf24c8"
+    },
+    {
+      "file": "preview.png",
+      "dimensions": [
+        768,
+        320
+      ],
+      "mode": "RGB",
+      "bytes": 325740,
+      "kilobytes": 318.1,
+      "sha256": "57e1e86dc4c1775e"
+    }
+  ],
+  "best_use": "Readable floor lanes with more household personality at the outer edges."
+}
