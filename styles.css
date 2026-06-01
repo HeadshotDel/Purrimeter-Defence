@@ -550,6 +550,79 @@ h1 {
   animation: cell-denied 0.3s steps(2) 1;
 }
 
+.uses-image-asset .board-shell {
+  background-image:
+    url("./assets/generated/board-pack/cozy-rooftop/board-grid-overlay.png"),
+    linear-gradient(180deg, rgba(20, 17, 26, 0.08), rgba(20, 17, 26, 0.14)),
+    url("./assets/generated/board-pack/cozy-rooftop/board-background.png"),
+    radial-gradient(circle at 18% 10%, rgba(255, 213, 106, 0.08), transparent 20rem),
+    linear-gradient(180deg, #2b3c5b, #18233c);
+  background-size:
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    cover,
+    cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: auto;
+}
+
+.uses-image-asset .board-shell::before {
+  height: 100%;
+  background:
+    linear-gradient(90deg, rgba(8, 10, 22, 0.08), transparent 12%, transparent 88%, rgba(8, 10, 22, 0.08)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 28%, rgba(7, 10, 24, 0.08));
+}
+
+.uses-image-asset .moon {
+  display: none;
+}
+
+.uses-image-asset .enemy-entry {
+  width: 6.8%;
+  border-left: 2px dashed rgba(255, 161, 130, 0.32);
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 107, 122, 0.08));
+  box-shadow: inset 5px 0 0 rgba(255, 74, 96, 0.07);
+}
+
+.uses-image-asset .enemy-entry span {
+  display: none;
+}
+
+.uses-image-asset .board-shell.is-active-wave .enemy-entry {
+  box-shadow:
+    inset 5px 0 0 rgba(255, 74, 96, 0.12),
+    inset 0 0 18px rgba(255, 74, 96, 0.12);
+}
+
+.uses-image-asset .cell {
+  border-right: 1px solid rgba(92, 54, 35, 0.18);
+  border-bottom: 1px solid rgba(92, 54, 35, 0.18);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.uses-image-asset .cell:nth-child(n + 13):nth-child(-n + 24),
+.uses-image-asset .cell:nth-child(n + 37):nth-child(-n + 48) {
+  box-shadow: none;
+}
+
+.uses-image-asset .cell:nth-child(24n + 13),
+.uses-image-asset .cell:nth-child(24n + 15),
+.uses-image-asset .cell:nth-child(24n + 17),
+.uses-image-asset .cell:nth-child(24n + 19),
+.uses-image-asset .cell:nth-child(24n + 21),
+.uses-image-asset .cell:nth-child(24n + 23),
+.uses-image-asset .cell:nth-child(24n + 2),
+.uses-image-asset .cell:nth-child(24n + 4),
+.uses-image-asset .cell:nth-child(24n + 6),
+.uses-image-asset .cell:nth-child(24n + 8),
+.uses-image-asset .cell:nth-child(24n + 10),
+.uses-image-asset .cell:nth-child(24n + 12) {
+  background: rgba(255, 255, 255, 0.035);
+}
+
 .unit-layer,
 .fish-drop-layer,
 .effect-layer {
@@ -2551,16 +2624,6 @@ h1 {
   background-size: contain;
   border: 0;
   transform: translateY(-50%);
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-.uses-image-asset .board-shell {
-  background-image:
-    linear-gradient(180deg, rgba(15, 19, 39, 0.14), rgba(15, 19, 39, 0.38)),
-    url("./assets/backgrounds/rooftop-night.png");
-  background-size: cover;
-  background-position: center;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
