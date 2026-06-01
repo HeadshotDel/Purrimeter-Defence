@@ -269,6 +269,24 @@ const enemySpriteSheets = {
     walkLoopSeconds: 0.5,
     hitSeconds: 0.16,
   },
+  slipper: {
+    assetPath: "./assets/generated/enemy-pack/slipper/slipper-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.58,
+    hitSeconds: 0.16,
+  },
+  broom: {
+    assetPath: "./assets/generated/enemy-pack/broom/broom-sheet.png",
+    columns: 5,
+    rows: 3,
+    walkFrames: 4,
+    hitFrames: 3,
+    walkLoopSeconds: 0.72,
+    hitSeconds: 0.16,
+  },
 };
 
 const enemyVisualMap = {
@@ -284,6 +302,8 @@ const enemyVisualMap = {
   laserDrone: "laser-drone",
   "spray-bottle": "spray-bottle",
   "foil-ball": "foil-ball",
+  slipper: "slipper",
+  broom: "broom",
 };
 
 const UI_TEXT = {
@@ -592,6 +612,31 @@ const enemyTypes = {
     tags: ["swarm", "fast"],
     className: "enemy-foil-ball",
   },
+  slipper: {
+    id: "slipper",
+    name: "Slipper",
+    hp: 128,
+    speed: 54,
+    damage: 15,
+    attackCooldown: 0.95,
+    reward: 15,
+    tags: ["hazard", "fast"],
+    className: "enemy-slipper enemy-generic",
+  },
+  broom: {
+    id: "broom",
+    name: "Broom",
+    hp: 210,
+    speed: 24,
+    damage: 18,
+    attackCooldown: 1.1,
+    reward: 24,
+    debuffRadiusCells: 1.7,
+    debuffFactor: 1.85,
+    debuffEffectText: "sweep",
+    tags: ["hazard", "debuff"],
+    className: "enemy-broom enemy-generic",
+  },
   boss: {
     id: "boss",
     name: "Smart Vacuum Boss",
@@ -695,12 +740,12 @@ const alleyRushWaves = [
   { name: "Wave 2", interval: 2.15, groups: [{ type: "mouse", count: 6 }, { type: "rat", count: 4 }] },
   { name: "Wave 3", interval: 1.9, groups: [{ type: "mouse", count: 4 }, { type: "foil-ball", count: 4 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }] },
   { name: "Wave 4", interval: 1.78, groups: [{ type: "mouse", count: 4 }, { type: "cucumber", count: 2 }, { type: "rat", count: 4 }, { type: "pigeon", count: 3 }] },
-  { name: "Wave 5", interval: 1.62, groups: [{ type: "cucumber", count: 2 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }] },
+  { name: "Wave 5", interval: 1.62, groups: [{ type: "slipper", count: 3 }, { type: "cucumber", count: 2 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }] },
   { name: "Wave 6", interval: 1.52, groups: [{ type: "rat", count: 4 }, { type: "cucumber", count: 2 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 7", interval: 1.52, groups: [{ type: "rat", count: 5 }, { type: "cucumber", count: 3 }, { type: "pigeon", count: 3 }, { type: "foil-ball", count: 4 }] },
-  { name: "Wave 8", interval: 1.44, groups: [{ type: "rat", count: 4 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 3 }, { type: "roomba", count: 2 }, { type: "canRat", count: 2 }] },
-  { name: "Wave 9", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "pigeon", count: 4 }, { type: "foil-ball", count: 4 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 10", interval: 1.32, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "cucumber", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 4 }, { type: "laserDrone", count: 1 }, { type: "roomba", count: 1 }, { type: "boss", count: 1 }] },
+  { name: "Wave 7", interval: 1.52, groups: [{ type: "rat", count: 5 }, { type: "cucumber", count: 3 }, { type: "pigeon", count: 3 }, { type: "slipper", count: 3 }, { type: "foil-ball", count: 4 }] },
+  { name: "Wave 8", interval: 1.44, groups: [{ type: "rat", count: 4 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 3 }, { type: "roomba", count: 2 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 9", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "pigeon", count: 4 }, { type: "slipper", count: 3 }, { type: "foil-ball", count: 4 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
+  { name: "Wave 10", interval: 1.32, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "cucumber", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 4 }, { type: "laserDrone", count: 1 }, { type: "roomba", count: 1 }, { type: "boss", count: 1 }] },
 ];
 
 const vacuumSiegeWaves = [
@@ -708,12 +753,12 @@ const vacuumSiegeWaves = [
   { name: "Wave 2", interval: 2.02, groups: [{ type: "mouse", count: 4 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }] },
   { name: "Wave 3", interval: 1.76, groups: [{ type: "mouse", count: 4 }, { type: "foil-ball", count: 5 }, { type: "rat", count: 4 }, { type: "pigeon", count: 4 }] },
   { name: "Wave 4", interval: 1.62, groups: [{ type: "cucumber", count: 2 }, { type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "roomba", count: 2 }] },
-  { name: "Wave 5", interval: 1.48, groups: [{ type: "pigeon", count: 4 }, { type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "laserDrone", count: 2 }, { type: "foil-ball", count: 5 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 6", interval: 1.38, groups: [{ type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "spray-bottle", count: 3 }, { type: "canRat", count: 2 }, { type: "robot-mop", count: 1 }] },
-  { name: "Wave 7", interval: 1.42, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "cucumber", count: 3 }, { type: "robot-mop", count: 1 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 8", interval: 1.34, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "pigeon", count: 4 }, { type: "foil-ball", count: 5 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }] },
-  { name: "Wave 9", interval: 1.28, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "cucumber", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "robot-mop", count: 1 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 10", interval: 1.24, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "foil-ball", count: 5 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 2 }, { type: "boss", count: 1 }] },
+  { name: "Wave 5", interval: 1.48, groups: [{ type: "pigeon", count: 4 }, { type: "slipper", count: 4 }, { type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "laserDrone", count: 2 }, { type: "foil-ball", count: 5 }, { type: "roomba", count: 1 }] },
+  { name: "Wave 6", interval: 1.38, groups: [{ type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "spray-bottle", count: 3 }, { type: "slipper", count: 3 }, { type: "canRat", count: 2 }, { type: "robot-mop", count: 1 }] },
+  { name: "Wave 7", interval: 1.42, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "broom", count: 2 }, { type: "cucumber", count: 3 }, { type: "robot-mop", count: 1 }, { type: "roomba", count: 1 }] },
+  { name: "Wave 8", interval: 1.34, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "pigeon", count: 4 }, { type: "slipper", count: 4 }, { type: "foil-ball", count: 5 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }] },
+  { name: "Wave 9", interval: 1.28, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "cucumber", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "robot-mop", count: 1 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
+  { name: "Wave 10", interval: 1.24, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "foil-ball", count: 5 }, { type: "broom", count: 2 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 2 }, { type: "boss", count: 1 }] },
 ];
 
 const expertSiegeWaves = [
@@ -721,12 +766,12 @@ const expertSiegeWaves = [
   { name: "Wave 2", interval: 1.92, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "pigeon", count: 3 }] },
   { name: "Wave 3", interval: 1.62, groups: [{ type: "mouse", count: 4 }, { type: "foil-ball", count: 5 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }] },
   { name: "Wave 4", interval: 1.5, groups: [{ type: "cucumber", count: 4 }, { type: "rat", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "laserDrone", count: 2 }, { type: "foil-ball", count: 5 }] },
-  { name: "Wave 5", interval: 1.42, groups: [{ type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 6", interval: 1.34, groups: [{ type: "pigeon", count: 4 }, { type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 6 }] },
-  { name: "Wave 7", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "pigeon", count: 4 }, { type: "spray-bottle", count: 2 }, { type: "foil-ball", count: 5 }, { type: "roomba", count: 2 }, { type: "cucumber", count: 3 }, { type: "canRat", count: 2 }] },
-  { name: "Wave 8", interval: 1.3, groups: [{ type: "rat", count: 4 }, { type: "laserDrone", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 4 }] },
-  { name: "Wave 9", interval: 1.24, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 4 }, { type: "pigeon", count: 5 }, { type: "foil-ball", count: 5 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 3 }] },
-  { name: "Wave 10", interval: 1.18, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 5 }, { type: "foil-ball", count: 6 }, { type: "cucumber", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "robot-mop", count: 1 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }, { type: "boss", count: 1 }] },
+  { name: "Wave 5", interval: 1.42, groups: [{ type: "slipper", count: 4 }, { type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }, { type: "roomba", count: 1 }] },
+  { name: "Wave 6", interval: 1.34, groups: [{ type: "pigeon", count: 4 }, { type: "slipper", count: 4 }, { type: "cucumber", count: 3 }, { type: "rat", count: 4 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 6 }] },
+  { name: "Wave 7", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "broom", count: 2 }, { type: "pigeon", count: 4 }, { type: "spray-bottle", count: 2 }, { type: "foil-ball", count: 5 }, { type: "roomba", count: 2 }, { type: "cucumber", count: 3 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 8", interval: 1.3, groups: [{ type: "rat", count: 4 }, { type: "laserDrone", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 4 }] },
+  { name: "Wave 9", interval: 1.24, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 4 }, { type: "pigeon", count: 5 }, { type: "foil-ball", count: 5 }, { type: "slipper", count: 4 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 3 }] },
+  { name: "Wave 10", interval: 1.18, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 5 }, { type: "foil-ball", count: 6 }, { type: "cucumber", count: 3 }, { type: "broom", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "robot-mop", count: 1 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }, { type: "boss", count: 1 }] },
 ];
 
 const difficultyDefinitions = {
