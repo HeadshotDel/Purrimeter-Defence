@@ -203,6 +203,7 @@ const enemySpriteSheets = {
     hitFrames: 3,
     walkLoopSeconds: 0.76,
     hitSeconds: 0.16,
+    flipX: true,
   },
   "hair-dryer": {
     assetPath: "./assets/generated/enemy-pack/hair-dryer/hair-dryer-sheet.png",
@@ -230,6 +231,7 @@ const enemySpriteSheets = {
     hitFrames: 3,
     walkLoopSeconds: 0.9,
     hitSeconds: 0.16,
+    flipX: true,
   },
   pigeon: {
     assetPath: "./assets/generated/enemy-pack/pigeon/pigeon-sheet.png",
@@ -1144,9 +1146,15 @@ function preloadGeneratedEnemySprites() {
     const image = new Image();
     image.onload = () => {
       sprite.loaded = true;
+      renderCache.enemyPreview = null;
+      renderCache.waveOverlay = null;
+      if (enemyPreview && waveEnemies) render();
     };
     image.onerror = () => {
       sprite.loaded = false;
+      renderCache.enemyPreview = null;
+      renderCache.waveOverlay = null;
+      if (enemyPreview && waveEnemies) render();
     };
     image.src = sprite.assetPath;
   });
@@ -1208,6 +1216,11 @@ function getEnemySpriteStyle(enemy, visualTime = getVisualTimeSeconds()) {
   const frame = isHitFrame
     ? Math.min(frameCount - 1, Math.floor(((hitSeconds - enemy.hitFlash) / hitSeconds) * frameCount))
     : Math.floor((visualTime % sprite.walkLoopSeconds) / (sprite.walkLoopSeconds / frameCount)) % frameCount;
+
+  return getEnemySpriteFrameStyle(sprite, frame, row);
+}
+
+function getEnemySpriteFrameStyle(sprite, frame, row) {
   const xPercent = sprite.columns <= 1 ? 0 : (frame / (sprite.columns - 1)) * 100;
   const yPercent = sprite.rows <= 1 ? 0 : (row / (sprite.rows - 1)) * 100;
 
@@ -1750,6 +1763,12 @@ function getLoopingSpriteStyle(assetKey, visualTime) {
   return getSpriteSheetFrameStyle(sprite, frame);
 }
 
+function getStaticSpriteStyle(assetKey, frame = 0) {
+  const sprite = projectileFxSheets[assetKey];
+  if (!sprite?.loaded || !CONFIG.useImageAssets) return "";
+  return getSpriteSheetFrameStyle(sprite, frame);
+}
+
 function renderProjectile(projectile, visualTime = getVisualTimeSeconds()) {
   const assetKey = projectileVisualMap[projectile.kind];
   const spriteStyle = getLoopingSpriteStyle(assetKey, visualTime);
@@ -1759,8 +1778,8 @@ function renderProjectile(projectile, visualTime = getVisualTimeSeconds()) {
   return `<div class="projectile projectile-sprite projectile-${projectile.kind} projectile-trail ${generatedClass}" style="left:${projectile.x}px; top:${projectile.y}px${spriteStyleAttribute}"></div>`;
 }
 
-function renderFishDrops(visualTime = getVisualTimeSeconds()) {
-  const fishSpriteStyle = getLoopingSpriteStyle("fish-drop", visualTime);
+function renderFishDrops() {
+  const fishSpriteStyle = getStaticSpriteStyle("fish-drop", 0);
   return state.fishDrops.map((drop) => {
     const lifeRatio = Math.max(0, Math.min(1, drop.lifetime / drop.maxLifetime));
     const fadingClass = lifeRatio < 0.28 ? "is-fading" : "";
@@ -2005,13 +2024,23 @@ function getWaveGroupsSignature(groups = []) {
 function renderEnemyChips(groups) {
   return groups.map((group) => {
     const enemy = getEnemyDefinition(group.type);
+    const spriteStyle = getEnemyPreviewSpriteStyle(group.type);
+    const generatedClass = spriteStyle ? "generated-enemy-icon" : "";
+    const spriteStyleAttribute = spriteStyle ? ` style="${spriteStyle}"` : "";
     return `
       <span class="enemy-chip" title="${enemy.name}">
-        <span class="enemy-icon ${enemy.className}"><span class="enemy-body"></span></span>
+        <span class="enemy-icon ${enemy.className} ${generatedClass}"><span class="enemy-body"${spriteStyleAttribute}></span></span>
         <span class="enemy-count">x${group.count}</span>
       </span>
     `;
   }).join("");
+}
+
+function getEnemyPreviewSpriteStyle(typeId) {
+  const spriteKey = enemyVisualMap[typeId];
+  const sprite = enemySpriteSheets[spriteKey];
+  if (!sprite?.loaded || !CONFIG.useImageAssets) return "";
+  return getEnemySpriteFrameStyle(sprite, 0, 0);
 }
 
 function renderStartBestRun() {

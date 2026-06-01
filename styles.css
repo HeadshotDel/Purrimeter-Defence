@@ -332,6 +332,27 @@ h1 {
   image-rendering: pixelated;
 }
 
+.enemy-icon.generated-enemy-icon {
+  width: 34px;
+  height: 30px;
+  image-rendering: auto;
+}
+
+.enemy-icon.generated-enemy-icon .enemy-body {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  box-shadow: none;
+  image-rendering: auto;
+}
+
+.enemy-icon.generated-enemy-icon .enemy-body::before,
+.enemy-icon.generated-enemy-icon .enemy-body::after {
+  display: none;
+}
+
 .enemy-count {
   color: var(--ink);
   font-size: 0.72rem;
@@ -1085,6 +1106,7 @@ h1 {
   position: absolute;
   left: 50%;
   top: -10px;
+  z-index: 6;
   width: 80%;
   height: 7px;
   transform: translateX(-50%);
@@ -1096,6 +1118,12 @@ h1 {
   height: 100%;
   width: 100%;
   background: linear-gradient(90deg, #7df48d, #ffe06f);
+}
+
+.enemy-boss .hp-bar {
+  top: -15px;
+  width: 92%;
+  height: 9px;
 }
 
 .cooldown {
@@ -1235,7 +1263,7 @@ h1 {
     0 0 14px rgba(119, 217, 255, 0.34),
     inset 7px 0 0 rgba(255, 255, 255, 0.28),
     inset -7px 0 0 rgba(25, 90, 132, 0.22);
-  animation: fish-drop-in 0.22s steps(3) 1, fish-bob 0.95s steps(2) infinite;
+  animation: fish-drop-in 0.18s ease-out 1, fish-bob 1.15s ease-in-out infinite;
 }
 
 .fish-drop::before,
@@ -1275,7 +1303,8 @@ h1 {
 }
 
 .fish-drop.is-fading {
-  animation: fish-bob 0.95s steps(2) infinite, fish-fade 0.9s steps(3) infinite;
+  opacity: 0.72;
+  animation: fish-bob 1.15s ease-in-out infinite;
 }
 
 .fish-drop.is-expiring {
@@ -1287,9 +1316,13 @@ h1 {
 }
 
 .fish-drop.generated-fish-drop {
+  width: 34px;
+  height: 34px;
   border: 0;
   background-color: transparent;
   background-repeat: no-repeat;
+  animation: fish-bob 1.15s ease-in-out infinite;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.28)) drop-shadow(0 0 8px rgba(119, 217, 255, 0.22));
   box-shadow: none;
   image-rendering: auto;
 }
@@ -1820,6 +1853,62 @@ h1 {
 
 .mini-freezer {
   background: #d9f6ff;
+}
+
+.uses-image-asset.cat-pack-yarn-ready .mini-yarn,
+.uses-image-asset.cat-pack-tank-ready .mini-tank,
+.uses-image-asset.cat-pack-sniper-ready .mini-sniper,
+.uses-image-asset.cat-pack-fish-ready .mini-fish,
+.uses-image-asset.cat-pack-ninja-ready .mini-ninja,
+.uses-image-asset.cat-pack-freezer-ready .mini-freezer {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 0% 0%;
+  background-size: 600% 200%;
+  box-shadow: none;
+  image-rendering: auto;
+}
+
+.uses-image-asset.cat-pack-yarn-ready .mini-yarn::before,
+.uses-image-asset.cat-pack-yarn-ready .mini-yarn::after,
+.uses-image-asset.cat-pack-tank-ready .mini-tank::before,
+.uses-image-asset.cat-pack-tank-ready .mini-tank::after,
+.uses-image-asset.cat-pack-sniper-ready .mini-sniper::before,
+.uses-image-asset.cat-pack-sniper-ready .mini-sniper::after,
+.uses-image-asset.cat-pack-fish-ready .mini-fish::before,
+.uses-image-asset.cat-pack-fish-ready .mini-fish::after,
+.uses-image-asset.cat-pack-ninja-ready .mini-ninja::before,
+.uses-image-asset.cat-pack-ninja-ready .mini-ninja::after,
+.uses-image-asset.cat-pack-freezer-ready .mini-freezer::before,
+.uses-image-asset.cat-pack-freezer-ready .mini-freezer::after {
+  display: none;
+}
+
+.uses-image-asset.cat-pack-yarn-ready .mini-yarn {
+  background-image: url("./assets/generated/cat-pack/yarn-cat/yarn-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-tank-ready .mini-tank {
+  background-image: url("./assets/generated/cat-pack/tank-cat/tank-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-sniper-ready .mini-sniper {
+  background-image: url("./assets/generated/cat-pack/sniper-cat/sniper-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-fish-ready .mini-fish {
+  background-image: url("./assets/generated/cat-pack/fish-cat/fish-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-ninja-ready .mini-ninja {
+  background-image: url("./assets/generated/cat-pack/ninja-cat/ninja-cat-sheet.png");
+}
+
+.uses-image-asset.cat-pack-freezer-ready .mini-freezer {
+  background-image: url("./assets/generated/cat-pack/freezer-cat/freezer-cat-sheet.png");
 }
 
 .card-name {
