@@ -17,6 +17,7 @@ const CONFIG = {
   feedbackFlashSeconds: 0.55,
   bossWarningSeconds: 2.4,
   enemyEntranceOffset: 64,
+  enemyHpMultiplier: 1.3,
   baseColumnBuffer: -0.45,
   bestRunStorageKey: "catline-defense-best-runs",
   mutedStorageKey: "purrimeter-muted",
@@ -2100,7 +2101,7 @@ function updateWaves(delta) {
   if (state.nextSpawnIn <= 0 && state.waveSpawnCursor < state.waveSpawnList.length) {
     const spawn = state.waveSpawnList[state.waveSpawnCursor];
     debugWave("updateWaves spawn due", { enemyType: spawn.type });
-    if (spawnEnemy(spawn.type, randomRow())) {
+    if (spawnEnemy(spawn.type, randomRow(state.waveIndex))) {
       state.waveSpawnCursor += 1;
       state.nextSpawnIn = spawn.interval ?? wave.interval;
     }
@@ -2142,14 +2143,15 @@ function spawnEnemy(typeId, row) {
     return false;
   }
   const dims = getBoardMetrics();
+  const maxHp = getEnemyMaxHp(type);
   debugWave("spawnEnemy", { enemyType: typeId, row });
   state.enemies.push({
     id: nextId("enemy"),
     type: typeId,
     row,
     x: dims.width + CONFIG.enemyEntranceOffset,
-    hp: type.hp,
-    maxHp: type.hp,
+    hp: maxHp,
+    maxHp,
     speed: type.speed,
     attackTimer: 0,
     slowTimer: 0,
@@ -3417,8 +3419,18 @@ function rowCenter(row, dims = getBoardMetrics()) {
   return (row + 0.5) * dims.cellHeight;
 }
 
-function randomRow() {
-  return Math.floor(Math.random() * CONFIG.gridRows);
+function getEnemyMaxHp(type) {
+  return Math.ceil((type.hp || 1) * CONFIG.enemyHpMultiplier);
+}
+
+function getAllowedSpawnLanesForWave(waveIndex) {
+  if (waveIndex === 0 && CONFIG.gridRows >= 3) return [1, 2, 3];
+  return Array.from({ length: CONFIG.gridRows }, (_, row) => row);
+}
+
+function randomRow(waveIndex = state.waveIndex) {
+  const lanes = getAllowedSpawnLanesForWave(waveIndex);
+  return lanes[Math.floor(Math.random() * lanes.length)];
 }
 
 function randomRange(min, max) {
