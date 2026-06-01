@@ -364,7 +364,7 @@ h1 {
   grid-template-columns: 64px 1fr;
   gap: 10px;
   margin-top: 14px;
-  filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.22));
+  box-shadow: 0 14px 18px -18px rgba(0, 0, 0, 0.38);
 }
 
 .base-zone {
@@ -412,7 +412,7 @@ h1 {
 }
 
 .board-shell.is-preview {
-  filter: saturate(0.9) brightness(0.94);
+  opacity: 0.96;
 }
 
 .board-shell.wave-start-pulse {
@@ -586,6 +586,7 @@ h1 {
 .cat,
 .enemy {
   animation: idle-bob 0.9s steps(2) infinite;
+  will-change: transform;
 }
 
 .cat-body,
@@ -1047,7 +1048,7 @@ h1 {
 }
 
 .is-hit {
-  filter: brightness(1.7) saturate(1.25);
+  opacity: 0.92;
 }
 
 .enemy.is-hit .enemy-body,
@@ -1058,10 +1059,9 @@ h1 {
 }
 
 .is-slowed .enemy-body {
-  filter: saturate(1.2) hue-rotate(155deg) brightness(1.25);
   box-shadow:
     inset 0 -7px 0 rgba(0, 0, 0, 0.18),
-    0 0 14px rgba(118, 231, 255, 0.65);
+    0 0 9px rgba(118, 231, 255, 0.42);
 }
 
 .is-debuffed .cat-body {
@@ -1070,7 +1070,7 @@ h1 {
 }
 
 .cat-panicked {
-  animation: shake 0.18s steps(2) infinite;
+  animation: cat-panic-shake 0.2s steps(2) infinite;
 }
 
 .cat-panicked .cat-body {
@@ -1079,12 +1079,11 @@ h1 {
 }
 
 .cat-upgraded .cat-body {
-  filter: brightness(1.12) saturate(1.18);
   outline: 3px solid rgba(255, 213, 106, 0.56);
   outline-offset: 2px;
   box-shadow:
     inset 0 -7px 0 rgba(0, 0, 0, 0.18),
-    0 0 14px rgba(255, 213, 106, 0.32);
+    0 0 9px rgba(255, 213, 106, 0.22);
 }
 
 .cat-level-badge {
@@ -1155,6 +1154,7 @@ h1 {
   height: 14px;
   transform: translate(-50%, -50%);
   border: 3px solid #0a0d18;
+  will-change: left, top;
 }
 
 .projectile-trail::after {
@@ -1184,7 +1184,6 @@ h1 {
   border-radius: 50%;
   background: #ffc2d8;
   box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.28), 0 0 8px rgba(255, 194, 216, 0.34);
-  animation: yarn-wobble 0.26s steps(2) infinite;
 }
 
 .projectile-sniper {
@@ -1264,6 +1263,7 @@ h1 {
     inset 7px 0 0 rgba(255, 255, 255, 0.28),
     inset -7px 0 0 rgba(25, 90, 132, 0.22);
   animation: fish-drop-in 0.18s ease-out 1, fish-bob 1.15s ease-in-out infinite;
+  will-change: transform;
 }
 
 .fish-drop::before,
@@ -1322,8 +1322,7 @@ h1 {
   background-color: transparent;
   background-repeat: no-repeat;
   animation: fish-bob 1.15s ease-in-out infinite;
-  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.28)) drop-shadow(0 0 8px rgba(119, 217, 255, 0.22));
-  box-shadow: none;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2), 0 0 6px rgba(119, 217, 255, 0.16);
   image-rendering: auto;
 }
 
@@ -1520,6 +1519,7 @@ h1 {
   font-size: 0.78rem;
   background: #ffe27a;
   animation: float-up 0.75s steps(6) forwards;
+  will-change: transform, opacity;
 }
 
 .float-text.damage {
@@ -1610,6 +1610,7 @@ h1 {
   background-position: center;
   background-size: contain;
   animation: impact-fx-fade 0.34s steps(4) forwards;
+  will-change: transform, opacity;
 }
 
 .impact-fx-impact-normal {
@@ -2657,10 +2658,10 @@ h1 {
 @keyframes idle-bob {
   0%,
   100% {
-    margin-top: 0;
+    transform: translate(-50%, -50%) translateY(0);
   }
   50% {
-    margin-top: -3px;
+    transform: translate(-50%, -50%) translateY(-3px);
   }
 }
 
@@ -2689,6 +2690,19 @@ h1 {
   }
   75% {
     transform: translateX(5px);
+  }
+}
+
+@keyframes cat-panic-shake {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(0);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(-4px);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(4px);
   }
 }
 
@@ -2767,10 +2781,10 @@ h1 {
 @keyframes yarn-wobble {
   0%,
   100% {
-    margin-top: 0;
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   50% {
-    margin-top: -2px;
+    transform: translate(-50%, -50%) rotate(8deg);
   }
 }
 
@@ -2788,10 +2802,10 @@ h1 {
 @keyframes fish-bob {
   0%,
   100% {
-    margin-top: 0;
+    transform: translate(-50%, -50%) translateY(0);
   }
   50% {
-    margin-top: -5px;
+    transform: translate(-50%, -50%) translateY(-4px);
   }
 }
 
@@ -2818,11 +2832,11 @@ h1 {
 @keyframes float-up {
   from {
     opacity: 1;
-    margin-top: 0;
+    transform: translate(-50%, -50%) translateY(0);
   }
   to {
     opacity: 0;
-    margin-top: -35px;
+    transform: translate(-50%, -50%) translateY(-32px);
   }
 }
 
@@ -2859,17 +2873,14 @@ h1 {
 @keyframes impact-fx-fade {
   0% {
     opacity: 1;
-    filter: brightness(1.12);
     transform: translate(-50%, -50%) scale(0.72);
   }
   72% {
     opacity: 1;
-    filter: brightness(1);
     transform: translate(-50%, -50%) scale(1.08);
   }
   100% {
     opacity: 0;
-    filter: brightness(1);
     transform: translate(-50%, -50%) scale(0.86);
   }
 }
@@ -2938,6 +2949,28 @@ h1 {
 }
 
 @media (max-width: 860px) {
+  .game-shell {
+    box-shadow: 0 0 22px rgba(0, 0, 0, 0.2);
+  }
+
+  .arena {
+    box-shadow: none;
+  }
+
+  .board-shell,
+  .board-shell.is-active-wave {
+    box-shadow: 0 5px 0 #080b17, inset 0 0 0 2px rgba(255, 255, 255, 0.035);
+  }
+
+  .cat-card::after {
+    display: none;
+  }
+
+  .cat-card:hover {
+    transform: none;
+    filter: none;
+  }
+
   .hud {
     grid-template-columns: 1fr;
   }
@@ -3134,6 +3167,32 @@ h1 {
   .game-shell {
     width: calc(100vw - 10px);
     padding-top: 6px;
+  }
+
+  .cat,
+  .enemy {
+    animation: none;
+  }
+
+  .fish-drop,
+  .fish-drop.generated-fish-drop {
+    animation-duration: 1.45s;
+  }
+
+  .float-text.collect-pop,
+  .float-text.debuff,
+  .float-text.miss,
+  .combat-float.miss,
+  .float-text.death-burst,
+  .float-text.refund-pop,
+  .float-text.upgrade-effect,
+  .float-text.sparkle {
+    box-shadow: none;
+  }
+
+  .impact-fx {
+    width: 38px;
+    height: 38px;
   }
 
   .arena {

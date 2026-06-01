@@ -813,6 +813,7 @@ let catCardElements = [];
 let difficultyCardElements = [];
 let catNodes = new Map();
 let enemyNodes = new Map();
+let projectileNodes = new Map();
 
 let lastTimestamp = 0;
 let idCounter = 0;
@@ -1515,7 +1516,7 @@ function render() {
   ensureUnitSublayers();
   renderCatsRetained(dims, visualTime);
   renderEnemiesRetained(dims, visualTime);
-  setLayerHTML("projectileUnitLayerHTML", projectileUnitLayer, state.projectiles.map((projectile) => renderProjectile(projectile, visualTime)).join(""));
+  renderProjectilesRetained(visualTime);
 
   setLayerHTML("fishDropLayerHTML", fishDropLayer, renderFishDrops(visualTime));
   setLayerHTML("effectLayerHTML", effectLayer, state.effects.map((effect) => renderEffect(effect, visualTime)).join(""));
@@ -1536,6 +1537,7 @@ function ensureUnitSublayers() {
   unitLayer.innerHTML = "";
   catNodes.clear();
   enemyNodes.clear();
+  projectileNodes.clear();
   catUnitLayer = createUnitSublayer("catUnitLayer", "cat-unit-layer");
   enemyUnitLayer = createUnitSublayer("enemyUnitLayer", "enemy-unit-layer");
   projectileUnitLayer = createUnitSublayer("projectileUnitLayer", "projectile-unit-layer");
@@ -1698,6 +1700,53 @@ function updateEnemyNode(node, enemy, dims, visualTime = getVisualTimeSeconds())
     node.enemyBody.setAttribute("style", spriteStyle);
   } else {
     node.enemyBody.removeAttribute("style");
+  }
+}
+
+function renderProjectilesRetained(visualTime = getVisualTimeSeconds()) {
+  const liveIds = new Set();
+
+  state.projectiles.forEach((projectile) => {
+    liveIds.add(projectile.id);
+    let node = projectileNodes.get(projectile.id);
+    if (!node) {
+      node = createProjectileNode(projectile);
+      projectileNodes.set(projectile.id, node);
+      projectileUnitLayer.appendChild(node);
+    }
+    updateProjectileNode(node, projectile, visualTime);
+  });
+
+  projectileNodes.forEach((node, projectileId) => {
+    if (liveIds.has(projectileId)) return;
+    node.remove();
+    projectileNodes.delete(projectileId);
+  });
+}
+
+function createProjectileNode(projectile) {
+  const node = document.createElement("div");
+  node.dataset.projectileId = projectile.id;
+  return node;
+}
+
+function updateProjectileNode(node, projectile, visualTime = getVisualTimeSeconds()) {
+  const assetKey = projectileVisualMap[projectile.kind];
+  const spriteStyle = getLoopingSpriteStyle(assetKey, visualTime);
+  const className = [
+    "projectile",
+    "projectile-sprite",
+    `projectile-${projectile.kind}`,
+    "projectile-trail",
+    spriteStyle ? "generated-projectile" : "",
+  ].filter(Boolean).join(" ");
+
+  node.dataset.projectileKind = projectile.kind;
+  node.className = className;
+  if (spriteStyle) {
+    node.setAttribute("style", `left:${projectile.x}px; top:${projectile.y}px;${spriteStyle}`);
+  } else {
+    node.setAttribute("style", `left:${projectile.x}px; top:${projectile.y}px`);
   }
 }
 
