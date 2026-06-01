@@ -1,0 +1,436 @@
+{
+  "name": "can-rat",
+  "displayName": "Can Rat / Armored Rat",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent enemy pack",
+  "identity": "rat with tin can / scrap armor, clearly armored",
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_04718b7f251e4e1b016a1d45fe6b488191bc65f3e65b908c6a.png",
+    "rawSourceCopy": "can-rat-raw-source.png",
+    "rawSize": {
+      "width": 1619,
+      "height": 971
+    },
+    "rawSha256Prefix": "2ab5a0edd205d8a5"
+  },
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "can-rat-sheet.png",
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "mode": "RGBA",
+    "transparent": true,
+    "layout": "row 1: walk/move frames 0-3, column 4 transparent; row 2: hit/damaged frames 0-2, columns 3-4 transparent; row 3: death frames 0-4",
+    "unusedCells": [
+      {
+        "row": 0,
+        "column": 4
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 4
+      }
+    ]
+  },
+  "animations": {
+    "walk": {
+      "frameCount": 4,
+      "frames": [
+        "frames/can-rat-walk-00.png",
+        "frames/can-rat-walk-01.png",
+        "frames/can-rat-walk-02.png",
+        "frames/can-rat-walk-03.png"
+      ]
+    },
+    "hit": {
+      "frameCount": 3,
+      "frames": [
+        "frames/can-rat-hit-00.png",
+        "frames/can-rat-hit-01.png",
+        "frames/can-rat-hit-02.png"
+      ]
+    },
+    "death": {
+      "frameCount": 5,
+      "frames": [
+        "frames/can-rat-death-00.png",
+        "frames/can-rat-death-01.png",
+        "frames/can-rat-death-02.png",
+        "frames/can-rat-death-03.png",
+        "frames/can-rat-death-04.png"
+      ]
+    }
+  },
+  "preview": {
+    "file": "can-rat-preview.gif",
+    "frames": 12,
+    "works": true
+  },
+  "frames": [
+    {
+      "name": "can-rat-walk-00",
+      "animation": "walk",
+      "row": 0,
+      "column": 0,
+      "file": "frames/can-rat-walk-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          27,
+          64,
+          312,
+          277
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 78
+        },
+        "offset": {
+          "x": 12,
+          "y": 25
+        }
+      }
+    },
+    {
+      "name": "can-rat-walk-01",
+      "animation": "walk",
+      "row": 0,
+      "column": 1,
+      "file": "frames/can-rat-walk-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          51,
+          68,
+          324,
+          277
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 80
+        },
+        "offset": {
+          "x": 12,
+          "y": 24
+        }
+      }
+    },
+    {
+      "name": "can-rat-walk-02",
+      "animation": "walk",
+      "row": 0,
+      "column": 2,
+      "file": "frames/can-rat-walk-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          63,
+          321,
+          278
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 70
+        },
+        "offset": {
+          "x": 12,
+          "y": 29
+        }
+      }
+    },
+    {
+      "name": "can-rat-walk-03",
+      "animation": "walk",
+      "row": 0,
+      "column": 3,
+      "file": "frames/can-rat-walk-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          42,
+          70,
+          304,
+          278
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 83
+        },
+        "offset": {
+          "x": 12,
+          "y": 22
+        }
+      }
+    },
+    {
+      "name": "can-rat-hit-00",
+      "animation": "hit",
+      "row": 1,
+      "column": 0,
+      "file": "frames/can-rat-hit-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          42,
+          40,
+          287,
+          264
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 95
+        },
+        "offset": {
+          "x": 12,
+          "y": 16
+        }
+      }
+    },
+    {
+      "name": "can-rat-hit-01",
+      "animation": "hit",
+      "row": 1,
+      "column": 1,
+      "file": "frames/can-rat-hit-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          45,
+          31,
+          283,
+          267
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 103
+        },
+        "offset": {
+          "x": 12,
+          "y": 12
+        }
+      }
+    },
+    {
+      "name": "can-rat-hit-02",
+      "animation": "hit",
+      "row": 1,
+      "column": 2,
+      "file": "frames/can-rat-hit-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          46,
+          38,
+          288,
+          266
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 98
+        },
+        "offset": {
+          "x": 12,
+          "y": 15
+        }
+      }
+    },
+    {
+      "name": "can-rat-death-00",
+      "animation": "death",
+      "row": 2,
+      "column": 0,
+      "file": "frames/can-rat-death-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          45,
+          25,
+          303,
+          260
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 95
+        },
+        "offset": {
+          "x": 12,
+          "y": 16
+        }
+      }
+    },
+    {
+      "name": "can-rat-death-01",
+      "animation": "death",
+      "row": 2,
+      "column": 1,
+      "file": "frames/can-rat-death-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          54,
+          38,
+          324,
+          258
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 85
+        },
+        "offset": {
+          "x": 12,
+          "y": 21
+        }
+      }
+    },
+    {
+      "name": "can-rat-death-02",
+      "animation": "death",
+      "row": 2,
+      "column": 2,
+      "file": "frames/can-rat-death-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          66,
+          323,
+          253
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 60
+        },
+        "offset": {
+          "x": 12,
+          "y": 34
+        }
+      }
+    },
+    {
+      "name": "can-rat-death-03",
+      "animation": "death",
+      "row": 2,
+      "column": 3,
+      "file": "frames/can-rat-death-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          65,
+          315,
+          262
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 65
+        },
+        "offset": {
+          "x": 12,
+          "y": 31
+        }
+      }
+    },
+    {
+      "name": "can-rat-death-04",
+      "animation": "death",
+      "row": 2,
+      "column": 4,
+      "file": "frames/can-rat-death-04.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          32,
+          173,
+          278,
+          266
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 39
+        },
+        "offset": {
+          "x": 12,
+          "y": 44
+        }
+      }
+    }
+  ],
+  "validation": {
+    "frameCountTotal": 12,
+    "allFrames128x128RGBA": true,
+    "sheetTransparentRGBA": true,
+    "gifPreviewPresent": true,
+    "edgeTouchFrames": [],
+    "passed": true
+  }
+}

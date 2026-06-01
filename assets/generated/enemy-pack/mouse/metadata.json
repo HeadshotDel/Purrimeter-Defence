@@ -1,0 +1,436 @@
+{
+  "name": "mouse",
+  "displayName": "Mouse",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent enemy pack",
+  "identity": "small basic pest; quick readable silhouette",
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_04718b7f251e4e1b016a1d45581904819183510321759c53cd.png",
+    "rawSourceCopy": "mouse-raw-source.png",
+    "rawSize": {
+      "width": 1599,
+      "height": 984
+    },
+    "rawSha256Prefix": "11ec9f0b9d72be50"
+  },
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "mouse-sheet.png",
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "mode": "RGBA",
+    "transparent": true,
+    "layout": "row 1: walk/move frames 0-3, column 4 transparent; row 2: hit/damaged frames 0-2, columns 3-4 transparent; row 3: death frames 0-4",
+    "unusedCells": [
+      {
+        "row": 0,
+        "column": 4
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 4
+      }
+    ]
+  },
+  "animations": {
+    "walk": {
+      "frameCount": 4,
+      "frames": [
+        "frames/mouse-walk-00.png",
+        "frames/mouse-walk-01.png",
+        "frames/mouse-walk-02.png",
+        "frames/mouse-walk-03.png"
+      ]
+    },
+    "hit": {
+      "frameCount": 3,
+      "frames": [
+        "frames/mouse-hit-00.png",
+        "frames/mouse-hit-01.png",
+        "frames/mouse-hit-02.png"
+      ]
+    },
+    "death": {
+      "frameCount": 5,
+      "frames": [
+        "frames/mouse-death-00.png",
+        "frames/mouse-death-01.png",
+        "frames/mouse-death-02.png",
+        "frames/mouse-death-03.png",
+        "frames/mouse-death-04.png"
+      ]
+    }
+  },
+  "preview": {
+    "file": "mouse-preview.gif",
+    "frames": 12,
+    "works": true
+  },
+  "frames": [
+    {
+      "name": "mouse-walk-00",
+      "animation": "walk",
+      "row": 0,
+      "column": 0,
+      "file": "frames/mouse-walk-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          56,
+          72,
+          270,
+          294
+        ],
+        "contentSize": {
+          "width": 100,
+          "height": 104
+        },
+        "offset": {
+          "x": 14,
+          "y": 12
+        }
+      }
+    },
+    {
+      "name": "mouse-walk-01",
+      "animation": "walk",
+      "row": 0,
+      "column": 1,
+      "file": "frames/mouse-walk-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          30,
+          60,
+          293,
+          288
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 90
+        },
+        "offset": {
+          "x": 12,
+          "y": 19
+        }
+      }
+    },
+    {
+      "name": "mouse-walk-02",
+      "animation": "walk",
+      "row": 0,
+      "column": 2,
+      "file": "frames/mouse-walk-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          33,
+          60,
+          294,
+          292
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 92
+        },
+        "offset": {
+          "x": 12,
+          "y": 18
+        }
+      }
+    },
+    {
+      "name": "mouse-walk-03",
+      "animation": "walk",
+      "row": 0,
+      "column": 3,
+      "file": "frames/mouse-walk-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          26,
+          62,
+          264,
+          292
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 101
+        },
+        "offset": {
+          "x": 12,
+          "y": 13
+        }
+      }
+    },
+    {
+      "name": "mouse-hit-00",
+      "animation": "hit",
+      "row": 1,
+      "column": 0,
+      "file": "frames/mouse-hit-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          32,
+          45,
+          277,
+          279
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 99
+        },
+        "offset": {
+          "x": 12,
+          "y": 14
+        }
+      }
+    },
+    {
+      "name": "mouse-hit-01",
+      "animation": "hit",
+      "row": 1,
+      "column": 1,
+      "file": "frames/mouse-hit-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          25,
+          65,
+          266,
+          274
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 90
+        },
+        "offset": {
+          "x": 12,
+          "y": 19
+        }
+      }
+    },
+    {
+      "name": "mouse-hit-02",
+      "animation": "hit",
+      "row": 1,
+      "column": 2,
+      "file": "frames/mouse-hit-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          27,
+          52,
+          261,
+          278
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 100
+        },
+        "offset": {
+          "x": 12,
+          "y": 14
+        }
+      }
+    },
+    {
+      "name": "mouse-death-00",
+      "animation": "death",
+      "row": 2,
+      "column": 0,
+      "file": "frames/mouse-death-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          39,
+          50,
+          284,
+          252
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 86
+        },
+        "offset": {
+          "x": 12,
+          "y": 21
+        }
+      }
+    },
+    {
+      "name": "mouse-death-01",
+      "animation": "death",
+      "row": 2,
+      "column": 1,
+      "file": "frames/mouse-death-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          14,
+          73,
+          290,
+          250
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 67
+        },
+        "offset": {
+          "x": 12,
+          "y": 30
+        }
+      }
+    },
+    {
+      "name": "mouse-death-02",
+      "animation": "death",
+      "row": 2,
+      "column": 2,
+      "file": "frames/mouse-death-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          36,
+          98,
+          266,
+          255
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 71
+        },
+        "offset": {
+          "x": 12,
+          "y": 28
+        }
+      }
+    },
+    {
+      "name": "mouse-death-03",
+      "animation": "death",
+      "row": 2,
+      "column": 3,
+      "file": "frames/mouse-death-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          15,
+          49,
+          273,
+          258
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 84
+        },
+        "offset": {
+          "x": 12,
+          "y": 22
+        }
+      }
+    },
+    {
+      "name": "mouse-death-04",
+      "animation": "death",
+      "row": 2,
+      "column": 4,
+      "file": "frames/mouse-death-04.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          33,
+          102,
+          238,
+          255
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 78
+        },
+        "offset": {
+          "x": 12,
+          "y": 25
+        }
+      }
+    }
+  ],
+  "validation": {
+    "frameCountTotal": 12,
+    "allFrames128x128RGBA": true,
+    "sheetTransparentRGBA": true,
+    "gifPreviewPresent": true,
+    "edgeTouchFrames": [],
+    "passed": true
+  }
+}

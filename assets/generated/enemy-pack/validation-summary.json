@@ -1,0 +1,203 @@
+{
+  "project": "Purrimeter Defence",
+  "pack": "generated enemy visual pack",
+  "generatedAt": "2026-06-01",
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "layout": "row 1: walk/move frames 0-3 with column 5 transparent; row 2: hit/damaged frames 0-2 with columns 4-5 transparent; row 3: death frames 0-4"
+  },
+  "validation": {
+    "allFrames128x128RGBA": true,
+    "allSheetsTransparentRGBA": true,
+    "allGifPreviewsPresent": true,
+    "allUnitsHave12Frames": true,
+    "styleConsistency": "Generated from matching prompts: clean 2D cartoon mobile tower defense style, transparent background, thick outline, warm lighting, playful readable enemies.",
+    "edgeTouchFrames": {},
+    "passed": true
+  },
+  "units": [
+    {
+      "name": "mouse",
+      "displayName": "Mouse",
+      "path": "assets/generated/enemy-pack/mouse",
+      "sheet": "mouse-sheet.png",
+      "preview": "mouse-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "rat",
+      "displayName": "Rat",
+      "path": "assets/generated/enemy-pack/rat",
+      "sheet": "rat-sheet.png",
+      "preview": "rat-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "can-rat",
+      "displayName": "Can Rat / Armored Rat",
+      "path": "assets/generated/enemy-pack/can-rat",
+      "sheet": "can-rat-sheet.png",
+      "preview": "can-rat-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "roomba",
+      "displayName": "Roomba",
+      "path": "assets/generated/enemy-pack/roomba",
+      "sheet": "roomba-sheet.png",
+      "preview": "roomba-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "robot-mop",
+      "displayName": "Robot Mop",
+      "path": "assets/generated/enemy-pack/robot-mop",
+      "sheet": "robot-mop-sheet.png",
+      "preview": "robot-mop-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "hair-dryer",
+      "displayName": "Hair Dryer",
+      "path": "assets/generated/enemy-pack/hair-dryer",
+      "sheet": "hair-dryer-sheet.png",
+      "preview": "hair-dryer-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "cucumber-panic",
+      "displayName": "Cucumber Panic",
+      "path": "assets/generated/enemy-pack/cucumber-panic",
+      "sheet": "cucumber-panic-sheet.png",
+      "preview": "cucumber-panic-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    },
+    {
+      "name": "boss-smart-vacuum",
+      "displayName": "Boss Smart Vacuum",
+      "path": "assets/generated/enemy-pack/boss-smart-vacuum",
+      "sheet": "boss-smart-vacuum-sheet.png",
+      "preview": "boss-smart-vacuum-preview.gif",
+      "frameCount": 12,
+      "animations": {
+        "walk": 4,
+        "hit": 3,
+        "death": 5
+      },
+      "sheetMode": "RGBA",
+      "sheetSize": {
+        "width": 640,
+        "height": 384
+      },
+      "framesValid": true,
+      "transparent": true,
+      "edgeTouchFrames": [],
+      "passed": true
+    }
+  ]
+}

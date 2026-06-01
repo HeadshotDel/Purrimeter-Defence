@@ -1,0 +1,436 @@
+{
+  "name": "rat",
+  "displayName": "Rat",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent enemy pack",
+  "identity": "bigger tougher pest with heavier body",
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_04718b7f251e4e1b016a1d45a0e4248191ab37ab32064d57f2.png",
+    "rawSourceCopy": "rat-raw-source.png",
+    "rawSize": {
+      "width": 1599,
+      "height": 984
+    },
+    "rawSha256Prefix": "ab3a6f081b67e0cf"
+  },
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "rat-sheet.png",
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "mode": "RGBA",
+    "transparent": true,
+    "layout": "row 1: walk/move frames 0-3, column 4 transparent; row 2: hit/damaged frames 0-2, columns 3-4 transparent; row 3: death frames 0-4",
+    "unusedCells": [
+      {
+        "row": 0,
+        "column": 4
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 4
+      }
+    ]
+  },
+  "animations": {
+    "walk": {
+      "frameCount": 4,
+      "frames": [
+        "frames/rat-walk-00.png",
+        "frames/rat-walk-01.png",
+        "frames/rat-walk-02.png",
+        "frames/rat-walk-03.png"
+      ]
+    },
+    "hit": {
+      "frameCount": 3,
+      "frames": [
+        "frames/rat-hit-00.png",
+        "frames/rat-hit-01.png",
+        "frames/rat-hit-02.png"
+      ]
+    },
+    "death": {
+      "frameCount": 5,
+      "frames": [
+        "frames/rat-death-00.png",
+        "frames/rat-death-01.png",
+        "frames/rat-death-02.png",
+        "frames/rat-death-03.png",
+        "frames/rat-death-04.png"
+      ]
+    }
+  },
+  "preview": {
+    "file": "rat-preview.gif",
+    "frames": 12,
+    "works": true
+  },
+  "frames": [
+    {
+      "name": "rat-walk-00",
+      "animation": "walk",
+      "row": 0,
+      "column": 0,
+      "file": "frames/rat-walk-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          42,
+          45,
+          302,
+          299
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 102
+        },
+        "offset": {
+          "x": 12,
+          "y": 13
+        }
+      }
+    },
+    {
+      "name": "rat-walk-01",
+      "animation": "walk",
+      "row": 0,
+      "column": 1,
+      "file": "frames/rat-walk-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          36,
+          48,
+          305,
+          306
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 100
+        },
+        "offset": {
+          "x": 12,
+          "y": 14
+        }
+      }
+    },
+    {
+      "name": "rat-walk-02",
+      "animation": "walk",
+      "row": 0,
+      "column": 2,
+      "file": "frames/rat-walk-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          16,
+          49,
+          319,
+          302
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 87
+        },
+        "offset": {
+          "x": 12,
+          "y": 20
+        }
+      }
+    },
+    {
+      "name": "rat-walk-03",
+      "animation": "walk",
+      "row": 0,
+      "column": 3,
+      "file": "frames/rat-walk-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          49,
+          241,
+          306
+        ],
+        "contentSize": {
+          "width": 98,
+          "height": 104
+        },
+        "offset": {
+          "x": 15,
+          "y": 12
+        }
+      }
+    },
+    {
+      "name": "rat-hit-00",
+      "animation": "hit",
+      "row": 1,
+      "column": 0,
+      "file": "frames/rat-hit-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          38,
+          37,
+          311,
+          293
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 98
+        },
+        "offset": {
+          "x": 12,
+          "y": 15
+        }
+      }
+    },
+    {
+      "name": "rat-hit-01",
+      "animation": "hit",
+      "row": 1,
+      "column": 1,
+      "file": "frames/rat-hit-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          22,
+          53,
+          320,
+          298
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 86
+        },
+        "offset": {
+          "x": 12,
+          "y": 21
+        }
+      }
+    },
+    {
+      "name": "rat-hit-02",
+      "animation": "hit",
+      "row": 1,
+      "column": 2,
+      "file": "frames/rat-hit-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          30,
+          269,
+          299
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 104
+        },
+        "offset": {
+          "x": 12,
+          "y": 12
+        }
+      }
+    },
+    {
+      "name": "rat-death-00",
+      "animation": "death",
+      "row": 2,
+      "column": 0,
+      "file": "frames/rat-death-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          41,
+          44,
+          320,
+          254
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 78
+        },
+        "offset": {
+          "x": 12,
+          "y": 25
+        }
+      }
+    },
+    {
+      "name": "rat-death-01",
+      "animation": "death",
+      "row": 2,
+      "column": 1,
+      "file": "frames/rat-death-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          0,
+          47,
+          319,
+          259
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 69
+        },
+        "offset": {
+          "x": 12,
+          "y": 29
+        }
+      }
+    },
+    {
+      "name": "rat-death-02",
+      "animation": "death",
+      "row": 2,
+      "column": 2,
+      "file": "frames/rat-death-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          57,
+          48,
+          304,
+          256
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 88
+        },
+        "offset": {
+          "x": 12,
+          "y": 20
+        }
+      }
+    },
+    {
+      "name": "rat-death-03",
+      "animation": "death",
+      "row": 2,
+      "column": 3,
+      "file": "frames/rat-death-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          74,
+          37,
+          304,
+          249
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 96
+        },
+        "offset": {
+          "x": 12,
+          "y": 16
+        }
+      }
+    },
+    {
+      "name": "rat-death-04",
+      "animation": "death",
+      "row": 2,
+      "column": 4,
+      "file": "frames/rat-death-04.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          74,
+          90,
+          244,
+          239
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 91
+        },
+        "offset": {
+          "x": 12,
+          "y": 18
+        }
+      }
+    }
+  ],
+  "validation": {
+    "frameCountTotal": 12,
+    "allFrames128x128RGBA": true,
+    "sheetTransparentRGBA": true,
+    "gifPreviewPresent": true,
+    "edgeTouchFrames": [],
+    "passed": true
+  }
+}

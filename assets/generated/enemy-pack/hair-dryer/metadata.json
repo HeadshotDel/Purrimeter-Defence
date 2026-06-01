@@ -1,0 +1,436 @@
+{
+  "name": "hair-dryer",
+  "displayName": "Hair Dryer",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent enemy pack",
+  "identity": "hovering appliance enemy with wind/flying cue",
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_04718b7f251e4e1b016a1d473bf0d88191a7628014328525c5.png",
+    "rawSourceCopy": "hair-dryer-raw-source.png",
+    "rawSize": {
+      "width": 1619,
+      "height": 971
+    },
+    "rawSha256Prefix": "5fb4d84000e1a7ad"
+  },
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "hair-dryer-sheet.png",
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "mode": "RGBA",
+    "transparent": true,
+    "layout": "row 1: walk/move frames 0-3, column 4 transparent; row 2: hit/damaged frames 0-2, columns 3-4 transparent; row 3: death frames 0-4",
+    "unusedCells": [
+      {
+        "row": 0,
+        "column": 4
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 4
+      }
+    ]
+  },
+  "animations": {
+    "walk": {
+      "frameCount": 4,
+      "frames": [
+        "frames/hair-dryer-walk-00.png",
+        "frames/hair-dryer-walk-01.png",
+        "frames/hair-dryer-walk-02.png",
+        "frames/hair-dryer-walk-03.png"
+      ]
+    },
+    "hit": {
+      "frameCount": 3,
+      "frames": [
+        "frames/hair-dryer-hit-00.png",
+        "frames/hair-dryer-hit-01.png",
+        "frames/hair-dryer-hit-02.png"
+      ]
+    },
+    "death": {
+      "frameCount": 5,
+      "frames": [
+        "frames/hair-dryer-death-00.png",
+        "frames/hair-dryer-death-01.png",
+        "frames/hair-dryer-death-02.png",
+        "frames/hair-dryer-death-03.png",
+        "frames/hair-dryer-death-04.png"
+      ]
+    }
+  },
+  "preview": {
+    "file": "hair-dryer-preview.gif",
+    "frames": 12,
+    "works": true
+  },
+  "frames": [
+    {
+      "name": "hair-dryer-walk-00",
+      "animation": "walk",
+      "row": 0,
+      "column": 0,
+      "file": "frames/hair-dryer-walk-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          35,
+          66,
+          286,
+          293
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 94
+        },
+        "offset": {
+          "x": 12,
+          "y": 17
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-walk-01",
+      "animation": "walk",
+      "row": 0,
+      "column": 1,
+      "file": "frames/hair-dryer-walk-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          73,
+          77,
+          315,
+          293
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 93
+        },
+        "offset": {
+          "x": 12,
+          "y": 17
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-walk-02",
+      "animation": "walk",
+      "row": 0,
+      "column": 2,
+      "file": "frames/hair-dryer-walk-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          92,
+          79,
+          320,
+          295
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 99
+        },
+        "offset": {
+          "x": 12,
+          "y": 14
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-walk-03",
+      "animation": "walk",
+      "row": 0,
+      "column": 3,
+      "file": "frames/hair-dryer-walk-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          69,
+          85,
+          294,
+          293
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 96
+        },
+        "offset": {
+          "x": 12,
+          "y": 16
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-hit-00",
+      "animation": "hit",
+      "row": 1,
+      "column": 0,
+      "file": "frames/hair-dryer-hit-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          55,
+          63,
+          301,
+          263
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 85
+        },
+        "offset": {
+          "x": 12,
+          "y": 21
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-hit-01",
+      "animation": "hit",
+      "row": 1,
+      "column": 1,
+      "file": "frames/hair-dryer-hit-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          76,
+          44,
+          313,
+          263
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 96
+        },
+        "offset": {
+          "x": 12,
+          "y": 16
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-hit-02",
+      "animation": "hit",
+      "row": 1,
+      "column": 2,
+      "file": "frames/hair-dryer-hit-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          86,
+          65,
+          306,
+          263
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 94
+        },
+        "offset": {
+          "x": 12,
+          "y": 17
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-death-00",
+      "animation": "death",
+      "row": 2,
+      "column": 0,
+      "file": "frames/hair-dryer-death-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          40,
+          33,
+          293,
+          256
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 92
+        },
+        "offset": {
+          "x": 12,
+          "y": 18
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-death-01",
+      "animation": "death",
+      "row": 2,
+      "column": 1,
+      "file": "frames/hair-dryer-death-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          63,
+          20,
+          310,
+          257
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 100
+        },
+        "offset": {
+          "x": 12,
+          "y": 14
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-death-02",
+      "animation": "death",
+      "row": 2,
+      "column": 2,
+      "file": "frames/hair-dryer-death-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          89,
+          19,
+          289,
+          265
+        ],
+        "contentSize": {
+          "width": 85,
+          "height": 104
+        },
+        "offset": {
+          "x": 21,
+          "y": 12
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-death-03",
+      "animation": "death",
+      "row": 2,
+      "column": 3,
+      "file": "frames/hair-dryer-death-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          60,
+          28,
+          314,
+          265
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 97
+        },
+        "offset": {
+          "x": 12,
+          "y": 15
+        }
+      }
+    },
+    {
+      "name": "hair-dryer-death-04",
+      "animation": "death",
+      "row": 2,
+      "column": 4,
+      "file": "frames/hair-dryer-death-04.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          51,
+          50,
+          297,
+          276
+        ],
+        "contentSize": {
+          "width": 104,
+          "height": 96
+        },
+        "offset": {
+          "x": 12,
+          "y": 16
+        }
+      }
+    }
+  ],
+  "validation": {
+    "frameCountTotal": 12,
+    "allFrames128x128RGBA": true,
+    "sheetTransparentRGBA": true,
+    "gifPreviewPresent": true,
+    "edgeTouchFrames": [],
+    "passed": true
+  }
+}
