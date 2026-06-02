@@ -21,6 +21,7 @@ const CONFIG = {
   baseColumnBuffer: -0.45,
   bestRunStorageKey: "catline-defense-best-runs",
   mutedStorageKey: "purrimeter-muted",
+  boardRunStorageKey: "purrimeter-board-run-count",
   catSpriteIdleSeconds: 1,
   catSpriteAttackSeconds: 0.54,
   maxActiveEffects: 60,
@@ -28,6 +29,27 @@ const CONFIG = {
   debugPanic: false,
   debugDamage: false,
 };
+
+const boardVariants = [
+  {
+    id: "cozy-rooftop",
+    name: "Cozy Rooftop",
+    backgroundPath: "./assets/generated/board-pack/cozy-rooftop/board-background.png",
+    gridPath: "./assets/generated/board-pack/cozy-rooftop/board-grid-overlay.png",
+  },
+  {
+    id: "apartment-floor",
+    name: "Apartment Floor",
+    backgroundPath: "./assets/generated/board-pack/apartment-floor/board-background.png",
+    gridPath: "./assets/generated/board-pack/apartment-floor/board-grid-overlay.png",
+  },
+  {
+    id: "cardboard-fort",
+    name: "Cardboard Fort",
+    backgroundPath: "./assets/generated/board-pack/cardboard-fort/board-background.png",
+    gridPath: "./assets/generated/board-pack/cardboard-fort/board-grid-overlay.png",
+  },
+];
 
 const catSpriteSheets = {
   yarn: {
@@ -862,6 +884,7 @@ let projectileNodes = new Map();
 
 let lastTimestamp = 0;
 let idCounter = 0;
+let boardRunCount = 0;
 let boardMetricsCache = null;
 let isGameLoopFrame = false;
 
@@ -933,6 +956,7 @@ const state = {
   bestRun: null,
   currentScore: 0,
   isNewBest: false,
+  currentBoardVariantId: boardVariants[0].id,
   baseFlashTimer: 0,
   bossWarningTimer: 0,
   wavePulseTimer: 0,
@@ -1286,14 +1310,81 @@ function getEnemySpriteFrameStyle(sprite, frame, row) {
   ].join(";");
 }
 
+function preloadBoardVariants() {
+  boardVariants.forEach((variant) => {
+    preloadBoardVariantImage(variant, "backgroundPath", "backgroundFailed");
+    preloadBoardVariantImage(variant, "gridPath", "gridFailed");
+  });
+}
+
+function preloadBoardVariantImage(variant, pathKey, failedKey) {
+  const image = new Image();
+  image.onload = () => {
+    variant[failedKey] = false;
+  };
+  image.onerror = () => {
+    variant[failedKey] = true;
+    if (state.currentBoardVariantId === variant.id) applyBoardVariant(getFallbackBoardVariant());
+  };
+  image.src = variant[pathKey];
+}
+
+function loadBoardRunCount() {
+  try {
+    const raw = window.localStorage.getItem(CONFIG.boardRunStorageKey);
+    const parsed = Number.parseInt(raw, 10);
+    return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+  } catch (_error) {
+    return 0;
+  }
+}
+
+function saveBoardRunCount(count) {
+  boardRunCount = Math.max(0, count);
+  try {
+    window.localStorage.setItem(CONFIG.boardRunStorageKey, String(boardRunCount));
+  } catch (_error) {
+    // Board rotation is decorative; restricted storage should never block play.
+  }
+}
+
+function getBoardVariantForRun(runCount = boardRunCount) {
+  return boardVariants[runCount % boardVariants.length] ?? getFallbackBoardVariant();
+}
+
+function getFallbackBoardVariant() {
+  return boardVariants[0];
+}
+
+function applyBoardVariant(variant = getFallbackBoardVariant()) {
+  if (!boardShell) return;
+  const fallback = getFallbackBoardVariant();
+  const activeVariant = variant.backgroundFailed ? fallback : variant;
+  const gridVariant = activeVariant.gridFailed ? fallback : activeVariant;
+
+  state.currentBoardVariantId = activeVariant.id;
+  boardShell.dataset.boardVariant = activeVariant.id;
+  boardShell.style.setProperty("--board-bg-image", `url("${activeVariant.backgroundPath}")`);
+  boardShell.style.setProperty("--board-grid-image", `url("${gridVariant.gridPath}")`);
+}
+
+function chooseBoardVariantForNewRun() {
+  const variant = getBoardVariantForRun(boardRunCount);
+  applyBoardVariant(variant);
+  saveBoardRunCount(boardRunCount + 1);
+}
+
 function init() {
   gameShell = document.querySelector(".game-shell");
   gameShell.classList.toggle("uses-image-asset", CONFIG.useImageAssets);
+  preloadBoardVariants();
   preloadGeneratedCatSprites(gameShell);
   preloadGeneratedProjectileFx();
   preloadGeneratedEnemySprites();
   board = document.getElementById("board");
   boardShell = document.querySelector(".board-shell");
+  boardRunCount = loadBoardRunCount();
+  applyBoardVariant(getBoardVariantForRun(boardRunCount));
   unitLayer = document.getElementById("unitLayer");
   ensureUnitSublayers();
   fishDropLayer = document.getElementById("fishDropLayer");
@@ -3068,6 +3159,7 @@ function resumeGame() {
 function startGame() {
   state.activeDifficulty = state.selectedDifficulty;
   state.bestRun = loadBestRun(state.activeDifficulty);
+  chooseBoardVariantForNewRun();
   resetRun("playing");
   prepareWaveIntro(0, CONFIG.firstWaveDelay);
   lastTimestamp = 0;
@@ -3077,6 +3169,7 @@ function startGame() {
 function restartGame() {
   state.selectedDifficulty = state.activeDifficulty;
   state.bestRun = loadBestRun(state.activeDifficulty);
+  chooseBoardVariantForNewRun();
   resetRun("playing");
   prepareWaveIntro(0, CONFIG.firstWaveDelay);
   lastTimestamp = 0;

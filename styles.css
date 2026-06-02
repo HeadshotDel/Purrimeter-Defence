@@ -552,9 +552,9 @@ h1 {
 
 .uses-image-asset .board-shell {
   background-image:
-    url("./assets/generated/board-pack/cozy-rooftop/board-grid-overlay.png"),
+    var(--board-grid-image, url("./assets/generated/board-pack/cozy-rooftop/board-grid-overlay.png")),
     linear-gradient(180deg, rgba(20, 17, 26, 0.08), rgba(20, 17, 26, 0.14)),
-    url("./assets/generated/board-pack/cozy-rooftop/board-background.png"),
+    var(--board-bg-image, url("./assets/generated/board-pack/cozy-rooftop/board-background.png")),
     radial-gradient(circle at 18% 10%, rgba(255, 213, 106, 0.08), transparent 20rem),
     linear-gradient(180deg, #2b3c5b, #18233c);
   background-size:
