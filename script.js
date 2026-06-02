@@ -743,7 +743,7 @@ const alleyRushWaves = [
   { name: "Wave 5", interval: 1.62, groups: [{ type: "slipper", count: 3 }, { type: "cucumber", count: 2 }, { type: "rat", count: 4 }, { type: "canRat", count: 2 }, { type: "roomba", count: 2 }] },
   { name: "Wave 6", interval: 1.52, groups: [{ type: "rat", count: 4 }, { type: "cucumber", count: 2 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
   { name: "Wave 7", interval: 1.52, groups: [{ type: "rat", count: 5 }, { type: "cucumber", count: 3 }, { type: "pigeon", count: 3 }, { type: "slipper", count: 3 }, { type: "foil-ball", count: 4 }] },
-  { name: "Wave 8", interval: 1.44, groups: [{ type: "rat", count: 4 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 3 }, { type: "roomba", count: 2 }, { type: "canRat", count: 2 }] },
+  { name: "Wave 8", interval: 1.44, groups: [{ type: "rat", count: 4 }, { type: "broom", count: 3 }, { type: "slipper", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 3 }, { type: "roomba", count: 2 }, { type: "canRat", count: 2 }] },
   { name: "Wave 9", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "pigeon", count: 4 }, { type: "slipper", count: 3 }, { type: "foil-ball", count: 4 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
   { name: "Wave 10", interval: 1.32, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "cucumber", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 4 }, { type: "laserDrone", count: 1 }, { type: "roomba", count: 1 }, { type: "boss", count: 1 }] },
 ];
