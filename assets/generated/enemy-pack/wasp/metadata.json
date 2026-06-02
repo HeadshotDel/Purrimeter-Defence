@@ -1,0 +1,478 @@
+{
+  "name": "wasp",
+  "displayName": "Wasp Kamikaze",
+  "project": "Purrimeter Defence",
+  "style": "clean 2D cartoon mobile tower defense, transparent background, consistent enemy pack",
+  "identity": "small fast flying wasp enemy; dangerous kamikaze silhouette with wings and stinger; distinct from pigeon, hair-dryer, and laser-drone",
+  "source": {
+    "rawGeneratedImage": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0b4397fcc7c7b084016a1f1048141081918aed438736a684c5.png",
+    "rawSourceCopy": "wasp-raw-source.png",
+    "rawSize": {
+      "width": 1619,
+      "height": 971
+    },
+    "rawSha256Prefix": "c34a744c7516931b",
+    "processor": "/Users/psyops/.codex/skills/generate2dsprite/scripts/generate2dsprite.py",
+    "processorOutput": {
+      "bodyFrames": "/tmp/wasp-sprite-process-largest",
+      "deathFrames": "/tmp/wasp-sprite-process"
+    }
+  },
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "sheet": {
+    "file": "wasp-sheet.png",
+    "columns": 5,
+    "rows": 3,
+    "width": 640,
+    "height": 384,
+    "mode": "RGBA",
+    "transparent": true,
+    "layout": "row 1: fly/move frames 0-3, column 4 transparent; row 2: sting/hit frames 0-2, columns 3-4 transparent; row 3: death/pop frames 0-4",
+    "unusedCells": [
+      {
+        "row": 0,
+        "column": 4
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 4
+      }
+    ]
+  },
+  "animations": {
+    "walk": {
+      "frameCount": 4,
+      "frames": [
+        "frames/wasp-walk-00.png",
+        "frames/wasp-walk-01.png",
+        "frames/wasp-walk-02.png",
+        "frames/wasp-walk-03.png"
+      ]
+    },
+    "hit": {
+      "frameCount": 3,
+      "frames": [
+        "frames/wasp-hit-00.png",
+        "frames/wasp-hit-01.png",
+        "frames/wasp-hit-02.png"
+      ]
+    },
+    "death": {
+      "frameCount": 5,
+      "frames": [
+        "frames/wasp-death-00.png",
+        "frames/wasp-death-01.png",
+        "frames/wasp-death-02.png",
+        "frames/wasp-death-03.png",
+        "frames/wasp-death-04.png"
+      ]
+    }
+  },
+  "preview": {
+    "file": "wasp-preview.gif",
+    "frames": 12,
+    "works": true
+  },
+  "frames": [
+    {
+      "name": "wasp-walk-00",
+      "animation": "walk",
+      "row": 0,
+      "column": 0,
+      "file": "frames/wasp-walk-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          51,
+          66,
+          280,
+          264
+        ],
+        "contentSize": {
+          "width": 72,
+          "height": 62
+        },
+        "offset": {
+          "x": 28,
+          "y": 33
+        },
+        "edgeTouch": false,
+        "componentCount": 1,
+        "componentMode": "largest"
+      }
+    },
+    {
+      "name": "wasp-walk-01",
+      "animation": "walk",
+      "row": 0,
+      "column": 1,
+      "file": "frames/wasp-walk-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          54,
+          73,
+          286,
+          269
+        ],
+        "contentSize": {
+          "width": 73,
+          "height": 62
+        },
+        "offset": {
+          "x": 27,
+          "y": 33
+        },
+        "edgeTouch": false,
+        "componentCount": 1,
+        "componentMode": "largest"
+      }
+    },
+    {
+      "name": "wasp-walk-02",
+      "animation": "walk",
+      "row": 0,
+      "column": 2,
+      "file": "frames/wasp-walk-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          58,
+          75,
+          297,
+          269
+        ],
+        "contentSize": {
+          "width": 75,
+          "height": 61
+        },
+        "offset": {
+          "x": 26,
+          "y": 33
+        },
+        "edgeTouch": false,
+        "componentCount": 2,
+        "componentMode": "largest"
+      }
+    },
+    {
+      "name": "wasp-walk-03",
+      "animation": "walk",
+      "row": 0,
+      "column": 3,
+      "file": "frames/wasp-walk-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          55,
+          88,
+          315,
+          271
+        ],
+        "contentSize": {
+          "width": 82,
+          "height": 58
+        },
+        "offset": {
+          "x": 23,
+          "y": 35
+        },
+        "edgeTouch": false,
+        "componentCount": 4,
+        "componentMode": "largest"
+      }
+    },
+    {
+      "name": "wasp-hit-00",
+      "animation": "hit",
+      "row": 1,
+      "column": 0,
+      "file": "frames/wasp-hit-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          46,
+          44,
+          315,
+          241
+        ],
+        "contentSize": {
+          "width": 85,
+          "height": 62
+        },
+        "offset": {
+          "x": 21,
+          "y": 33
+        },
+        "edgeTouch": false,
+        "componentCount": 1,
+        "componentMode": "largest"
+      }
+    },
+    {
+      "name": "wasp-hit-01",
+      "animation": "hit",
+      "row": 1,
+      "column": 1,
+      "file": "frames/wasp-hit-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          91,
+          45,
+          315,
+          260
+        ],
+        "contentSize": {
+          "width": 70,
+          "height": 68
+        },
+        "offset": {
+          "x": 29,
+          "y": 30
+        },
+        "edgeTouch": false,
+        "componentCount": 5,
+        "componentMode": "largest"
+      }
+    },
+    {
+      "name": "wasp-hit-02",
+      "animation": "hit",
+      "row": 1,
+      "column": 2,
+      "file": "frames/wasp-hit-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          75,
+          84,
+          304,
+          269
+        ],
+        "contentSize": {
+          "width": 72,
+          "height": 58
+        },
+        "offset": {
+          "x": 28,
+          "y": 35
+        },
+        "edgeTouch": false,
+        "componentCount": 8,
+        "componentMode": "largest"
+      }
+    },
+    {
+      "name": "wasp-death-00",
+      "animation": "death",
+      "row": 2,
+      "column": 0,
+      "file": "frames/wasp-death-00.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          59,
+          98,
+          281,
+          226
+        ],
+        "contentSize": {
+          "width": 73,
+          "height": 42
+        },
+        "offset": {
+          "x": 27,
+          "y": 43
+        },
+        "edgeTouch": false,
+        "componentCount": 5,
+        "componentMode": "all"
+      }
+    },
+    {
+      "name": "wasp-death-01",
+      "animation": "death",
+      "row": 2,
+      "column": 1,
+      "file": "frames/wasp-death-01.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          75,
+          85,
+          274,
+          233
+        ],
+        "contentSize": {
+          "width": 66,
+          "height": 49
+        },
+        "offset": {
+          "x": 31,
+          "y": 39
+        },
+        "edgeTouch": false,
+        "componentCount": 11,
+        "componentMode": "all"
+      }
+    },
+    {
+      "name": "wasp-death-02",
+      "animation": "death",
+      "row": 2,
+      "column": 2,
+      "file": "frames/wasp-death-02.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          82,
+          49,
+          284,
+          237
+        ],
+        "contentSize": {
+          "width": 67,
+          "height": 62
+        },
+        "offset": {
+          "x": 30,
+          "y": 33
+        },
+        "edgeTouch": false,
+        "componentCount": 10,
+        "componentMode": "all"
+      }
+    },
+    {
+      "name": "wasp-death-03",
+      "animation": "death",
+      "row": 2,
+      "column": 3,
+      "file": "frames/wasp-death-03.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          67,
+          35,
+          282,
+          232
+        ],
+        "contentSize": {
+          "width": 71,
+          "height": 65
+        },
+        "offset": {
+          "x": 28,
+          "y": 31
+        },
+        "edgeTouch": false,
+        "componentCount": 16,
+        "componentMode": "all"
+      }
+    },
+    {
+      "name": "wasp-death-04",
+      "animation": "death",
+      "row": 2,
+      "column": 4,
+      "file": "frames/wasp-death-04.png",
+      "mode": "RGBA",
+      "size": {
+        "width": 128,
+        "height": 128
+      },
+      "transparent": true,
+      "sourceCrop": {
+        "bbox": [
+          66,
+          71,
+          230,
+          230
+        ],
+        "contentSize": {
+          "width": 54,
+          "height": 52
+        },
+        "offset": {
+          "x": 37,
+          "y": 38
+        },
+        "edgeTouch": false,
+        "componentCount": 12,
+        "componentMode": "all"
+      }
+    }
+  ],
+  "validation": {
+    "frames128x128RGBA": true,
+    "sheet640x384RGBA": true,
+    "frameCount": 12,
+    "transparent": true,
+    "gifPreviewPresent": true,
+    "edgeTouchFrames": [],
+    "passed": true
+  }
+}
