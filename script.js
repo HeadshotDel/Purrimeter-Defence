@@ -329,12 +329,12 @@ const enemyVisualMap = {
 };
 
 const UI_TEXT = {
-  startTagline: "Pixel cats defend the rooftop",
+  startTagline: "The apartment is under siege.",
   rules: [
-    "Collect falling fish by hovering over them",
-    "Place cats",
-    "Cards recharge after deployment",
-    "Stop mice, rats and rogue machines",
+    "Collect fish",
+    "Deploy cats",
+    "Hold the perimeter",
+    "Survive the siege",
   ],
   hints: {
     empty: "Select a cat",
