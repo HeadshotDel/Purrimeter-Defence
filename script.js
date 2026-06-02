@@ -406,6 +406,21 @@ const introCutsceneFrames = [
   },
 ];
 
+const difficultyVisuals = {
+  cozy: {
+    art: "./assets/generated/board-pack/cozy-rooftop/preview.png",
+    sticker: "Rooftop patrol",
+  },
+  alley: {
+    art: "./assets/generated/board-pack/apartment-floor/preview.png",
+    sticker: "Apartment breach",
+  },
+  siege: {
+    art: "./assets/generated/board-pack/cardboard-fort/preview.png",
+    sticker: "Fort siege",
+  },
+};
+
 const catTypes = {
   yarn: {
     id: "yarn",
@@ -1604,13 +1619,20 @@ function createCatCards() {
 
 function createDifficultyCards() {
   if (!difficultySelector) return;
-  difficultySelector.innerHTML = Object.values(difficultyDefinitions).map((difficulty) => `
-    <button class="difficulty-card" type="button" data-difficulty="${difficulty.id}">
-      <span class="difficulty-label">${difficulty.label}</span>
-      <strong>${difficulty.name}</strong>
-      <span>${difficulty.description}</span>
+  difficultySelector.innerHTML = Object.values(difficultyDefinitions).map((difficulty) => {
+    const visual = difficultyVisuals[difficulty.id] ?? difficultyVisuals.cozy;
+    return `
+    <button class="difficulty-card" type="button" data-difficulty="${difficulty.id}" style="--mission-art: url('${visual.art}')">
+      <span class="mission-art" aria-hidden="true"></span>
+      <span class="mission-copy">
+        <span class="difficulty-label">${difficulty.label}</span>
+        <strong>${difficulty.name}</strong>
+        <span>${difficulty.description}</span>
+        <small>${visual.sticker}</small>
+      </span>
     </button>
-  `).join("");
+  `;
+  }).join("");
 
   difficultyCardElements = Array.from(difficultySelector.querySelectorAll(".difficulty-card"));
   renderCache.difficultyCards = "";
