@@ -2296,6 +2296,100 @@ h1 {
     inset 0 -4px 0 rgba(89, 32, 26, 0.18);
 }
 
+.intro-cutscene {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  padding:
+    max(18px, env(safe-area-inset-top))
+    18px
+    max(22px, env(safe-area-inset-bottom));
+  overflow-x: hidden;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 213, 106, 0.15), transparent 18rem),
+    rgba(3, 6, 16, 0.82);
+}
+
+.intro-cutscene.hidden {
+  display: none;
+}
+
+.intro-panel {
+  width: min(900px, 100%);
+  margin: auto 0;
+  padding: 16px;
+  text-align: center;
+  border: var(--pixel-border);
+  background:
+    linear-gradient(90deg, rgba(119, 217, 255, 0.08), transparent, rgba(255, 213, 106, 0.1)),
+    linear-gradient(180deg, rgba(42, 53, 86, 0.96), rgba(14, 21, 39, 0.96));
+  box-shadow:
+    0 10px 0 #070a15,
+    0 18px 32px rgba(4, 7, 18, 0.34),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+.intro-frame-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 3px solid #0b1020;
+  background: #070b18;
+  box-shadow: 0 5px 0 #070a15;
+}
+
+.intro-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.intro-caption {
+  width: min(760px, 100%);
+  min-height: 2.4em;
+  margin: 16px auto 6px;
+  color: var(--ink);
+  font-size: clamp(0.9rem, 2.3vw, 1.25rem);
+  font-weight: 900;
+  line-height: 1.35;
+  text-shadow: 2px 2px 0 #070a18;
+}
+
+.intro-progress {
+  margin: 0 0 12px;
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.intro-actions .pixel-button {
+  min-height: 42px;
+  min-width: 150px;
+}
+
+.intro-continue {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 38%),
+    linear-gradient(180deg, #ffd56a, #f28a49);
+}
+
+.intro-continue.hidden {
+  display: none;
+}
+
 .modal {
   position: fixed;
   inset: 0;
@@ -3228,6 +3322,43 @@ h1 {
     min-width: 170px;
     min-height: 42px;
   }
+
+  .intro-cutscene {
+    place-items: start center;
+    padding:
+      max(10px, env(safe-area-inset-top))
+      10px
+      max(18px, env(safe-area-inset-bottom));
+  }
+
+  .intro-panel {
+    margin: 0;
+    padding: 10px;
+  }
+
+  .intro-caption {
+    min-height: 2.8em;
+    margin-top: 11px;
+    font-size: clamp(0.76rem, 4.8vw, 1rem);
+    line-height: 1.32;
+  }
+
+  .intro-progress {
+    margin-bottom: 9px;
+    font-size: 0.64rem;
+  }
+
+  .intro-actions {
+    gap: 8px;
+  }
+
+  .intro-actions .pixel-button {
+    flex: 1 1 138px;
+    min-width: 0;
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 0.7rem;
+  }
 }
 
 @media (max-height: 520px) {
@@ -3303,6 +3434,38 @@ h1 {
   .best-run-panel {
     margin-bottom: 8px;
     padding: 7px;
+  }
+
+  .intro-cutscene {
+    place-items: start center;
+    padding:
+      max(8px, env(safe-area-inset-top))
+      10px
+      max(14px, env(safe-area-inset-bottom));
+  }
+
+  .intro-panel {
+    width: min(100%, 760px);
+    margin: 0;
+    padding: 9px;
+  }
+
+  .intro-caption {
+    min-height: auto;
+    margin: 9px auto 5px;
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .intro-progress {
+    margin-bottom: 7px;
+    font-size: 0.58rem;
+  }
+
+  .intro-actions .pixel-button {
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 0.62rem;
   }
 }
 

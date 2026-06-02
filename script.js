@@ -24,6 +24,7 @@ const CONFIG = {
   boardRunStorageKey: "purrimeter-board-run-count",
   catSpriteIdleSeconds: 1,
   catSpriteAttackSeconds: 0.54,
+  introFrameSeconds: 1.2,
   maxActiveEffects: 60,
   debugWaveFlow: false,
   debugPanic: false,
@@ -379,6 +380,29 @@ const UI_TEXT = {
     },
   },
 };
+
+const introCutsceneFrames = [
+  {
+    image: "./assets/generated/intro-pack/cutscene/frame-01.png",
+    caption: "For years, the cats ruled the apartment.",
+  },
+  {
+    image: "./assets/generated/intro-pack/cutscene/frame-02.png",
+    caption: "But the pests and rogue appliances had other plans.",
+  },
+  {
+    image: "./assets/generated/intro-pack/cutscene/frame-03.png",
+    caption: "Mice. Vacuums. Brooms. Slippers. A full household uprising.",
+  },
+  {
+    image: "./assets/generated/intro-pack/cutscene/frame-04.png",
+    caption: "The perimeter is under attack!",
+  },
+  {
+    image: "./assets/generated/intro-pack/cutscene/frame-05.png",
+    caption: "DEFEND!",
+  },
+];
 
 const catTypes = {
   yarn: {
@@ -864,6 +888,12 @@ let cellRemoveButton;
 let cellCancelButton;
 let pauseOverlay;
 let startScreen;
+let introCutscene;
+let introFrame;
+let introCaption;
+let introProgress;
+let introSkipButton;
+let introContinueButton;
 let waveOverlay;
 let waveKicker;
 let waveTitle;
@@ -887,6 +917,12 @@ let idCounter = 0;
 let boardRunCount = 0;
 let boardMetricsCache = null;
 let isGameLoopFrame = false;
+let introCutsceneTimer = null;
+
+const introCutsceneState = {
+  active: false,
+  frameIndex: 0,
+};
 
 const renderCache = {
   cellStates: new Map(),
@@ -1415,6 +1451,12 @@ function init() {
   cellCancelButton = document.getElementById("cellCancelButton");
   pauseOverlay = document.getElementById("pauseOverlay");
   startScreen = document.getElementById("startScreen");
+  introCutscene = document.getElementById("introCutscene");
+  introFrame = document.getElementById("introFrame");
+  introCaption = document.getElementById("introCaption");
+  introProgress = document.getElementById("introProgress");
+  introSkipButton = document.getElementById("introSkipButton");
+  introContinueButton = document.getElementById("introContinueButton");
   waveOverlay = document.getElementById("waveOverlay");
   waveKicker = document.getElementById("waveKicker");
   waveTitle = document.getElementById("waveTitle");
@@ -1461,7 +1503,7 @@ function init() {
   startButton.addEventListener("click", () => {
     maybeUnlockAudio();
     playSound("button");
-    startGame();
+    beginIntroCutscene();
   });
   startWaveButton.addEventListener("click", startWave);
   restartButton.addEventListener("click", () => {
@@ -1473,6 +1515,16 @@ function init() {
     maybeUnlockAudio();
     playSound("button");
     resetBestRun();
+  });
+  introSkipButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    playSound("button");
+    finishIntroCutscene();
+  });
+  introContinueButton.addEventListener("click", () => {
+    maybeUnlockAudio();
+    playSound("button");
+    finishIntroCutscene();
   });
   confirmRemoveButton.addEventListener("click", confirmRemoveCat);
   cancelRemoveButton.addEventListener("click", cancelRemoveCat);
@@ -2982,6 +3034,10 @@ function clearInteractionState() {
 }
 
 function handleEscapeKey() {
+  if (introCutsceneState.active) {
+    finishIntroCutscene();
+    return;
+  }
   if (state.pendingRemoveCatId) {
     cancelRemoveCat();
     return;
@@ -3164,6 +3220,55 @@ function startGame() {
   prepareWaveIntro(0, CONFIG.firstWaveDelay);
   lastTimestamp = 0;
   render();
+}
+
+function beginIntroCutscene() {
+  if (state.gameStatus !== "start") return;
+  introCutsceneState.active = true;
+  introCutsceneState.frameIndex = 0;
+  introCutscene.classList.remove("hidden");
+  introCutscene.setAttribute("aria-hidden", "false");
+  showIntroCutsceneFrame(0);
+}
+
+function showIntroCutsceneFrame(index) {
+  const frame = introCutsceneFrames[index];
+  if (!frame) {
+    finishIntroCutscene();
+    return;
+  }
+
+  clearIntroCutsceneTimer();
+  introCutsceneState.frameIndex = index;
+  introFrame.src = frame.image;
+  introCaption.textContent = frame.caption;
+  introProgress.textContent = `${index + 1} / ${introCutsceneFrames.length}`;
+
+  const isFinalFrame = index === introCutsceneFrames.length - 1;
+  introContinueButton.classList.toggle("hidden", !isFinalFrame);
+  introContinueButton.disabled = !isFinalFrame;
+
+  if (!isFinalFrame) {
+    introCutsceneTimer = window.setTimeout(
+      () => showIntroCutsceneFrame(index + 1),
+      CONFIG.introFrameSeconds * 1000
+    );
+  }
+}
+
+function finishIntroCutscene() {
+  if (!introCutsceneState.active) return;
+  clearIntroCutsceneTimer();
+  introCutsceneState.active = false;
+  introCutscene.classList.add("hidden");
+  introCutscene.setAttribute("aria-hidden", "true");
+  startGame();
+}
+
+function clearIntroCutsceneTimer() {
+  if (!introCutsceneTimer) return;
+  window.clearTimeout(introCutsceneTimer);
+  introCutsceneTimer = null;
 }
 
 function restartGame() {

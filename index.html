@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Purrrimeter Defence</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="styles.css?v=20260602-4" />
+    <link rel="stylesheet" href="styles.css?v=20260602-5" />
   </head>
   <body>
     <main class="game-shell">
@@ -119,6 +119,20 @@
       </div>
     </div>
 
+    <div class="intro-cutscene hidden" id="introCutscene" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="introCaption">
+      <div class="intro-panel">
+        <div class="intro-frame-wrap">
+          <img class="intro-frame" id="introFrame" src="assets/generated/intro-pack/cutscene/frame-01.png" alt="" />
+        </div>
+        <p class="intro-caption" id="introCaption">For years, the cats ruled the apartment.</p>
+        <p class="intro-progress" id="introProgress" aria-label="Intro progress">1 / 5</p>
+        <div class="intro-actions">
+          <button class="pixel-button intro-skip" id="introSkipButton" type="button">Skip</button>
+          <button class="pixel-button intro-continue hidden" id="introContinueButton" type="button">Start defence</button>
+        </div>
+      </div>
+    </div>
+
     <div class="modal hidden" id="gameModal" role="dialog" aria-modal="true">
       <div class="modal-panel">
         <p class="modal-kicker" id="modalKicker">Defense report</p>
@@ -129,6 +143,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=20260602-2"></script>
+    <script src="script.js?v=20260602-3"></script>
   </body>
 </html>
