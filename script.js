@@ -24,7 +24,7 @@ const CONFIG = {
   boardRunStorageKey: "purrimeter-board-run-count",
   catSpriteIdleSeconds: 1,
   catSpriteAttackSeconds: 0.54,
-  introFrameSeconds: 1.2,
+  introFrameSeconds: 3,
   maxActiveEffects: 60,
   debugWaveFlow: false,
   debugPanic: false,
@@ -343,6 +343,8 @@ const UI_TEXT = {
     deployed: "Cat deployed",
     noFish: "Not enough fish",
     occupied: "Tile occupied",
+    blockedCell: "Tile blocked",
+    enemyOccupied: "Enemy in the way",
     coolingDown: "Cooling down",
     removed: "Cat removed",
     removeCancelled: "Remove cancelled",
@@ -791,7 +793,7 @@ const alleyRushWaves = [
   { name: "Wave 7", interval: 1.52, groups: [{ type: "rat", count: 5 }, { type: "cucumber", count: 3 }, { type: "pigeon", count: 3 }, { type: "slipper", count: 3 }, { type: "foil-ball", count: 4 }] },
   { name: "Wave 8", interval: 1.44, groups: [{ type: "rat", count: 4 }, { type: "broom", count: 3 }, { type: "slipper", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 3 }, { type: "roomba", count: 2 }, { type: "canRat", count: 2 }] },
   { name: "Wave 9", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "pigeon", count: 4 }, { type: "slipper", count: 3 }, { type: "foil-ball", count: 4 }, { type: "canRat", count: 3 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 10", interval: 1.32, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "cucumber", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 4 }, { type: "laserDrone", count: 1 }, { type: "roomba", count: 1 }, { type: "boss", count: 1 }] },
+  { name: "Wave 10", interval: 1.32, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "cucumber", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "pigeon", count: 4 }, { type: "laserDrone", count: 1 }, { type: "roomba", count: 1 }, { type: "boss", count: 2 }] },
 ];
 
 const vacuumSiegeWaves = [
@@ -804,7 +806,7 @@ const vacuumSiegeWaves = [
   { name: "Wave 7", interval: 1.42, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "broom", count: 2 }, { type: "cucumber", count: 3 }, { type: "robot-mop", count: 1 }, { type: "roomba", count: 1 }] },
   { name: "Wave 8", interval: 1.34, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "pigeon", count: 4 }, { type: "slipper", count: 4 }, { type: "foil-ball", count: 5 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }] },
   { name: "Wave 9", interval: 1.28, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "cucumber", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "robot-mop", count: 1 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }] },
-  { name: "Wave 10", interval: 1.24, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "foil-ball", count: 5 }, { type: "broom", count: 2 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 2 }, { type: "boss", count: 1 }] },
+  { name: "Wave 10", interval: 1.24, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 4 }, { type: "foil-ball", count: 5 }, { type: "broom", count: 2 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 2 }, { type: "boss", count: 2 }] },
 ];
 
 const expertSiegeWaves = [
@@ -817,7 +819,7 @@ const expertSiegeWaves = [
   { name: "Wave 7", interval: 1.36, groups: [{ type: "rat", count: 4 }, { type: "hair-dryer", count: 1 }, { type: "broom", count: 2 }, { type: "pigeon", count: 4 }, { type: "spray-bottle", count: 2 }, { type: "foil-ball", count: 5 }, { type: "roomba", count: 2 }, { type: "cucumber", count: 3 }, { type: "canRat", count: 2 }] },
   { name: "Wave 8", interval: 1.3, groups: [{ type: "rat", count: 4 }, { type: "laserDrone", count: 3 }, { type: "broom", count: 2 }, { type: "spray-bottle", count: 3 }, { type: "pigeon", count: 3 }, { type: "robot-mop", count: 2 }, { type: "roomba", count: 2 }, { type: "foil-ball", count: 4 }] },
   { name: "Wave 9", interval: 1.24, groups: [{ type: "rat", count: 3 }, { type: "canRat", count: 4 }, { type: "pigeon", count: 5 }, { type: "foil-ball", count: 5 }, { type: "slipper", count: 4 }, { type: "robot-mop", count: 2 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 2 }, { type: "spray-bottle", count: 2 }, { type: "cucumber", count: 3 }] },
-  { name: "Wave 10", interval: 1.18, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 5 }, { type: "foil-ball", count: 6 }, { type: "cucumber", count: 3 }, { type: "broom", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "robot-mop", count: 1 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }, { type: "boss", count: 1 }] },
+  { name: "Wave 10", interval: 1.18, groups: [{ type: "rat", count: 4 }, { type: "canRat", count: 3 }, { type: "pigeon", count: 5 }, { type: "foil-ball", count: 6 }, { type: "cucumber", count: 3 }, { type: "broom", count: 3 }, { type: "spray-bottle", count: 2 }, { type: "robot-mop", count: 1 }, { type: "hair-dryer", count: 1 }, { type: "laserDrone", count: 2 }, { type: "roomba", count: 1 }, { type: "boss", count: 2 }] },
 ];
 
 const difficultyDefinitions = {
@@ -963,6 +965,7 @@ const state = {
   projectiles: [],
   fishDrops: [],
   effects: [],
+  deadCatCells: new Set(),
   fish: difficultyDefinitions.cozy.startingFish,
   lives: difficultyDefinitions.cozy.lives,
   selectedDifficulty: "cozy",
@@ -1531,6 +1534,7 @@ function init() {
   cellUpgradeButton.addEventListener("click", handleCellMenuUpgrade);
   cellRemoveButton.addEventListener("click", handleCellMenuRemove);
   cellCancelButton.addEventListener("click", handleCellMenuCancel);
+  document.addEventListener("pointerdown", handleDocumentPointerDown);
   window.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       handleEscapeKey();
@@ -1684,12 +1688,16 @@ function render() {
     const row = Number(cell.dataset.row);
     const col = Number(cell.dataset.col);
     const hasCat = Boolean(getCatAt(row, col));
+    const isDeadBlocked = isDeadCatCell(row, col);
+    const isEnemyBlocked = isCellOccupiedByEnemy(row, col, dims);
     const isPendingRemove = state.pendingRemoveCell?.row === row && state.pendingRemoveCell?.col === col;
     const isActionMenuTarget = state.activeCellMenu?.row === row && state.activeCellMenu?.col === col;
-    const cellKey = `${hasCat ? 1 : 0}|${isPendingRemove ? 1 : 0}|${isActionMenuTarget ? 1 : 0}`;
+    const cellKey = `${hasCat ? 1 : 0}|${isDeadBlocked ? 1 : 0}|${isEnemyBlocked ? 1 : 0}|${isPendingRemove ? 1 : 0}|${isActionMenuTarget ? 1 : 0}`;
     if (renderCache.cellStates.get(cell) === cellKey) return;
     renderCache.cellStates.set(cell, cellKey);
     cell.classList.toggle("occupied", hasCat);
+    cell.classList.toggle("dead-cat-blocked", isDeadBlocked);
+    cell.classList.toggle("enemy-blocked", isEnemyBlocked);
     cell.classList.toggle("pending-remove", isPendingRemove);
     cell.classList.toggle("action-menu-target", isActionMenuTarget);
   });
@@ -2707,6 +2715,20 @@ function handleCellClick(row, col) {
   placeCat(row, col);
 }
 
+function handleDocumentPointerDown(event) {
+  if (!state.activeCellMenu && !state.pendingRemoveCatId) return;
+  const target = event.target;
+  if (
+    target.closest(".cell-action-menu") ||
+    target.closest(".remove-confirm") ||
+    target.closest(".cell")
+  ) {
+    return;
+  }
+  clearInteractionState();
+  render();
+}
+
 function selectCat(typeId) {
   maybeUnlockAudio();
   if (state.gameStatus !== "playing") return;
@@ -2754,6 +2776,16 @@ function placeCat(row, col) {
 
   if (getCatAt(row, col)) {
     denyPlacement(row, col, type.id, UI_TEXT.hints.occupied);
+    return;
+  }
+
+  if (isDeadCatCell(row, col)) {
+    denyPlacement(row, col, type.id, UI_TEXT.hints.blockedCell);
+    return;
+  }
+
+  if (isCellOccupiedByEnemy(row, col)) {
+    denyPlacement(row, col, type.id, UI_TEXT.hints.enemyOccupied);
     return;
   }
 
@@ -3103,6 +3135,10 @@ function damageCat(cat, amount) {
   addEffect("damage", `-${Math.round(amount)}`, pos.x, pos.y - dims.cellHeight * 0.18);
   if (cat.hp <= 0) {
     cat.dead = true;
+    markDeadCatCell(cat.row, cat.col);
+    if (state.activeCellMenu?.catId === cat.id || state.pendingRemoveCatId === cat.id) {
+      clearInteractionState();
+    }
     addEffect("death", "down", pos.x, pos.y);
   }
 }
@@ -3245,6 +3281,7 @@ function showIntroCutsceneFrame(index) {
   introProgress.textContent = `${index + 1} / ${introCutsceneFrames.length}`;
 
   const isFinalFrame = index === introCutsceneFrames.length - 1;
+  introSkipButton.classList.toggle("hidden", isFinalFrame);
   introContinueButton.classList.toggle("hidden", !isFinalFrame);
   introContinueButton.disabled = !isFinalFrame;
 
@@ -3289,6 +3326,7 @@ function resetRun(status) {
   state.projectiles = [];
   state.fishDrops = [];
   state.effects = [];
+  state.deadCatCells = new Set();
   state.fish = difficulty.startingFish;
   state.lives = difficulty.lives;
   clearInteractionState();
@@ -3320,6 +3358,7 @@ function resetRun(status) {
   modal.classList.add("hidden");
   modal.classList.remove("is-victory", "is-gameover", "is-new-best");
   endStats.innerHTML = "";
+  renderCache.cellStates.clear();
 }
 
 function prepareWaveIntro(index, seconds) {
@@ -3511,6 +3550,32 @@ function findProjectileHit(projectile) {
 
 function getCatAt(row, col) {
   return state.cats.find((cat) => cat.row === row && cat.col === col && cat.hp > 0);
+}
+
+function cellKey(row, col) {
+  return `${row}:${col}`;
+}
+
+function isDeadCatCell(row, col) {
+  return state.deadCatCells.has(cellKey(row, col));
+}
+
+function markDeadCatCell(row, col) {
+  state.deadCatCells.add(cellKey(row, col));
+}
+
+function isCellOccupiedByEnemy(row, col, dims = getBoardMetrics()) {
+  if (state.gameStatus !== "playing" || state.enemies.length === 0) return false;
+  const left = col * dims.cellWidth;
+  const right = left + dims.cellWidth;
+  const enemyRadius = Math.min(36, dims.cellWidth * 0.45);
+  return state.enemies.some((enemy) => (
+    enemy.row === row &&
+    enemy.hp > 0 &&
+    !enemy.dead &&
+    enemy.x + enemyRadius >= left &&
+    enemy.x - enemyRadius <= right
+  ));
 }
 
 function denyPlacement(row, col, typeId, message) {

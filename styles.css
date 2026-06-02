@@ -536,6 +536,38 @@ h1 {
     linear-gradient(180deg, transparent 46%, rgba(255, 213, 106, 0.14) 46% 54%, transparent 54%);
 }
 
+.cell.dead-cat-blocked {
+  cursor: not-allowed;
+}
+
+.cell.dead-cat-blocked::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  opacity: 0.75;
+  background:
+    linear-gradient(35deg, transparent 42%, rgba(97, 52, 44, 0.48) 42% 48%, transparent 48%),
+    linear-gradient(145deg, transparent 48%, rgba(97, 52, 44, 0.38) 48% 54%, transparent 54%);
+  border: 2px dashed rgba(97, 52, 44, 0.42);
+  pointer-events: none;
+}
+
+.cell.enemy-blocked {
+  cursor: not-allowed;
+  background:
+    linear-gradient(180deg, rgba(255, 107, 122, 0.1), rgba(0, 0, 0, 0.1)),
+    var(--cell-a);
+}
+
+.cell.enemy-blocked::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 2px solid rgba(255, 107, 122, 0.42);
+  box-shadow: inset 0 0 0 2px rgba(255, 107, 122, 0.08);
+  pointer-events: none;
+}
+
 .cell.pending-remove {
   outline: 4px solid rgba(255, 213, 106, 0.78);
   outline-offset: -6px;
@@ -621,6 +653,10 @@ h1 {
 .uses-image-asset .cell:nth-child(24n + 10),
 .uses-image-asset .cell:nth-child(24n + 12) {
   background: rgba(255, 255, 255, 0.035);
+}
+
+.uses-image-asset .cell.enemy-blocked {
+  background: rgba(255, 107, 122, 0.085);
 }
 
 .unit-layer,
@@ -2050,18 +2086,48 @@ h1 {
 }
 
 .start-panel {
-  width: min(620px, 100%);
+  position: relative;
+  width: min(680px, 100%);
   margin: auto 0;
-  padding: 26px;
+  padding: 28px;
+  overflow: hidden;
   text-align: center;
   border: var(--pixel-border);
   background:
-    linear-gradient(90deg, rgba(119, 217, 255, 0.1), transparent, rgba(255, 213, 106, 0.12)),
-    linear-gradient(180deg, rgba(42, 53, 86, 0.88), rgba(19, 26, 47, 0.9));
+    linear-gradient(90deg, rgba(255, 213, 106, 0.12), transparent 26%, transparent 74%, rgba(119, 217, 255, 0.12)),
+    linear-gradient(180deg, rgba(42, 53, 86, 0.76), rgba(19, 26, 47, 0.84));
   box-shadow:
-    0 11px 0 #070a15,
-    0 18px 36px rgba(4, 7, 18, 0.42),
-    inset 0 0 0 3px rgba(255, 255, 255, 0.06);
+    0 12px 0 #070a15,
+    0 18px 34px rgba(4, 7, 18, 0.34),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.07),
+    inset 0 -9px 0 rgba(0, 0, 0, 0.14);
+}
+
+.start-panel::before,
+.start-panel::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  height: 9px;
+  border: 2px solid rgba(11, 16, 32, 0.72);
+  background:
+    linear-gradient(90deg, rgba(255, 213, 106, 0.9), rgba(242, 138, 73, 0.88));
+  pointer-events: none;
+}
+
+.start-panel::before {
+  top: 13px;
+}
+
+.start-panel::after {
+  bottom: 13px;
+  opacity: 0.72;
+}
+
+.start-panel > * {
+  position: relative;
+  z-index: 1;
 }
 
 .start-mark {
@@ -2073,6 +2139,9 @@ h1 {
 .start-panel h2 {
   margin: 8px 0 4px;
   font-size: clamp(2rem, 7vw, 3.2rem);
+  text-shadow:
+    3px 3px 0 #070a18,
+    0 0 18px rgba(255, 213, 106, 0.14);
 }
 
 .tagline {
@@ -2141,20 +2210,33 @@ h1 {
 }
 
 .difficulty-card {
+  position: relative;
   min-width: 0;
   min-height: 92px;
-  padding: 10px 9px;
+  padding: 12px 10px 11px;
   color: var(--ink);
   text-align: left;
   cursor: pointer;
   border: 3px solid #0b1020;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 42%),
-    linear-gradient(180deg, rgba(35, 52, 86, 0.96), rgba(15, 23, 42, 0.96));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 42%),
+    linear-gradient(180deg, rgba(56, 72, 109, 0.96), rgba(20, 30, 54, 0.96));
   box-shadow:
-    0 5px 0 #070a15,
-    0 9px 16px rgba(4, 7, 18, 0.24),
+    0 6px 0 #070a15,
+    0 10px 15px rgba(4, 7, 18, 0.22),
     inset 0 -4px 0 rgba(0, 0, 0, 0.18);
+}
+
+.difficulty-card::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(11, 16, 32, 0.78);
+  background:
+    linear-gradient(135deg, rgba(255, 213, 106, 0.72), rgba(242, 138, 73, 0.72));
 }
 
 .difficulty-card:hover {
@@ -2165,12 +2247,16 @@ h1 {
 .difficulty-card.selected {
   border-color: #ffd56a;
   background:
-    linear-gradient(180deg, rgba(255, 213, 106, 0.26), transparent 48%),
-    linear-gradient(180deg, rgba(47, 74, 101, 0.98), rgba(20, 36, 58, 0.98));
+    linear-gradient(180deg, rgba(255, 213, 106, 0.32), transparent 48%),
+    linear-gradient(180deg, rgba(56, 82, 106, 0.98), rgba(21, 40, 61, 0.98));
   box-shadow:
-    0 5px 0 #070a15,
-    0 0 22px rgba(255, 213, 106, 0.3),
+    0 6px 0 #070a15,
+    0 0 18px rgba(255, 213, 106, 0.24),
     inset 0 0 0 2px rgba(255, 255, 255, 0.07);
+}
+
+.difficulty-card.selected::after {
+  background: linear-gradient(135deg, #89f09a, #ffd56a);
 }
 
 .difficulty-label {
@@ -2387,6 +2473,10 @@ h1 {
 }
 
 .intro-continue.hidden {
+  display: none;
+}
+
+.intro-skip.hidden {
   display: none;
 }
 
