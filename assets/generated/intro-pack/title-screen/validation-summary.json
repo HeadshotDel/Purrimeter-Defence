@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "expected_outputs_present": true,
+  "dimensions_suitable": true,
+  "no_text_prompted": true,
+  "mobile_variant_created": true,
+  "files": [
+    {
+      "file": "title-background.png",
+      "width": 1536,
+      "height": 864,
+      "mode": "RGB",
+      "bytes": 1560621,
+      "sha256_16": "40f7a55559037688"
+    },
+    {
+      "file": "title-background-mobile.png",
+      "width": 768,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 687318,
+      "sha256_16": "086cf6de0c882825"
+    },
+    {
+      "file": "preview.png",
+      "width": 960,
+      "height": 540,
+      "mode": "RGB",
+      "bytes": 664612,
+      "sha256_16": "9b77e6a8a58ae9bb"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "asset_pack": "intro-pack/title-screen",
+  "map_mode": "baked_scene_mode",
+  "visual_model": "baked_raster",
+  "engine_target": "project-native static HTML/CSS integration later",
+  "style": "clean 2D cartoon mobile tower defense game illustration",
+  "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0b90422d2eff4bad016a1e9a47e7988191b4e659e1c865b1b5.png",
+  "files": [
+    {
+      "file": "title-background.png",
+      "width": 1536,
+      "height": 864,
+      "mode": "RGB",
+      "bytes": 1560621,
+      "sha256_16": "40f7a55559037688"
+    },
+    {
+      "file": "title-background-mobile.png",
+      "width": 768,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 687318,
+      "sha256_16": "086cf6de0c882825"
+    },
+    {
+      "file": "preview.png",
+      "width": 960,
+      "height": 540,
+      "mode": "RGB",
+      "bytes": 664612,
+      "sha256_16": "9b77e6a8a58ae9bb"
+    }
+  ],
+  "safe_space_notes": "Composition requested to leave room for HTML title, tagline, difficulty cards, and start button. No UI text is embedded in the image.",
+  "prompt_file": "title-background.prompt.txt"
+}

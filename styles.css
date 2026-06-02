@@ -2034,9 +2034,15 @@ h1 {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   background:
+    linear-gradient(90deg, rgba(5, 7, 16, 0.72), rgba(5, 7, 16, 0.2) 28%, rgba(5, 7, 16, 0.18) 68%, rgba(5, 7, 16, 0.72)),
+    linear-gradient(180deg, rgba(4, 7, 18, 0.28), rgba(4, 7, 18, 0.8)),
+    url("./assets/generated/intro-pack/title-screen/title-background.png"),
     radial-gradient(circle at 50% 22%, rgba(255, 213, 106, 0.16), transparent 22rem),
     radial-gradient(circle at 20% 75%, rgba(119, 217, 255, 0.1), transparent 16rem),
-    rgba(4, 7, 18, 0.82);
+    #070b18;
+  background-size: 100% 100%, 100% 100%, cover, cover, cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .start-screen.hidden {
@@ -2050,9 +2056,12 @@ h1 {
   text-align: center;
   border: var(--pixel-border);
   background:
-    linear-gradient(90deg, rgba(119, 217, 255, 0.08), transparent, rgba(255, 213, 106, 0.08)),
-    linear-gradient(180deg, #2a3556, #131a2f);
-  box-shadow: 0 11px 0 #070a15, inset 0 0 0 3px rgba(255, 255, 255, 0.05);
+    linear-gradient(90deg, rgba(119, 217, 255, 0.1), transparent, rgba(255, 213, 106, 0.12)),
+    linear-gradient(180deg, rgba(42, 53, 86, 0.88), rgba(19, 26, 47, 0.9));
+  box-shadow:
+    0 11px 0 #070a15,
+    0 18px 36px rgba(4, 7, 18, 0.42),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.06);
 }
 
 .start-mark {
@@ -2081,7 +2090,7 @@ h1 {
   border: 3px solid #0b1020;
   background:
     linear-gradient(90deg, rgba(255, 213, 106, 0.13), transparent 54%, rgba(119, 217, 255, 0.09)),
-    linear-gradient(180deg, #1c2845, #10182d);
+    linear-gradient(180deg, rgba(28, 40, 69, 0.94), rgba(16, 24, 45, 0.94));
   box-shadow:
     0 5px 0 #070a15,
     inset 0 0 0 2px rgba(255, 255, 255, 0.04);
@@ -2116,7 +2125,9 @@ h1 {
 .rule-list li {
   padding: 7px 8px;
   border: 2px solid #0b1020;
-  background: #10172a;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 52%),
+    rgba(16, 23, 42, 0.94);
   font-size: 0.66rem;
   line-height: 1.25;
 }
@@ -2132,15 +2143,18 @@ h1 {
 .difficulty-card {
   min-width: 0;
   min-height: 92px;
-  padding: 9px 8px;
+  padding: 10px 9px;
   color: var(--ink);
   text-align: left;
   cursor: pointer;
   border: 3px solid #0b1020;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 44%),
-    linear-gradient(180deg, #1b2745, #0f172a);
-  box-shadow: 0 5px 0 #070a15, inset 0 -4px 0 rgba(0, 0, 0, 0.18);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 42%),
+    linear-gradient(180deg, rgba(35, 52, 86, 0.96), rgba(15, 23, 42, 0.96));
+  box-shadow:
+    0 5px 0 #070a15,
+    0 9px 16px rgba(4, 7, 18, 0.24),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.18);
 }
 
 .difficulty-card:hover {
@@ -2151,11 +2165,11 @@ h1 {
 .difficulty-card.selected {
   border-color: #ffd56a;
   background:
-    linear-gradient(180deg, rgba(255, 213, 106, 0.2), transparent 48%),
-    linear-gradient(180deg, #29415e, #14243a);
+    linear-gradient(180deg, rgba(255, 213, 106, 0.26), transparent 48%),
+    linear-gradient(180deg, rgba(47, 74, 101, 0.98), rgba(20, 36, 58, 0.98));
   box-shadow:
     0 5px 0 #070a15,
-    0 0 18px rgba(255, 213, 106, 0.22),
+    0 0 22px rgba(255, 213, 106, 0.3),
     inset 0 0 0 2px rgba(255, 255, 255, 0.07);
 }
 
@@ -2270,7 +2284,16 @@ h1 {
 }
 
 .start-button {
-  min-width: 150px;
+  min-width: 190px;
+  min-height: 50px;
+  font-size: 0.9rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 38%),
+    linear-gradient(180deg, #ffd56a, #f28a49);
+  box-shadow:
+    0 7px 0 #6f2b2b,
+    0 14px 22px rgba(4, 7, 18, 0.3),
+    inset 0 -4px 0 rgba(89, 32, 26, 0.18);
 }
 
 .modal {
@@ -3121,6 +3144,15 @@ h1 {
       max(12px, env(safe-area-inset-top))
       12px
       max(24px, env(safe-area-inset-bottom));
+    background-image:
+      linear-gradient(180deg, rgba(5, 7, 16, 0.22), rgba(5, 7, 16, 0.84)),
+      linear-gradient(90deg, rgba(5, 7, 16, 0.5), rgba(5, 7, 16, 0.08) 50%, rgba(5, 7, 16, 0.5)),
+      url("./assets/generated/intro-pack/title-screen/title-background-mobile.png"),
+      radial-gradient(circle at 50% 22%, rgba(255, 213, 106, 0.16), transparent 22rem),
+      radial-gradient(circle at 20% 75%, rgba(119, 217, 255, 0.1), transparent 16rem);
+    background-color: #070b18;
+    background-size: 100% 100%, 100% 100%, cover, cover, cover;
+    background-position: center;
   }
 
   .start-panel {
@@ -3191,6 +3223,11 @@ h1 {
   .start-button {
     min-height: 38px;
   }
+
+  .start-button {
+    min-width: 170px;
+    min-height: 42px;
+  }
 }
 
 @media (max-height: 520px) {
@@ -3206,6 +3243,10 @@ h1 {
     width: min(100%, 760px);
     margin: 0;
     padding: 12px;
+  }
+
+  .start-button {
+    min-height: 38px;
   }
 
   .start-mark {

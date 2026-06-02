@@ -1,0 +1,75 @@
+{
+  "status": "pass",
+  "expected_frame_count": 5,
+  "actual_frame_count": 5,
+  "all_frames_1280x720": true,
+  "all_png_rgb": true,
+  "preview_strip_created": true,
+  "readable_mobile_scale": "manual prompt/design intent plus 16:9 frame normalization; recommended to inspect before integration",
+  "no_text_prompted": true,
+  "files": [
+    {
+      "file": "frame-01.png",
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "bytes": 1211052,
+      "sha256_16": "58e6d1320442163f",
+      "frame": 1,
+      "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0b90422d2eff4bad016a1e9ab48d4c819186a3434fb65d587f.png",
+      "prompt_file": "frame-01.prompt.txt"
+    },
+    {
+      "file": "frame-02.png",
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "bytes": 1034117,
+      "sha256_16": "35eac4a259117d12",
+      "frame": 2,
+      "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0b90422d2eff4bad016a1e9af151608191a20f6de82ff33c96.png",
+      "prompt_file": "frame-02.prompt.txt"
+    },
+    {
+      "file": "frame-03.png",
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "bytes": 1306001,
+      "sha256_16": "31c1fe8e02296c11",
+      "frame": 3,
+      "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0b90422d2eff4bad016a1e9b25132881918e382bad69968e65.png",
+      "prompt_file": "frame-03.prompt.txt"
+    },
+    {
+      "file": "frame-04.png",
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "bytes": 1256030,
+      "sha256_16": "4b0ff3e3e964f050",
+      "frame": 4,
+      "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0b90422d2eff4bad016a1e9b675b908191a4c03008097af51d.png",
+      "prompt_file": "frame-04.prompt.txt"
+    },
+    {
+      "file": "frame-05.png",
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "bytes": 1243225,
+      "sha256_16": "97122f436093624a",
+      "frame": 5,
+      "source_image": "/Users/psyops/.codex/generated_images/019e49bd-c766-7180-b9e3-ff1842749fa9/ig_0b90422d2eff4bad016a1e9bb056f881918c39095633480dde.png",
+      "prompt_file": "frame-05.prompt.txt"
+    },
+    {
+      "file": "preview-strip.png",
+      "width": 1920,
+      "height": 216,
+      "mode": "RGB",
+      "bytes": 645341,
+      "sha256_16": "3c678e31471df079"
+    }
+  ]
+}

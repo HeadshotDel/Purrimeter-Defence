@@ -1,0 +1,13 @@
+{
+  "asset_pack": "intro-pack",
+  "created": {
+    "title_screen": "assets/generated/intro-pack/title-screen",
+    "cutscene": "assets/generated/intro-pack/cutscene"
+  },
+  "validation": {
+    "title_screen": "pass",
+    "cutscene": "pass",
+    "integration_status": "not integrated; asset files only",
+    "gameplay_files_modified": false
+  }
+}
