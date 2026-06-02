@@ -6,7 +6,7 @@
   "runtime_object_model": "none",
   "collision_model": "none",
   "engine_target": "project-native static DOM board background candidate",
-  "game": "Purrrimeter Defence",
+  "game": "Purrimeter Defence",
   "board": {
     "columns": 12,
     "lanes": 5,
