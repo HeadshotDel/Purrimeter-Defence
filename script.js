@@ -18,6 +18,9 @@ const CONFIG = {
   bossWarningSeconds: 2.4,
   enemyEntranceOffset: 64,
   enemyHpMultiplier: 1.3,
+  deadCatCellRecoverySeconds: 60,
+  fishCleanseCooldown: 11,
+  fishCleanseImmunitySeconds: 10,
   baseColumnBuffer: -0.45,
   bestRunStorageKey: "catline-defense-best-runs",
   mutedStorageKey: "purrimeter-muted",
@@ -353,7 +356,7 @@ const UI_TEXT = {
     deployed: "Cat deployed",
     noFish: "Not enough fish",
     occupied: "Tile occupied",
-    blockedCell: "Tile blocked",
+    blockedCell: "Tile recovering",
     enemyOccupied: "Enemy in the way",
     coolingDown: "Cooling down",
     removed: "Cat removed",
@@ -489,7 +492,7 @@ const catTypes = {
     name: "Fish Cat",
     price: 70,
     role: "Generates fish",
-    description: "Creates collectible fish.",
+    description: "Creates fish. Lv.2 cleanses debuffs every 11s.",
     hp: 95,
     placeCooldown: 9,
     upgradeCost: 100,
@@ -923,6 +926,7 @@ let confirmRemoveButton;
 let cancelRemoveButton;
 let cellActionMenu;
 let cellUpgradeButton;
+let cellActionMenuNote;
 let cellRemoveButton;
 let cellCancelButton;
 let pauseOverlay;
@@ -1002,7 +1006,7 @@ const state = {
   projectiles: [],
   fishDrops: [],
   effects: [],
-  deadCatCells: new Set(),
+  deadCatCells: new Map(),
   fish: difficultyDefinitions.cozy.startingFish,
   lives: difficultyDefinitions.cozy.lives,
   selectedDifficulty: "cozy",
@@ -1487,6 +1491,7 @@ function init() {
   cancelRemoveButton = document.getElementById("cancelRemoveButton");
   cellActionMenu = document.getElementById("cellActionMenu");
   cellUpgradeButton = document.getElementById("cellUpgradeButton");
+  cellActionMenuNote = document.getElementById("cellActionMenuNote");
   cellRemoveButton = document.getElementById("cellRemoveButton");
   cellCancelButton = document.getElementById("cellCancelButton");
   pauseOverlay = document.getElementById("pauseOverlay");
@@ -1877,6 +1882,7 @@ function updateCatNode(node, cat, dims, visualTime = getVisualTimeSeconds()) {
     cat.attackFlash > 0 ? "is-attacking" : "",
     cat.hitFlash > 0 ? "is-hit" : "",
     cat.debuffFactor > 1 ? "is-debuffed" : "",
+    isCatDebuffImmune(cat) ? "is-debuff-immune" : "",
     isCatPanicked(cat, dims) ? "cat-panicked" : "",
     cat.level === 2 ? "cat-upgraded" : "",
   ].filter(Boolean).join(" ");
@@ -2023,6 +2029,7 @@ function renderCat(cat, dims, visualTime = getVisualTimeSeconds()) {
   const attackingClass = cat.attackFlash > 0 ? "is-attacking" : "";
   const hitClass = cat.hitFlash > 0 ? "is-hit" : "";
   const debuffedClass = cat.debuffFactor > 1 ? "is-debuffed" : "";
+  const debuffImmuneClass = isCatDebuffImmune(cat) ? "is-debuff-immune" : "";
   const panickedClass = isCatPanicked(cat, dims) ? "cat-panicked" : "";
   const upgradedClass = cat.level === 2 ? "cat-upgraded" : "";
   const spriteStyle = getCatSpriteStyle(cat, visualTime);
@@ -2032,7 +2039,7 @@ function renderCat(cat, dims, visualTime = getVisualTimeSeconds()) {
     : `<div class="cooldown ${producerClass}"><div class="cooldown-fill" style="height:${cooldownPercent}%"></div></div>`;
 
   return `
-    <div class="unit cat cat-sprite ${type.className} ${attackingClass} ${hitClass} ${debuffedClass} ${panickedClass} ${upgradedClass}" style="left:${pos.x}px; top:${pos.y}px">
+    <div class="unit cat cat-sprite ${type.className} ${attackingClass} ${hitClass} ${debuffedClass} ${debuffImmuneClass} ${panickedClass} ${upgradedClass}" style="left:${pos.x}px; top:${pos.y}px">
       <div class="hp-bar"><div class="hp-fill" style="width:${hpPercent}%"></div></div>
       ${renderCatLevelBadge(cat)}
       <div class="cat-tail"></div>
@@ -2188,12 +2195,18 @@ function renderCellActionMenu(dims) {
 
   const title = cellActionMenu.querySelector(".cell-action-menu-title");
   const upgradeButton = cellActionMenu.querySelector(".upgrade");
+  const note = cellActionMenuNote ?? cellActionMenu.querySelector(".cell-action-menu-note");
+  const baseUpgradeTip = "Lv.2: cleanse + debuff immunity until wave end.";
+  const fishUpgradeTip = "Fish Lv.2: cleanses a debuffed cat every 11s.";
   if (title) title.textContent = `${type.name} · Lv.${cat.level}`;
+  if (note) note.textContent = cat.type === "fish" ? `${baseUpgradeTip} ${fishUpgradeTip}` : baseUpgradeTip;
   if (upgradeButton) {
     upgradeButton.textContent = isMaxLevel ? "Max level" : `Upgrade: ${upgradeCost} fish`;
     upgradeButton.classList.toggle("disabled", !canUpgrade);
     upgradeButton.setAttribute("aria-disabled", String(!canUpgrade));
-    upgradeButton.title = isMaxLevel ? "Max level" : `Upgrade for ${upgradeCost} fish`;
+    upgradeButton.title = isMaxLevel
+      ? "Max level"
+      : `Upgrade for ${upgradeCost} fish. ${cat.type === "fish" ? `${baseUpgradeTip} ${fishUpgradeTip}` : baseUpgradeTip}`;
   }
 
   const position = getClampedPanelPosition(cat, dims, cellActionMenu);
@@ -2393,6 +2406,8 @@ function gameLoop(timestamp) {
     updateFeedbackTimers(delta);
     updateRunTime(delta);
     updateCatCooldowns(delta);
+    updateDeadCatCellCooldowns(delta);
+    updateCatDebuffImmunityTimers(delta);
     updateFishDrops(delta);
     updateWaves(delta);
     updateEnemies(delta);
@@ -2524,6 +2539,26 @@ function updateCatCooldowns(delta) {
   Object.keys(state.catCooldowns).forEach((typeId) => {
     const nextCooldown = state.catCooldowns[typeId] - delta;
     state.catCooldowns[typeId] = nextCooldown <= 0.05 ? 0 : nextCooldown;
+  });
+}
+
+function updateDeadCatCellCooldowns(delta) {
+  if (state.deadCatCells.size === 0) return;
+  state.deadCatCells.forEach((remaining, key) => {
+    const nextRemaining = remaining - delta;
+    if (nextRemaining <= 0) {
+      state.deadCatCells.delete(key);
+    } else {
+      state.deadCatCells.set(key, nextRemaining);
+    }
+  });
+}
+
+function updateCatDebuffImmunityTimers(delta) {
+  state.cats.forEach((cat) => {
+    if ((cat.debuffImmuneTimer ?? 0) > 0) {
+      cat.debuffImmuneTimer = Math.max(0, cat.debuffImmuneTimer - delta);
+    }
   });
 }
 
@@ -2662,6 +2697,7 @@ function updateCats(delta) {
 
     if (stats.attackKind === "producer") {
       if (!canSpawnFishDrops()) return;
+      updateFishCatCleanse(cat, delta, dims);
 
       const effectiveCooldown = getEffectiveCooldown(cat);
       cat.attackTimer = Math.min(effectiveCooldown, cat.attackTimer + delta);
@@ -2711,6 +2747,46 @@ function updateCats(delta) {
   });
 
   state.cats = state.cats.filter((cat) => cat.hp > 0);
+}
+
+function updateFishCatCleanse(cat, delta, dims = getBoardMetrics()) {
+  if (cat.type !== "fish" || cat.level < 2 || cat.hp <= 0) return;
+  cat.cleanseTimer = Math.max(0, (cat.cleanseTimer ?? CONFIG.fishCleanseCooldown) - delta);
+  if (cat.cleanseTimer > 0) return;
+
+  const target = findFishCleanseTarget(cat, dims);
+  cat.cleanseTimer = CONFIG.fishCleanseCooldown;
+  if (!target) return;
+
+  cleanseCatDebuff(target, {
+    immunitySeconds: CONFIG.fishCleanseImmunitySeconds,
+    text: "CLEANSE",
+  });
+}
+
+function findFishCleanseTarget(fishCat, dims = getBoardMetrics()) {
+  return state.cats
+    .filter((cat) => cat.hp > 0 && cat.debuffFactor > 1)
+    .map((cat) => ({
+      cat,
+      ownLane: cat.row === fishCat.row ? 1 : 0,
+      severity: cat.debuffFactor ?? 1,
+      distance: Math.abs(cellCenter(cat.row, cat.col, dims).x - cellCenter(fishCat.row, fishCat.col, dims).x),
+    }))
+    .sort((a, b) => (
+      b.ownLane - a.ownLane ||
+      b.severity - a.severity ||
+      a.distance - b.distance
+    ))[0]?.cat ?? null;
+}
+
+function cleanseCatDebuff(cat, { immunitySeconds = 0, waveImmunity = false, text = "CLEANSE" } = {}) {
+  if (!cat || cat.hp <= 0) return false;
+  cat.debuffFactor = 1;
+  cat.debuffImmuneTimer = Math.max(cat.debuffImmuneTimer ?? 0, immunitySeconds);
+  if (waveImmunity) cat.debuffImmuneWave = state.waveIndex;
+  addEffectAtCell("cleanse", text, cat.row, cat.col);
+  return true;
 }
 
 function updateProjectiles(delta) {
@@ -2777,6 +2853,9 @@ function stingCatWithWasp(enemy, cat, dims = getBoardMetrics()) {
   cat.hp = 0;
   cat.dead = true;
   cat.hitFlash = 0.15;
+  cat.debuffFactor = 1;
+  cat.debuffImmuneTimer = 0;
+  cat.debuffImmuneWave = null;
   markDeadCatCell(cat.row, cat.col);
   if (state.activeCellMenu?.catId === cat.id || state.pendingRemoveCatId === cat.id) {
     clearInteractionState();
@@ -2939,6 +3018,9 @@ function placeCat(row, col) {
     spriteAttackDuration: CONFIG.catSpriteAttackSeconds,
     hitFlash: 0,
     debuffFactor: 1,
+    debuffImmuneTimer: 0,
+    debuffImmuneWave: null,
+    cleanseTimer: CONFIG.fishCleanseCooldown,
     dead: false,
   });
   // Placement cooldown starts only after every validation passes and the cat is deployed.
@@ -3111,6 +3193,8 @@ function upgradeCat(catId) {
   cat.maxHp = upgradedStats.hp;
   cat.hp = Math.min(cat.maxHp, cat.hp + Math.max(0, cat.maxHp - previousMaxHp));
   cat.attackTimer = Math.min(getEffectiveCooldown(cat), cat.attackTimer);
+  if (cat.type === "fish") cat.cleanseTimer = 0;
+  cleanseCatDebuff(cat, { waveImmunity: true, text: "PROTECTED" });
   renderUpgradeEffect(cat);
   closeCellActionMenu();
   playSound("upgrade");
@@ -3261,6 +3345,9 @@ function damageCat(cat, amount) {
   addEffect("damage", `-${Math.round(amount)}`, pos.x, pos.y - dims.cellHeight * 0.18);
   if (cat.hp <= 0) {
     cat.dead = true;
+    cat.debuffFactor = 1;
+    cat.debuffImmuneTimer = 0;
+    cat.debuffImmuneWave = null;
     markDeadCatCell(cat.row, cat.col);
     if (state.activeCellMenu?.catId === cat.id || state.pendingRemoveCatId === cat.id) {
       clearInteractionState();
@@ -3316,7 +3403,8 @@ function applyAttackDebuff(enemy, dims = getBoardMetrics()) {
   const type = getEnemyDefinition(enemy.type);
   const targets = state.cats.filter((cat) => (
     cat.row === enemy.row &&
-    cat.hp > 0
+    cat.hp > 0 &&
+    !isCatDebuffImmune(cat)
   ));
 
   if (targets.length > 0) {
@@ -3333,6 +3421,33 @@ function applyAttackDebuff(enemy, dims = getBoardMetrics()) {
       enemy.debuffEffectTimer = 1.1;
     }
   }
+}
+
+function isCatDebuffImmune(cat) {
+  return (
+    (cat.debuffImmuneTimer ?? 0) > 0 ||
+    (
+      Number.isInteger(cat.debuffImmuneWave) &&
+      cat.debuffImmuneWave === state.waveIndex &&
+      state.wavePhase === "active"
+    )
+  );
+}
+
+function clearWaveDebuffImmunity() {
+  state.cats.forEach((cat) => {
+    cat.debuffFactor = 1;
+    cat.debuffImmuneWave = null;
+  });
+}
+
+function clearAllDebuffState() {
+  state.cats.forEach((cat) => {
+    cat.debuffFactor = 1;
+    cat.debuffImmuneTimer = 0;
+    cat.debuffImmuneWave = null;
+    cat.cleanseTimer = cat.type === "fish" ? CONFIG.fishCleanseCooldown : 0;
+  });
 }
 
 function getSlowEffect(enemy, sourceLevel = 1) {
@@ -3359,6 +3474,7 @@ function checkWinLose() {
     state.projectiles = [];
     state.fishDrops = [];
     state.catCooldowns = createCatCooldowns();
+    clearAllDebuffState();
     clearInteractionState();
     finalizeRun("gameover");
     return;
@@ -3456,7 +3572,7 @@ function resetRun(status) {
   state.projectiles = [];
   state.fishDrops = [];
   state.effects = [];
-  state.deadCatCells = new Set();
+  state.deadCatCells = new Map();
   state.fish = difficulty.startingFish;
   state.lives = difficulty.lives;
   clearInteractionState();
@@ -3583,6 +3699,7 @@ function completeCurrentWave() {
   state.nextSpawnIn = 0;
   state.waveTimer = 0;
   state.projectiles = [];
+  clearWaveDebuffImmunity();
   state.runStats.wavesCleared = Math.max(state.runStats.wavesCleared, state.waveIndex + 1);
 
   if (state.waveIndex >= waves.length - 1) {
@@ -3598,6 +3715,7 @@ function completeCurrentWave() {
     state.waveTimer = 0;
     state.fishDrops = [];
     state.catCooldowns = createCatCooldowns();
+    clearAllDebuffState();
     clearInteractionState();
     finalizeRun("victory");
     return;
@@ -3691,11 +3809,16 @@ function cellKey(row, col) {
 }
 
 function isDeadCatCell(row, col) {
-  return state.deadCatCells.has(cellKey(row, col));
+  return getDeadCatCellRecovery(row, col) > 0;
 }
 
-function markDeadCatCell(row, col) {
-  state.deadCatCells.add(cellKey(row, col));
+function getDeadCatCellRecovery(row, col) {
+  return Math.max(0, state.deadCatCells.get(cellKey(row, col)) ?? 0);
+}
+
+function markDeadCatCell(row, col, duration = CONFIG.deadCatCellRecoverySeconds) {
+  state.deadCatCells.set(cellKey(row, col), duration);
+  renderCache.cellStates.clear();
 }
 
 function isCellOccupiedByEnemy(row, col, dims = getBoardMetrics()) {

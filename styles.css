@@ -1215,6 +1215,11 @@ h1 {
   outline-offset: 2px;
 }
 
+.is-debuff-immune .cat-body {
+  outline: 3px solid rgba(119, 217, 255, 0.62);
+  outline-offset: 3px;
+}
+
 .cat-panicked {
   animation: cat-panic-shake 0.2s steps(2) infinite;
 }
@@ -1629,6 +1634,14 @@ h1 {
   color: var(--fish);
 }
 
+.cell-action-menu-note {
+  max-width: 210px;
+  color: #dfeaff;
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
 .remove-confirm-actions,
 .cell-action-menu-actions {
   display: flex;
@@ -1692,6 +1705,11 @@ h1 {
 .float-text.debuff {
   background: #d0b6ff;
   box-shadow: 0 0 14px rgba(208, 182, 255, 0.32);
+}
+
+.float-text.cleanse {
+  background: #bff7ff;
+  box-shadow: 0 0 14px rgba(119, 217, 255, 0.34);
 }
 
 .float-text.miss,
